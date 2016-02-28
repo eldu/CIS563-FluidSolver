@@ -54,7 +54,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set(COCOA "-framework Cocoa")
     set(COREVIDEO "-framework CoreVideo")
     set(IOKIT "-framework IOKit")
-    set(CORELIBS ${CORELIBS} ${COCOA} ${IOKIT} ${COREVIDEO})
+    set(CORE_LIBS ${CORE_LIBS} ${COCOA} ${IOKIT} ${COREVIDEO})
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # Linux specific hacks/fixes
@@ -84,10 +84,14 @@ endif()
 set(CORE_SRC
         src/main.cpp
         src/camera/camera.cpp
+        src/camera/controls.cpp
         src/viewer/viewer.cpp
         src/fluidSolver/fluidSolver.cpp
         src/scene/scene.cpp
         src/geom/geom.cpp
+        src/geom/cube.cpp
+        src/geom/triangle.cpp
+        src/shaders/shader.cpp
 )
 
 add_executable(Thanda ${CORE_SRC})

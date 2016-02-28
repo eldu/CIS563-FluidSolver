@@ -2,8 +2,13 @@
 //  geom.hpp
 //  Thanda
 
-#ifndef geom_hpp
-#define geom_hpp
+#pragma once
 
 
-#endif /* geom_hpp */
+class Geometry {
+public:
+    Geometry();
+    ~Geometry();
+
+    virtual bool isCollision();
+};
