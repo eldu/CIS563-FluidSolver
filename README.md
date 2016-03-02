@@ -22,6 +22,11 @@ Main -> Calls Viewer -> Draws window -> Creates all of the objects (JSON File is
 - fluidParticle - Represents 1 particle
 - fluidSolver - Updates fluid position, velocity, and check collision with the caontainer
 
+##### Geometry
+- Geometry - Class that all geometries extend, has collision function
+- Cube - Creates a sube
+- Triangle - Creates a Triangle
+
 ##### Scene
 - scene.cpp/scene.hpp - Nothing.
 - jsonreader - parses files into JSON format and into a FluidSolver object
