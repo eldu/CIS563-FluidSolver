@@ -58,7 +58,7 @@ int Viewer::initialize() {
 
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-//    glfwSetKeyCallback(window, key_callback);
+    //    glfwSetKeyCallback(window, key_callback);
 
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
@@ -73,21 +73,21 @@ int Viewer::initialize() {
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-//    // Create and compile our GLSL program from the shaders
-//    GLuint programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
-//                                    "../src/shaders/ColorFragmentShader.glsl" );
-
     // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
-                                    "../src/shaders/SimpleFragmentShader.glsl" );
+    GLuint programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
+                                    "../src/shaders/ColorFragmentShader.glsl" );
+
+    //    // Create and compile our GLSL program from the shaders
+    //    GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
+    //                                    "../src/shaders/SimpleFragmentShader.glsl" );
 
 
     // Get a handle for our "cameraMat" uniform
     GLuint matrixID = glGetUniformLocation(programID, "cameraMat");
 
     // Initalize and create Objects
-    //    Cube* unitCube = new Cube();
-    //    unitCube->create();
+    Cube* unitCube = new Cube();
+    unitCube->create();
 
     Triangle* unitTriangle = new Triangle();
     unitTriangle->create();
@@ -109,8 +109,8 @@ int Viewer::initialize() {
         glUniformMatrix4fv(matrixID, 1, GL_FALSE, &x[0][0]);
 
         // Draw Objects
-//        unitCube->draw();
-        unitTriangle->draw();
+        unitCube->draw();
+        //        unitTriangle->draw();
 
         glDisableVertexAttribArray(0);
 
@@ -123,8 +123,8 @@ int Viewer::initialize() {
            glfwWindowShouldClose(window) == 0 );
 
     // Cleanup VBO
-//    unitCube->destroy();
-    unitTriangle->destroy();
+    unitCube->destroy();
+    //    unitTriangle->destroy();
     glDeleteVertexArrays(1, &VertexArrayID);
     glDeleteProgram(programID);
 

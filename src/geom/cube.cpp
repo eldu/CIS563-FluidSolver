@@ -1,18 +1,25 @@
 #include "cube.hpp"
 #include "geom.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
+static const int BOX_IDX_COUNT = 24;
+static const int BOX_VERT_COUNT = 8;
 
 Cube::Cube() {
-
+    this->min = glm::vec3(-1.0f, -1.0f, -1.0f);
+    this->max = glm::vec3(1.0f, 1.0f, 1.0f);
 }
-
 
 Cube::Cube(glm::vec3 &min, glm::vec3 &max){
-
+    this->min = min;
+    this->max = max;
 }
 
-Cube::Cube(float scaleX, float scaleY, float scaleZ){
-
+Cube::Cube(float scaleX, float scaleY, float scaleZ) {
+    this->min = glm::vec3(-scaleX/2, -scaleY/2, -scaleZ/2);
+    this->max = glm::vec3(scaleX/2, scaleY/2, scaleZ/2);
 }
 
 Cube::~Cube() {
@@ -21,42 +28,42 @@ Cube::~Cube() {
 
 void Cube::create() {
     static const GLfloat g_vertex_buffer_data[] = {
-        -1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-         1.0f, 1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-         1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-         1.0f,-1.0f,-1.0f,
-         1.0f, 1.0f,-1.0f,
-         1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-         1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-        -1.0f,-1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-        -1.0f,-1.0f, 1.0f,
-         1.0f,-1.0f, 1.0f,
-         1.0f, 1.0f, 1.0f,
-         1.0f,-1.0f,-1.0f,
-         1.0f, 1.0f,-1.0f,
-         1.0f,-1.0f,-1.0f,
-         1.0f, 1.0f, 1.0f,
-         1.0f,-1.0f, 1.0f,
-         1.0f, 1.0f, 1.0f,
-         1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f,-1.0f,
-         1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f,-1.0f,
-        -1.0f, 1.0f, 1.0f,
-         1.0f, 1.0f, 1.0f,
-        -1.0f, 1.0f, 1.0f,
-         1.0f,-1.0f, 1.0f
+         min[0], min[1], min[2],
+         min[0], min[1], max[2],
+         min[0], max[1], max[2],
+         max[0], max[1], min[2],
+         min[0], min[1], min[2],
+         min[0], max[1], min[2],
+         max[0], min[1], max[2],
+         min[0], min[1], min[2],
+         max[0], min[1], min[2],
+         max[0], max[1], min[2],
+         max[0], min[1], min[2],
+         min[0], min[1], min[2],
+         min[0], min[1], min[2],
+         min[0], max[1], max[2],
+         min[0], max[1], min[2],
+         max[0], min[1], max[2],
+         min[0], min[1], max[2],
+         min[0], min[1], min[2],
+         min[0], max[1], max[2],
+         min[0], min[1], max[2],
+         max[0], min[1], max[2],
+         max[0], max[1], max[2],
+         max[0], min[1], min[2],
+         max[0], max[1], min[2],
+         max[0], min[1], min[2],
+         max[0], max[1], max[2],
+         max[0], min[1], max[2],
+         max[0], max[1], max[2],
+         max[0], max[1], min[2],
+         min[0], max[1], min[2],
+         max[0], max[1], max[2],
+         min[0], max[1], min[2],
+         min[0], max[1], max[2],
+         max[0], max[1], max[2],
+         min[0], max[1], max[2],
+         max[0], min[1], max[2]
     };
 
     // One color for each vertex. They were generated randomly.
