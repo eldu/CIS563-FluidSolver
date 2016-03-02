@@ -10,6 +10,5 @@ void main(){
 
 	// Output position of the vertex, in clip plane
 	// cameraMat * position
-    gl_Position =  vec4(vertexPosition_modelspace,1);
-
+    gl_Position =  cameraMat * vec4(vertexPosition_modelspace,1);
 }

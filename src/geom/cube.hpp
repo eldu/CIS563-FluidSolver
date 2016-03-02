@@ -1,14 +1,20 @@
-//#pragma once
-//#include "geom.hpp"
-//#include "GL/glew.h"
+#pragma once
+#include "geom.hpp"
+#include "GL/glew.h"
+#include "glm/glm.hpp"
 
-//class Cube : public Geometry {
-//private:
-//public:
-//    Cube();
-//    ~Cube();
-//    void create();
-////    GLUint vertexbuffer;
+class Cube : public Geometry {
+private:
+    GLuint vertexbuffer;
+    GLuint colorbuffer;
+public:
+    Cube();
+    Cube(glm::vec3 &min, glm::vec3 &max);
+    ~Cube();
+    void create();
+    void destroy();
 
-//    bool isCollision();
-//};
+    void draw();
+
+    bool isCollision();
+};

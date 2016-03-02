@@ -22,7 +22,7 @@ public:
     int initialize();
 //    int runLoop(); // Also clean up
 
-    static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+//    static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 //    static void adjustPhi(Camera c, float p);
 //    void adjustTheta(float t);
 

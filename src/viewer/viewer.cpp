@@ -5,6 +5,9 @@
 #include "viewer.hpp"
 #include "../camera/camera.hpp"
 #include "../shaders/shader.hpp"
+#include "../camera/controls.hpp"
+#include "../geom/cube.hpp"
+#include "../geom/triangle.hpp"
 
 Viewer::Viewer(int width, int height) {
     x = width;
@@ -12,8 +15,8 @@ Viewer::Viewer(int width, int height) {
 }
 
 Viewer::Viewer() {
-    x = 800;
-    y = 600;
+    x = 1024;
+    y = 768;
 }
 
 Viewer::~Viewer() {
@@ -35,7 +38,7 @@ int Viewer::initialize() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Open a window and create its OpenGL context
-    window = glfwCreateWindow( 1024, 768, "Tutorial 02 - Red triangle", NULL, NULL);
+    window = glfwCreateWindow(x, y, "3D Viewer", NULL, NULL);
     if( window == NULL ){
         fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
         getchar();
@@ -55,14 +58,24 @@ int Viewer::initialize() {
 
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-    glfwSetKeyCallback(window, key_callback);
+//    glfwSetKeyCallback(window, key_callback);
 
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
 
+    // Depth Test
+    glEnable(GL_DEPTH_TEST);
+
+    // Accerpt fragment if it is closer to the camera thatn the former one
+    glDepthFunc(GL_LESS);
+
     GLuint VertexArrayID;
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
+
+//    // Create and compile our GLSL program from the shaders
+//    GLuint programID = LoadShaders( "../CIS563-FluidSolver/src/shaders/TransformVertexShader.glsl",
+//                                    "../CIS563-FluidSolver/src/shaders/ColorFragmentShader.glsl" );
 
     // Create and compile our GLSL program from the shaders
     GLuint programID = LoadShaders( "../CIS563-FluidSolver/src/shaders/SimpleVertexShader.glsl",
@@ -70,60 +83,17 @@ int Viewer::initialize() {
 
 
     // Get a handle for our "cameraMat" uniform
-//    GLuint matrixID = glGetUniformLocation(programID, "cameraMat");
+    GLuint matrixID = glGetUniformLocation(programID, "cameraMat");
 
-    static const GLfloat g_vertex_buffer_data[] = {
-        -1.0f, -1.0f, 0.0f,
-         1.0f, -1.0f, 0.0f,
-         0.0f,  1.0f, 0.0f,
-    };
+    // Initalize and create Objects
+    //    Cube* unitCube = new Cube();
+    //    unitCube->create();
 
-//    static const GLfloat g_vertex_buffer_data[] = {
-//        -1.0f,-1.0f,-1.0f,
-//        -1.0f,-1.0f, 1.0f,
-//        -1.0f, 1.0f, 1.0f,
-//         1.0f, 1.0f,-1.0f,
-//        -1.0f,-1.0f,-1.0f,
-//        -1.0f, 1.0f,-1.0f,
-//         1.0f,-1.0f, 1.0f,
-//        -1.0f,-1.0f,-1.0f,
-//         1.0f,-1.0f,-1.0f,
-//         1.0f, 1.0f,-1.0f,
-//         1.0f,-1.0f,-1.0f,
-//        -1.0f,-1.0f,-1.0f,
-//        -1.0f,-1.0f,-1.0f,
-//        -1.0f, 1.0f, 1.0f,
-//        -1.0f, 1.0f,-1.0f,
-//         1.0f,-1.0f, 1.0f,
-//        -1.0f,-1.0f, 1.0f,
-//        -1.0f,-1.0f,-1.0f,
-//        -1.0f, 1.0f, 1.0f,
-//        -1.0f,-1.0f, 1.0f,
-//         1.0f,-1.0f, 1.0f,
-//         1.0f, 1.0f, 1.0f,
-//         1.0f,-1.0f,-1.0f,
-//         1.0f, 1.0f,-1.0f,
-//         1.0f,-1.0f,-1.0f,
-//         1.0f, 1.0f, 1.0f,
-//         1.0f,-1.0f, 1.0f,
-//         1.0f, 1.0f, 1.0f,
-//         1.0f, 1.0f,-1.0f,
-//        -1.0f, 1.0f,-1.0f,
-//         1.0f, 1.0f, 1.0f,
-//        -1.0f, 1.0f,-1.0f,
-//        -1.0f, 1.0f, 1.0f,
-//         1.0f, 1.0f, 1.0f,
-//        -1.0f, 1.0f, 1.0f,
-//         1.0f,-1.0f, 1.0f
-//    };
-
-    GLuint vertexbuffer;
-    glGenBuffers(1, &vertexbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+    Triangle* unitTriangle = new Triangle();
+    unitTriangle->create();
 
     // Initalize Camera
-    Camera camera = Camera(x, y);
+    Camera* camera = new Camera(x, y);
 
     do{
 
@@ -135,26 +105,12 @@ int Viewer::initialize() {
 
         // Send our transformation to the currently bound shader,
         // in the "cameraMat" uniform
-//        glUniformMatrix4fv(matrixID, 1, GL_FALSE, &camera.getCameraMat()[0][0]);
+        glm::mat4 x = camera->getCameraMat();
+        glUniformMatrix4fv(matrixID, 1, GL_FALSE, &x[0][0]);
 
-        // 1rst attribute buffer : vertices
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(
-            0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-            3,                  // size
-            GL_FLOAT,           // type
-            GL_FALSE,           // normalized?
-            0,                  // stride
-            (void*)0            // array buffer offset
-        );
-
-
-        // Draw the triangle !
-        glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
-
-        // Draw the cube !
-//        glDrawArrays(GL_TRIANGLES, 0, 36); // 3 indices starting at 0 -> 1 triangle
+        // Draw Objects
+//        unitCube->draw();
+        unitTriangle->draw();
 
         glDisableVertexAttribArray(0);
 
@@ -167,7 +123,8 @@ int Viewer::initialize() {
            glfwWindowShouldClose(window) == 0 );
 
     // Cleanup VBO
-    glDeleteBuffers(1, &vertexbuffer);
+//    unitCube->destroy();
+    unitTriangle->destroy();
     glDeleteVertexArrays(1, &VertexArrayID);
     glDeleteProgram(programID);
 
@@ -176,23 +133,23 @@ int Viewer::initialize() {
 }
 
 
-void Viewer::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    float DEG2RAD = M_PI / 180.0;
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, GL_TRUE);
-    }
-    else if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
-//        adjustPhi(camera, 5.0f * DEG2RAD);
-    }
-//    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-//        adjustPhi(camera, -5.0f * DEG2RAD);
-//    } else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
-//        adjustTheta(camera, -5.0f * DEG2RAD);
-//    } else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-//        adjustTheta(camera, 5.0f * DEG2RAD);
+//void Viewer::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+//{
+//    float DEG2RAD = M_PI / 180.0;
+//    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+//        glfwSetWindowShouldClose(window, GL_TRUE);
 //    }
-}
+//    else if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+////        adjustPhi(camera, 5.0f * DEG2RAD);
+//    }
+////    else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+////        adjustPhi(camera, -5.0f * DEG2RAD);
+////    } else if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+////        adjustTheta(camera, -5.0f * DEG2RAD);
+////    } else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+////        adjustTheta(camera, 5.0f * DEG2RAD);
+////    }
+//}
 
 //void Viewer::adjustPhi(Camera* c, float p) {
 //    camera->phi += p;
