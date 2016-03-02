@@ -4,9 +4,6 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-static const int BOX_IDX_COUNT = 24;
-static const int BOX_VERT_COUNT = 8;
-
 Cube::Cube() {
     this->min = glm::vec3(-1.0f, -1.0f, -1.0f);
     this->max = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -146,6 +143,7 @@ void Cube::draw() {
 
 void Cube::destroy() {
     glDeleteBuffers(1, &vertexbuffer);
+    glDeleteBuffers(1, &colorbuffer);
 }
 
 bool Cube::isCollision() {

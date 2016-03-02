@@ -4,7 +4,17 @@
 // Referenced the json.h and reader.h files in nuparu
 // Referenced jsoncpp.sourceforge.net
 
-std::string readFile(const char *filename) {
+JSONReader::JSONReader() {}
+JSONReader::~JSONReader() {}
+
+
+FluidSolver* JSONReader::parse(const char *filename) {
+    std:string doc = readFile(filename);
+    Json::Value root = loadJSON(doc);
+    return parseJSON(root);
+}
+
+std::string JSONReader::readFile(const char *filename) {
     std::string result;
     std::ifstream jsonfile(filename);
 
@@ -30,7 +40,7 @@ Json::Value JSONReader::loadJSON(const std::string &document) {
     return root;
 }
 
-FluidSolver* parseScene(const Json::Value &root) {
+FluidSolver* JSONReader::parseJSON(const Json::Value &root) {
     Json::Value containerDim = root["containerDim"];
     float scaleX = containerDim["scaleX"].asFloat();
     float scaleY = containerDim["scaleY"].asFloat();
@@ -44,7 +54,7 @@ FluidSolver* parseScene(const Json::Value &root) {
     float particleSeparation = root["particleSeparation"].asFloat();
 
     Cube* container = new Cube(scaleX, scaleY, scaleZ);
-    Cube* particles = new Cube(boundX, boundY, boundZ);
+    Cube* fluid = new Cube(boundX, boundY, boundZ);
 
-    return new FluidSolver(container, particles, particleSeparation);
+    return new FluidSolver(container, fluid, particleSeparation);
 }

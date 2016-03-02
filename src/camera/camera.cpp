@@ -9,7 +9,7 @@
 using namespace glm;
 
 Camera::Camera(int width, int height) {
-    eye = glm::vec3(4,3,3);
+    eye = glm::vec3(0,0,-5);
     ref = glm::vec3(0, 0, 0);
     world_up = glm::vec3(0, 1, 0);
     up = glm::vec3(0, 1, 0);

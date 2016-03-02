@@ -1,6 +1,6 @@
 #pragma once
 
-/** Linear Algerbra Library
+/** Linear Algebra Library
  *  Imported from base code from CIS 277 at the University of Pennsylvania
  *  Credits due to most probably to Adam Mally and Debanshu Singh
 */
@@ -18,6 +18,7 @@ static const float TWO_PI = 2 * PI;
 static const float INV_PI = 1.0f / PI;
 static const float DEG2RAD = PI / 180.f;
 static const float RAD2DEG = 180.f / PI;
+static const float GRAVITY = 9.80665f;
 
 /////// 277 linear algebra namespace
 //namespace la

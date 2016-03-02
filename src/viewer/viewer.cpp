@@ -8,6 +8,7 @@
 #include "../camera/controls.hpp"
 #include "../geom/cube.hpp"
 #include "../geom/triangle.hpp"
+#include "../scene/jsonreader.hpp"
 
 Viewer::Viewer(int width, int height) {
     x = width;
@@ -61,7 +62,7 @@ int Viewer::initialize() {
     //    glfwSetKeyCallback(window, key_callback);
 
     // Dark blue background
-    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+    glClearColor(0.0f, 0.4f, 0.0f, 0.0f);
 
     // Depth Test
     glEnable(GL_DEPTH_TEST);
@@ -73,24 +74,37 @@ int Viewer::initialize() {
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
-                                    "../src/shaders/ColorFragmentShader.glsl" );
+//    // Create and compile our GLSL program from the shaders
+//    GLuint programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
+//                                    "../src/shaders/ColorFragmentShader.glsl" );
 
-    //    // Create and compile our GLSL program from the shaders
-    //    GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
-    //                                    "../src/shaders/SimpleFragmentShader.glsl" );
+        // Create and compile our GLSL program from the shaders
+        GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
+                                        "../src/shaders/SimpleFragmentShader.glsl" );
 
 
     // Get a handle for our "cameraMat" uniform
     GLuint matrixID = glGetUniformLocation(programID, "cameraMat");
 
-    // Initalize and create Objects
-    Cube* unitCube = new Cube();
-    unitCube->create();
+//    // Initalize and create Objects
+//    Cube* unitCube = new Cube();
+//    unitCube->create();
 
-    Triangle* unitTriangle = new Triangle();
-    unitTriangle->create();
+//    Triangle* unitTriangle = new Triangle();
+//    unitTriangle->create();
+
+//    Particle* unitParticle = new Particle();
+//    unitParticle->create();
+
+    // Fluid
+    // TODO Make it so I don't have to hard code the filepath
+    // Change with user input in the viewer or soemthing;
+    JSONReader* reader;
+    FluidSolver* fs = reader->parse("../src/scene/scene.json");
+
+    for (Particle *p : fs->pList) {
+        p->create();
+    }
 
     // Initalize Camera
     Camera* camera = new Camera(x, y);
@@ -109,8 +123,17 @@ int Viewer::initialize() {
         glUniformMatrix4fv(matrixID, 1, GL_FALSE, &x[0][0]);
 
         // Draw Objects
-        unitCube->draw();
+        //unitCube->draw();
         //        unitTriangle->draw();
+//        for (Particle *p : fs->pList) {
+//////            std::cout << "Why" << p->pos[2];
+//            p->draw();
+//        }
+
+        Particle* p = fs->pList.at(2);
+        std::cout << "{" << p->pos[0] <<", " << p->pos[1] << ", " << p->pos[2] << "}" << std::endl;
+
+//        unitParticle->draw();
 
         glDisableVertexAttribArray(0);
 
@@ -123,8 +146,12 @@ int Viewer::initialize() {
            glfwWindowShouldClose(window) == 0 );
 
     // Cleanup VBO
-    unitCube->destroy();
+    for (Particle *p : fs->pList) {
+        p->destroy();
+    }
+//    unitCube->destroy();
     //    unitTriangle->destroy();
+//    unitParticle->destroy();
     glDeleteVertexArrays(1, &VertexArrayID);
     glDeleteProgram(programID);
 

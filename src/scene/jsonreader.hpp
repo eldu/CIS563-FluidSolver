@@ -13,7 +13,14 @@
 
 class JSONReader {
 public:
+    JSONReader();
+    ~JSONReader();
+
+    // Reads, loads, and parses a Fluid Solver
+    FluidSolver* parse(const char *filename);
+
+    // Helperfunctions of parse
     std::string readFile(const char *filename);
     Json::Value loadJSON(const std::string &document);
-    FluidSolver* parseScene(const Json::Value &root);
+    FluidSolver* parseJSON(const Json::Value &root);
 };

@@ -94,6 +94,7 @@ set(CORE_SRC
         src/shaders/shader.cpp
         src/la.cpp
         src/scene/jsonreader.cpp
+        src/fluidSolver/fluidParticle.cpp
 )
 
 add_executable(Thanda ${CORE_SRC})

@@ -177,6 +177,33 @@ src/camera/controls.cpp.s:
 	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/camera/controls.cpp.s
 .PHONY : src/camera/controls.cpp.s
 
+src/fluidSolver/fluidParticle.o: src/fluidSolver/fluidParticle.cpp.o
+
+.PHONY : src/fluidSolver/fluidParticle.o
+
+# target to build an object file
+src/fluidSolver/fluidParticle.cpp.o:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/fluidParticle.cpp.o
+.PHONY : src/fluidSolver/fluidParticle.cpp.o
+
+src/fluidSolver/fluidParticle.i: src/fluidSolver/fluidParticle.cpp.i
+
+.PHONY : src/fluidSolver/fluidParticle.i
+
+# target to preprocess a source file
+src/fluidSolver/fluidParticle.cpp.i:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/fluidParticle.cpp.i
+.PHONY : src/fluidSolver/fluidParticle.cpp.i
+
+src/fluidSolver/fluidParticle.s: src/fluidSolver/fluidParticle.cpp.s
+
+.PHONY : src/fluidSolver/fluidParticle.s
+
+# target to generate assembly for a file
+src/fluidSolver/fluidParticle.cpp.s:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/fluidParticle.cpp.s
+.PHONY : src/fluidSolver/fluidParticle.cpp.s
+
 src/fluidSolver/fluidSolver.o: src/fluidSolver/fluidSolver.cpp.o
 
 .PHONY : src/fluidSolver/fluidSolver.o
@@ -462,6 +489,9 @@ help:
 	@echo "... src/camera/controls.o"
 	@echo "... src/camera/controls.i"
 	@echo "... src/camera/controls.s"
+	@echo "... src/fluidSolver/fluidParticle.o"
+	@echo "... src/fluidSolver/fluidParticle.i"
+	@echo "... src/fluidSolver/fluidParticle.s"
 	@echo "... src/fluidSolver/fluidSolver.o"
 	@echo "... src/fluidSolver/fluidSolver.i"
 	@echo "... src/fluidSolver/fluidSolver.s"
