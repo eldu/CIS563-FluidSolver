@@ -12,14 +12,16 @@
 
 class Camera {
 private:
-    glm::mat4 cameraMat;
-    glm::vec3 eye, ref, up;
+    glm::mat4 cameraMat, viewproj;
+    glm::mat4 modelMat = glm::mat4(1.0f);
+    glm::vec3 eye, ref, world_up, up, look, right;
 public:
     Camera(int width, int height);
     ~Camera();
 
     glm::mat4 getCameraMat();
 
+    void recompute();
     void recomputeEye();
 
     int width, height;

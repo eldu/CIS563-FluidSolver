@@ -92,6 +92,7 @@ set(CORE_SRC
         src/geom/cube.cpp
         src/geom/triangle.cpp
         src/shaders/shader.cpp
+        src/la.cpp
 )
 
 add_executable(Thanda ${CORE_SRC})

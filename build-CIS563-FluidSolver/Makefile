@@ -285,6 +285,33 @@ src/geom/triangle.cpp.s:
 	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/geom/triangle.cpp.s
 .PHONY : src/geom/triangle.cpp.s
 
+src/la.o: src/la.cpp.o
+
+.PHONY : src/la.o
+
+# target to build an object file
+src/la.cpp.o:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/la.cpp.o
+.PHONY : src/la.cpp.o
+
+src/la.i: src/la.cpp.i
+
+.PHONY : src/la.i
+
+# target to preprocess a source file
+src/la.cpp.i:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/la.cpp.i
+.PHONY : src/la.cpp.i
+
+src/la.s: src/la.cpp.s
+
+.PHONY : src/la.s
+
+# target to generate assembly for a file
+src/la.cpp.s:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/la.cpp.s
+.PHONY : src/la.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -420,6 +447,9 @@ help:
 	@echo "... src/geom/triangle.o"
 	@echo "... src/geom/triangle.i"
 	@echo "... src/geom/triangle.s"
+	@echo "... src/la.o"
+	@echo "... src/la.i"
+	@echo "... src/la.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

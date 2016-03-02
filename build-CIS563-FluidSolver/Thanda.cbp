@@ -130,6 +130,12 @@
       <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/geom/triangle.hpp">
          <Option target="Thanda"/>
       </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/la.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/la.hpp">
+         <Option target="Thanda"/>
+      </Unit>
       <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/main.cpp">
          <Option target="Thanda"/>
       </Unit>
