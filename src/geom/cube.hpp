@@ -10,6 +10,7 @@ private:
 public:
     Cube();
     Cube(glm::vec3 &min, glm::vec3 &max);
+    Cube(float scaleX, float scaleY, float scaleZ);
     ~Cube();
     void create();
     void destroy();

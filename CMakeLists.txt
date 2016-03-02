@@ -93,6 +93,7 @@ set(CORE_SRC
         src/geom/triangle.cpp
         src/shaders/shader.cpp
         src/la.cpp
+        src/scene/jsonreader.cpp
 )
 
 add_executable(Thanda ${CORE_SRC})

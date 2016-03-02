@@ -35,10 +35,10 @@ void Camera::recompute() {
 }
 
 void Camera::recomputeEye() {
-    eye = glm::rotate(glm::mat4(1.0f), theta, glm::vec3(0, 1, 0))
+    eye = glm::vec3(glm::rotate(glm::mat4(1.0f), theta, glm::vec3(0, 1, 0))
             * glm::rotate(glm::mat4(1.0f), phi, glm::vec3(1, 0, 0))
             * glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, zoom))
-            * glm::vec4(0, 0, 0, 1);
+            * glm::vec4(0, 0, 0, 1));
     look = glm::normalize(ref - eye);
     recompute();
 }

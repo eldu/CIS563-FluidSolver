@@ -339,6 +339,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/scene/jsonreader.o: src/scene/jsonreader.cpp.o
+
+.PHONY : src/scene/jsonreader.o
+
+# target to build an object file
+src/scene/jsonreader.cpp.o:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/scene/jsonreader.cpp.o
+.PHONY : src/scene/jsonreader.cpp.o
+
+src/scene/jsonreader.i: src/scene/jsonreader.cpp.i
+
+.PHONY : src/scene/jsonreader.i
+
+# target to preprocess a source file
+src/scene/jsonreader.cpp.i:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/scene/jsonreader.cpp.i
+.PHONY : src/scene/jsonreader.cpp.i
+
+src/scene/jsonreader.s: src/scene/jsonreader.cpp.s
+
+.PHONY : src/scene/jsonreader.s
+
+# target to generate assembly for a file
+src/scene/jsonreader.cpp.s:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/scene/jsonreader.cpp.s
+.PHONY : src/scene/jsonreader.cpp.s
+
 src/scene/scene.o: src/scene/scene.cpp.o
 
 .PHONY : src/scene/scene.o
@@ -453,6 +480,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/scene/jsonreader.o"
+	@echo "... src/scene/jsonreader.i"
+	@echo "... src/scene/jsonreader.s"
 	@echo "... src/scene/scene.o"
 	@echo "... src/scene/scene.i"
 	@echo "... src/scene/scene.s"

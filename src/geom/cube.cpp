@@ -11,6 +11,10 @@ Cube::Cube(glm::vec3 &min, glm::vec3 &max){
 
 }
 
+Cube::Cube(float scaleX, float scaleY, float scaleZ){
+
+}
+
 Cube::~Cube() {
 
 }
