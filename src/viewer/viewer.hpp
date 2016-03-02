@@ -9,6 +9,7 @@
 #include <iostream>
 #include "../camera/camera.hpp"
 #include "math.h"
+#include "../la.hpp"
 
 class Viewer {
 private:

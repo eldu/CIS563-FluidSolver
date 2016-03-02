@@ -133,6 +133,11 @@ int Viewer::initialize() {
 }
 
 
+/*
+ * Call back function works with print statements, however, because camera is a not static
+ * and this function has to be static, it really hates me at the moment
+ * Austin suggested creating a static object to handle all fo the adjustments
+*/
 //void Viewer::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 //{
 //    float DEG2RAD = M_PI / 180.0;

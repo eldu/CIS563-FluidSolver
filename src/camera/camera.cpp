@@ -4,7 +4,8 @@
 //
 
 #include "camera.hpp"
-
+#include "../la.hpp"
+//#define GLM_FORCE_RADIANS
 
 using namespace glm;
 
@@ -25,7 +26,7 @@ Camera::Camera(int width, int height) {
                            );
 
     // Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-    glm::mat4 projectionMat = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+    glm::mat4 projectionMat = glm::perspective(fovy, aspect, near_clip, far_clip);
 
     glm::mat4 modelMat = glm::mat4(1.0f);
 
@@ -35,7 +36,7 @@ Camera::Camera(int width, int height) {
 Camera::~Camera() {
 }
 
-void Camera::create() {
+void Camera::recomputeEye() {
 
 }
 
@@ -49,24 +50,4 @@ glm::mat4 Camera::getCameraMat() {
 //    up = glm::rotate(glm::mat4(1.0f), theta, glm::vec3(0, 1, 0)) * glm::rotate(glm::mat4(1.0f), phi, glm::vec3(1, 0, 0)) * glm::vec4(0, 1, 0, 0);
 //}
 
-glm::mat4 Camera::getViewProj()
-{
-    return glm::perspective(fovy, width / (float) height, near_clip, far_clip) * glm::lookAt(glm::vec3(eye), glm::vec3(ref), glm::vec3(up));
-}
 
-//void adjustPhi(Camera c, float p) {
-//    c.phi += p;
-//}
-
-//void adjustTheta(Camera c, float t) {
-//    c.theta += t;
-//}
-
-
-//void Camera::adjustPhi(float p) {
-//    phi += p;
-//}
-
-//void Camera::adjustTheta(float t) {
-//    theta += t;
-//}
