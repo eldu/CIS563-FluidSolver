@@ -74,12 +74,12 @@ int Viewer::initialize() {
     glBindVertexArray(VertexArrayID);
 
 //    // Create and compile our GLSL program from the shaders
-//    GLuint programID = LoadShaders( "../CIS563-FluidSolver/src/shaders/TransformVertexShader.glsl",
-//                                    "../CIS563-FluidSolver/src/shaders/ColorFragmentShader.glsl" );
+//    GLuint programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
+//                                    "../src/shaders/ColorFragmentShader.glsl" );
 
     // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders( "../CIS563-FluidSolver/src/shaders/SimpleVertexShader.glsl",
-                                    "../CIS563-FluidSolver/src/shaders/SimpleFragmentShader.glsl" );
+    GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
+                                    "../src/shaders/SimpleFragmentShader.glsl" );
 
 
     // Get a handle for our "cameraMat" uniform
