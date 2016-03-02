@@ -10,17 +10,22 @@ Main -> Calls Viewer -> Draws window -> Creates all of the objects (JSON File is
 
 ##### Main
 - Calls Viewer
+
 ##### Viewer
 - This is where the window is created and where everything is drawn and destroyed.
+
 ##### Camera
 - Camera - Sets the camera object for the viewport
 - Controls - Allows use of mouse and keyboard to move around the viewport (NOT IMPLEMENTED). The only things in this file are from the tutorial. I broke the controls because I wanted to do a callback function so that I won't have to check a lot of things every time loop.
+
 ##### Fluid Solver
 - fluidParticle - Represents 1 particle
 - fluidSolver - Updates fluid position, velocity, and check collision with the caontainer
+
 ##### Scene
 - scene.cpp/scene.hpp - Nothing.
 - jsonreader - parses files into JSON format and into a FluidSolver object
+
 ##### Shaders
 - Shaders from the opengl-tutorials
 
