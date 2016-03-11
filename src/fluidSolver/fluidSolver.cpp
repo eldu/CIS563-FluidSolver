@@ -18,6 +18,7 @@ FluidSolver::FluidSolver() {
 
 FluidSolver::FluidSolver(Cube* container, Cube* fluid, float particleSeparation) {
     this->fluid = fluid;
+    fluid->col = glm::vec3(0.f, 0.f, 1.f);
     this->container = container;
     this->particleSeparation = particleSeparation;
 
@@ -35,8 +36,29 @@ void FluidSolver::fillFluid() {
                 // Create fluid here
                 Particle* p = new Particle(glm::vec3(x, y, z));
 //                std::cout << "{" << p->pos[0] <<", " << p->pos[1] << ", " << p->pos[2] << "}" << std::endl;
-                pList.push_back(p);
+                particles.push_back(p);
             }
         }
+    }
+
+    numParticles = particles.size();
+}
+
+void FluidSolver::create() {
+    for (Particle* p : particles) {
+        p->create();
+    }
+
+}
+
+void FluidSolver::draw() {
+    for (Particle* p : particles) {
+        p->draw();
+    }
+}
+
+void FluidSolver::destroy() {
+    for (Particle* p : particles) {
+        p->destroy();
     }
 }

@@ -24,9 +24,15 @@ public:
     float particleSeparation;
 
     // List of particles
-    std::vector<Particle *> pList;
+    std::vector<Particle *> particles;
+    int numParticles = 0;
 
     void fillFluid();
+
+    // Draw Particles on the screen
+    void create();
+    void draw();
+    void destroy();
 private:
 
 };

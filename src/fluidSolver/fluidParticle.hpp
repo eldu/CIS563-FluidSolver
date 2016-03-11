@@ -22,4 +22,5 @@ private:
     // Buffers
     GLuint vertexbuffer;
     GLuint colorbuffer;
+    GLuint indexbuffer;
 };

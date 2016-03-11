@@ -16,3 +16,7 @@ bool Geometry::isCollision() {
     return false;
 }
 
+void Geometry::create() {}
+void Geometry::draw() {}
+void Geometry::destroy() {}
+

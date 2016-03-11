@@ -74,27 +74,27 @@ int Viewer::initialize() {
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-//    // Create and compile our GLSL program from the shaders
-//    GLuint programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
-//                                    "../src/shaders/ColorFragmentShader.glsl" );
+    // Create and compile our GLSL program from the shaders
+    GLuint programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
+                                    "../src/shaders/ColorFragmentShader.glsl" );
 
-        // Create and compile our GLSL program from the shaders
-        GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
-                                        "../src/shaders/SimpleFragmentShader.glsl" );
+//        // Create and compile our GLSL program from the shaders
+//        GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
+//                                        "../src/shaders/SimpleFragmentShader.glsl" );
 
 
     // Get a handle for our "cameraMat" uniform
     GLuint matrixID = glGetUniformLocation(programID, "cameraMat");
 
-//    // Initalize and create Objects
+    // Initalize and create Objects
 //    Cube* unitCube = new Cube();
 //    unitCube->create();
 
 //    Triangle* unitTriangle = new Triangle();
 //    unitTriangle->create();
 
-//    Particle* unitParticle = new Particle();
-//    unitParticle->create();
+    Particle* unitParticle = new Particle(glm::vec3(2, 2, 2));
+    unitParticle->create();
 
     // Fluid
     // TODO Make it so I don't have to hard code the filepath
@@ -102,9 +102,9 @@ int Viewer::initialize() {
     JSONReader* reader;
     FluidSolver* fs = reader->parse("../src/scene/scene.json");
 
-    for (Particle *p : fs->pList) {
-        p->create();
-    }
+    fs->container->create();
+    fs->fluid->create();
+    fs->create();
 
     // Initalize Camera
     Camera* camera = new Camera(x, y);
@@ -123,17 +123,16 @@ int Viewer::initialize() {
         glUniformMatrix4fv(matrixID, 1, GL_FALSE, &x[0][0]);
 
         // Draw Objects
-        //unitCube->draw();
+//        unitCube->draw();
+        fs->container->draw();
+        fs->fluid->draw();
+        fs->draw();
         //        unitTriangle->draw();
-//        for (Particle *p : fs->pList) {
-//////            std::cout << "Why" << p->pos[2];
-//            p->draw();
-//        }
 
-        Particle* p = fs->pList.at(2);
-        std::cout << "{" << p->pos[0] <<", " << p->pos[1] << ", " << p->pos[2] << "}" << std::endl;
+//        Particle* p = fs->particles.at(2);
+//        std::cout << "{" << p->pos[0] <<", " << p->pos[1] << ", " << p->pos[2] << "}" << std::endl;
 
-//        unitParticle->draw();
+        unitParticle->draw();
 
         glDisableVertexAttribArray(0);
 
@@ -145,13 +144,13 @@ int Viewer::initialize() {
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
            glfwWindowShouldClose(window) == 0 );
 
-    // Cleanup VBO
-    for (Particle *p : fs->pList) {
-        p->destroy();
-    }
+//    // Cleanup VBO
 //    unitCube->destroy();
+    fs->container->destroy();
+    fs->fluid->destroy();
+    fs->destroy();
     //    unitTriangle->destroy();
-//    unitParticle->destroy();
+    unitParticle->destroy();
     glDeleteVertexArrays(1, &VertexArrayID);
     glDeleteProgram(programID);
 

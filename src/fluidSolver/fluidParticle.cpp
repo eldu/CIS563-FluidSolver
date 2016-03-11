@@ -25,21 +25,25 @@ Particle::~Particle() {
 // TODO Refactor this
 // This is so unnecesarily complicated
 void Particle::create() {
-    static const GLfloat g_vertex_buffer_data[] = {
-        pos[0], pos[1], pos[2]
-    };
+    glm::vec3 vertex_buffer_data[1];
+    glm::vec3 color_buffer_data[1];
+    GLuint index_buffer_data[1];
 
-    static const GLfloat g_color_buffer_data[] = {
-        col[0], col[1], col[2]
-    };
+    vertex_buffer_data[0] = pos;
+    color_buffer_data[0] = col;
+    index_buffer_data[0] = 0;
+
+    glGenBuffers(1, &indexbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, indexbuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3), index_buffer_data, GL_STATIC_DRAW);
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3), vertex_buffer_data, GL_STATIC_DRAW);
 
     glGenBuffers(1, &colorbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint), color_buffer_data, GL_STATIC_DRAW);
 }
 
 void Particle::draw() {
@@ -69,7 +73,9 @@ void Particle::draw() {
 
     // Draw the points
     glPointSize(5); // Adjust size of the points displayed
-    glDrawArrays(GL_POINTS, 0, 3);
+//    glDrawArrays(GL_POINTS, 0, 1);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
+    glDrawElements(GL_POINTS, 1, GL_UNSIGNED_INT, (void*)0);
 
 }
 
