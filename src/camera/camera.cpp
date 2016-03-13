@@ -48,3 +48,42 @@ glm::mat4 Camera::getCameraMat() {
 }
 
 
+void Camera::recomputeCameraFromInputs(GLFWwindow *window) {
+//    static double lastTime = glfwGetTime();
+
+//    double currentTime = glfwGetTime();
+//    float deltaTime = float(currentTime - lastTime);
+
+//    // Get mouse position
+//    double mouseX, mouseY;
+//    glfwGetCursorPos(window, &mouseX, &mouseY);
+
+//    // Reset mouse position for next frame
+//    glfwSetCursorPos(window, width/2.0, height/2.0);
+
+//    // Compute new orientation
+//    horizontalAngle += mouseSpeed * float(1024/2 - xpos );
+//    verticalAngle   += mouseSpeed * float( 768/2 - ypos );
+
+//    // Direction : Spherical coordinates to Cartesian coordinates conversion
+//    glm::vec3 direction(
+//        cos(verticalAngle) * sin(horizontalAngle),
+//        sin(verticalAngle),
+//        cos(verticalAngle) * cos(horizontalAngle)
+//    );
+
+    if (glfwGetKey( window, GLFW_KEY_UP ) == GLFW_PRESS){
+        phi -= 5.0f * DEG2RAD;
+    }
+    if (glfwGetKey( window, GLFW_KEY_DOWN ) == GLFW_PRESS){
+        phi += 5.0f * DEG2RAD;
+    }
+    if (glfwGetKey( window, GLFW_KEY_RIGHT ) == GLFW_PRESS){
+        theta += 5.0f * DEG2RAD;
+    }
+    if (glfwGetKey( window, GLFW_KEY_LEFT ) == GLFW_PRESS){
+        theta -= 5.0f * DEG2RAD;
+    }
+
+    recomputeEye();
+}

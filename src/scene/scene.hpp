@@ -1,6 +1,9 @@
 //////
 //////  scene.hpp
 //////  Thanda
+///
+#ifndef FS_SCENE_H
+#define FS_SCENE_H
 
 //#pragma once
 //#include <vector>
@@ -23,3 +26,5 @@
 ////    void setCamera(const Camera &c);
 
 //};
+
+#endif

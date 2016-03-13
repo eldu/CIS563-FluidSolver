@@ -1,8 +1,9 @@
 //
 //  fluidSolver.hpp
 //  Thanda
+#ifndef FS_FLUIDSOLVER_H
+#define FS_FLUIDSOLVER_H
 
-#pragma once
 #include "../geom/cube.hpp"
 #include <stdio.h>
 #include <string>
@@ -36,3 +37,6 @@ public:
 private:
 
 };
+
+
+#endif

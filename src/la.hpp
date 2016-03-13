@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FS_LA_H
+#define FS_LA_H
 
 /** Linear Algebra Library
  *  Imported from base code from CIS 277 at the University of Pennsylvania
@@ -42,3 +43,5 @@ inline bool fequal(T a, T b, T epsilon = 0.0001){
 
     return diff / (std::abs(a) + std::abs(b)) < epsilon;
 }
+
+#endif

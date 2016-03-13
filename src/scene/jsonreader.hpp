@@ -1,4 +1,5 @@
-#pragma once;
+#ifndef FS_JSONREADER_H
+#define FS_JSONREADER_H
 
 #include "../fluidSolver/fluidSolver.hpp"
 #include <json/json.h>
@@ -24,3 +25,5 @@ public:
     Json::Value loadJSON(const std::string &document);
     FluidSolver* parseJSON(const Json::Value &root);
 };
+
+#endif

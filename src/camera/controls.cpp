@@ -1,32 +1,51 @@
-#include "controls.hpp"
-#include "stdio.h"
-#include <iostream>
-
-glm::mat4 ViewMatrix;
-glm::mat4 ProjectionMatrix;
-
-glm::mat4 getViewMatrix(){
-    return ViewMatrix;
-}
-glm::mat4 getProjectionMatrix(){
-    return ProjectionMatrix;
-}
+//#include "controls.hpp"
 
 
-// Initial position : on +Z
-glm::vec3 position = glm::vec3( 0, 0, 5 );
-// Initial horizontal angle : toward -Z
-float horizontalAngle = 3.14f;
-// Initial vertical angle : none
-float verticalAngle = 0.0f;
-// Initial Field of View
-float initialFoV = 45.0f;
-
-float speed = 3.0f; // 3 units / second
-float mouseSpeed = 0.005f;
 
 
-void computeMatricesFromInputs(GLFWwindow* window){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////#include "stdio.h"
+////#include <iostream>
+
+////glm::mat4 ViewMatrix;
+////glm::mat4 ProjectionMatrix;
+
+////glm::mat4 getViewMatrix(){
+////    return ViewMatrix;
+////}
+////glm::mat4 getProjectionMatrix(){
+////    return ProjectionMatrix;
+////}
+
+
+////// Initial position : on +Z
+////glm::vec3 position = glm::vec3( 0, 0, 5 );
+////// Initial horizontal angle : toward -Z
+////float horizontalAngle = 3.14f;
+////// Initial vertical angle : none
+////float verticalAngle = 0.0f;
+////// Initial Field of View
+////float initialFoV = 45.0f;
+
+////float speed = 3.0f; // 3 units / second
+////float mouseSpeed = 0.005f;
+
+//#define OLD
+#ifdef OLD
+void Controls::computeMatricesFromInputs(GLFWwindow* window){
 
     // glfwGetTime is called only once, the first time this function is called
     static double lastTime = glfwGetTime();
@@ -94,3 +113,4 @@ void computeMatricesFromInputs(GLFWwindow* window){
     // For the next frame, the "last time" will be "now"
     lastTime = currentTime;
 }
+#endif

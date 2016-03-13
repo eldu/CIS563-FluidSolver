@@ -3,8 +3,10 @@
 //  Thanda
 //
 
-#pragma once
+#ifndef FS_CAMERA_H
+#define FS_CAMERA_H
 
+#include <GLFW/glfw3.h>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <math.h>
@@ -24,6 +26,12 @@ public:
     void recompute();
     void recomputeEye();
 
+    // TODO: Make this better
+    void recomputeCameraFromInputs(GLFWwindow* window);
+    float speed = 3.0f; // 3 units / second
+    float mouseSpeed = 0.005f;
+
+
     int width, height;
     float theta = -45 * M_PI / 180.0;
     float phi = -45 * M_PI / 180.0;
@@ -33,3 +41,5 @@ public:
     float far_clip = 100.0f;
     float aspect = 4.0f / 3.0f;
 };
+
+#endif

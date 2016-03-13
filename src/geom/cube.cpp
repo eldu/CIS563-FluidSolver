@@ -118,8 +118,6 @@ void Cube::draw() {
     );
 
     // Draw the triangles
-//    glDrawArrays(GL_LINES, 0, BOX_IDX_COUNT); // 12*3 indices starting at 0 -> 12 triangles
-
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbuffer);
     glDrawElements(GL_LINES, BOX_IDX_COUNT, GL_UNSIGNED_INT, (void*)0);
 }
@@ -127,6 +125,7 @@ void Cube::draw() {
 void Cube::destroy() {
     glDeleteBuffers(1, &vertexbuffer);
     glDeleteBuffers(1, &colorbuffer);
+    glDeleteBuffers(1, &indexbuffer);
 }
 
 bool Cube::isCollision() {

@@ -1,4 +1,7 @@
-#pragma once;
+#ifndef FS_FLUIDPARTICLE_H
+#define FS_FLUIDPARTICLE_H
+
+
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 
@@ -12,7 +15,7 @@ public:
     // Parameters
     glm::vec3 pos;
     glm::vec3 vel;
-    glm::vec3 col;
+    glm::vec3 col = glm::vec3(0, 0, 1);
 
     // Draw a particle on the screen
     void create();
@@ -24,3 +27,5 @@ private:
     GLuint colorbuffer;
     GLuint indexbuffer;
 };
+
+#endif

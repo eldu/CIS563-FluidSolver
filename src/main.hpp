@@ -2,8 +2,8 @@
 //  main.hpp
 //  Thanda
 
-#ifndef main_hpp
-#define main_hpp
+#ifndef FS_MAIN_H
+#define FS_MAIN_H
 
-#endif /* main_hpp */
+#endif /* FS_MAIN_H */
 

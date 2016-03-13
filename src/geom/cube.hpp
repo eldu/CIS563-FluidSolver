@@ -1,4 +1,7 @@
-#pragma once
+#ifndef FS_CUBE_H
+#define FS_CUBE_H
+
+
 #include "geom.hpp"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
@@ -28,3 +31,5 @@ public:
 
     bool isCollision();
 };
+
+#endif

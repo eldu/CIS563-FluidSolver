@@ -84,7 +84,6 @@ endif()
 set(CORE_SRC
         src/main.cpp
         src/camera/camera.cpp
-        src/camera/controls.cpp
         src/viewer/viewer.cpp
         src/fluidSolver/fluidSolver.cpp
         src/scene/scene.cpp
@@ -95,6 +94,8 @@ set(CORE_SRC
         src/la.cpp
         src/scene/jsonreader.cpp
         src/fluidSolver/fluidParticle.cpp
+        src/camera/input.cpp
+        src/camera/controls.cpp
 )
 
 add_executable(Thanda ${CORE_SRC})

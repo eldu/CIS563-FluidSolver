@@ -2,8 +2,8 @@
 //  geom.hpp
 //  Thanda
 
-#pragma once
-
+#ifndef FS_GEOM_H
+#define FS_GEOM_H
 
 class Geometry {
 public:
@@ -15,3 +15,5 @@ public:
     void draw();
     void destroy();
 };
+
+#endif

@@ -4,11 +4,7 @@
 
 #include "viewer.hpp"
 #include "../camera/camera.hpp"
-#include "../shaders/shader.hpp"
-#include "../camera/controls.hpp"
-#include "../geom/cube.hpp"
-#include "../geom/triangle.hpp"
-#include "../scene/jsonreader.hpp"
+
 
 Viewer::Viewer(int width, int height) {
     x = width;
@@ -61,8 +57,8 @@ int Viewer::initialize() {
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     //    glfwSetKeyCallback(window, key_callback);
 
-    // Dark blue background
-    glClearColor(0.0f, 0.4f, 0.0f, 0.0f);
+    // Grey Background
+    glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
 
     // Depth Test
     glEnable(GL_DEPTH_TEST);
@@ -70,12 +66,12 @@ int Viewer::initialize() {
     // Accerpt fragment if it is closer to the camera thatn the former one
     glDepthFunc(GL_LESS);
 
-    GLuint VertexArrayID;
+
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
     // Create and compile our GLSL program from the shaders
-    GLuint programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
+    programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
                                     "../src/shaders/ColorFragmentShader.glsl" );
 
 //        // Create and compile our GLSL program from the shaders
@@ -84,7 +80,7 @@ int Viewer::initialize() {
 
 
     // Get a handle for our "cameraMat" uniform
-    GLuint matrixID = glGetUniformLocation(programID, "cameraMat");
+    matrixID = glGetUniformLocation(programID, "cameraMat");
 
     // Initalize and create Objects
 //    Cube* unitCube = new Cube();
@@ -93,52 +89,59 @@ int Viewer::initialize() {
 //    Triangle* unitTriangle = new Triangle();
 //    unitTriangle->create();
 
-    Particle* unitParticle = new Particle(glm::vec3(2, 2, 2));
-    unitParticle->create();
-
     // Fluid
     // TODO Make it so I don't have to hard code the filepath
-    // Change with user input in the viewer or soemthing;
+    // Change with user input in the viewer or something;
     JSONReader* reader;
-    FluidSolver* fs = reader->parse("../src/scene/scene.json");
+    fs = reader->parse("../src/scene/scene.json");
 
     fs->container->create();
     fs->fluid->create();
     fs->create();
 
     // Initalize Camera
-    Camera* camera = new Camera(x, y);
+    camera = new Camera(x, y);
+
+}
+
+int Viewer::run() {
+    double fps = 24.0f;
+    double lastTime = glfwGetTime();
 
     do{
+        double currentTime = glfwGetTime();
 
-        // Clear the screen
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // Run at a certain fps
+        if (currentTime - lastTime >= 1.0f / fps) {
+            lastTime = currentTime; // update time
 
-        // Use our shader
-        glUseProgram(programID);
+            // Clear the screen
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Send our transformation to the currently bound shader,
-        // in the "cameraMat" uniform
-        glm::mat4 x = camera->getCameraMat();
-        glUniformMatrix4fv(matrixID, 1, GL_FALSE, &x[0][0]);
+            // Use our shader
+            glUseProgram(programID);
 
-        // Draw Objects
-//        unitCube->draw();
-        fs->container->draw();
-        fs->fluid->draw();
-        fs->draw();
-        //        unitTriangle->draw();
+            // Send our transformation to the currently bound shader,
+            // in the "cameraMat" uniform
+            glm::mat4 x = camera->getCameraMat();
+            glUniformMatrix4fv(matrixID, 1, GL_FALSE, &x[0][0]);
 
-//        Particle* p = fs->particles.at(2);
-//        std::cout << "{" << p->pos[0] <<", " << p->pos[1] << ", " << p->pos[2] << "}" << std::endl;
+            // Draw Objects
+    //        unitCube->draw();
+            fs->container->draw();
+            fs->fluid->draw();
+            fs->draw();
+            //        unitTriangle->draw();
 
-        unitParticle->draw();
+            // Adjust Camera
+            camera->recomputeCameraFromInputs(window);
 
-        glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(0);
 
-        // Swap buffers
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+            // Swap buffers
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+        }
 
     } // Check if the ESC key was pressed or the window was closed
     while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
@@ -150,7 +153,6 @@ int Viewer::initialize() {
     fs->fluid->destroy();
     fs->destroy();
     //    unitTriangle->destroy();
-    unitParticle->destroy();
     glDeleteVertexArrays(1, &VertexArrayID);
     glDeleteProgram(programID);
 
@@ -180,13 +182,5 @@ int Viewer::initialize() {
 ////    } else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
 ////        adjustTheta(camera, 5.0f * DEG2RAD);
 ////    }
-//}
-
-//void Viewer::adjustPhi(Camera* c, float p) {
-//    camera->phi += p;
-//}
-
-//void Viewer::adjustTheta(float t) {
-//    camera->theta += t;
 //}
 

@@ -177,6 +177,33 @@ src/camera/controls.cpp.s:
 	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/camera/controls.cpp.s
 .PHONY : src/camera/controls.cpp.s
 
+src/camera/input.o: src/camera/input.cpp.o
+
+.PHONY : src/camera/input.o
+
+# target to build an object file
+src/camera/input.cpp.o:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/camera/input.cpp.o
+.PHONY : src/camera/input.cpp.o
+
+src/camera/input.i: src/camera/input.cpp.i
+
+.PHONY : src/camera/input.i
+
+# target to preprocess a source file
+src/camera/input.cpp.i:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/camera/input.cpp.i
+.PHONY : src/camera/input.cpp.i
+
+src/camera/input.s: src/camera/input.cpp.s
+
+.PHONY : src/camera/input.s
+
+# target to generate assembly for a file
+src/camera/input.cpp.s:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/camera/input.cpp.s
+.PHONY : src/camera/input.cpp.s
+
 src/fluidSolver/fluidParticle.o: src/fluidSolver/fluidParticle.cpp.o
 
 .PHONY : src/fluidSolver/fluidParticle.o
@@ -489,6 +516,9 @@ help:
 	@echo "... src/camera/controls.o"
 	@echo "... src/camera/controls.i"
 	@echo "... src/camera/controls.s"
+	@echo "... src/camera/input.o"
+	@echo "... src/camera/input.i"
+	@echo "... src/camera/input.s"
 	@echo "... src/fluidSolver/fluidParticle.o"
 	@echo "... src/fluidSolver/fluidParticle.i"
 	@echo "... src/fluidSolver/fluidParticle.s"

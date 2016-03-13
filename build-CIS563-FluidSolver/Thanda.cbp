@@ -106,6 +106,12 @@
       <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/controls.hpp">
          <Option target="Thanda"/>
       </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/input.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/input.hpp">
+         <Option target="Thanda"/>
+      </Unit>
       <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/fluidParticle.cpp">
          <Option target="Thanda"/>
       </Unit>

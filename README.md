@@ -4,6 +4,10 @@
 
 ## 3D Viewer
 
+CONTROLS
+Arrows Keys to rotate around the screen.
+
+
 #### How the code works
 ##### The Gist
 Main -> Calls Viewer -> Draws window -> Creates all of the objects (JSON File is parsed to create Fluid Solver which displays all of the particles) -> Draw Loop (Draw everything possible) -> Destroy everything
@@ -16,7 +20,8 @@ Main -> Calls Viewer -> Draws window -> Creates all of the objects (JSON File is
 
 ##### Camera
 - Camera - Sets the camera object for the viewport
-- Controls - Allows use of mouse and keyboard to move around the viewport (NOT IMPLEMENTED). The only things in this file are from the tutorial. I broke the controls because I wanted to do a callback function so that I won't have to check a lot of things every time loop.
+- Controls - Implemented arrows keys to rotate around scene. 
+TODO: Improve controls to include mouse input and panning. Also, instead of recomputing the camera every frame, simply check if there has been an event. Unfortaunte event callback functions may only make use of static objects and such. Therefore as Austin suggested, I may create a singleton class. The controls and input files don't currently do anything because I coudn't figure it out... But this is an improvement to be done later.
 
 ##### Fluid Solver
 - fluidParticle - Represents 1 particle
@@ -40,7 +45,7 @@ Main -> Calls Viewer -> Draws window -> Creates all of the objects (JSON File is
 - Gravity Simulation
 
 #### References
-- www.opengl-tutorials.org (Tutorials 1-4, 6)
+- www.opengl-tutorials.org (Tutorials 1-4, 6, )
 - www.cplusplus.com and nuparu (Reading from a file, JSON Parsing)
 - CIS 277 la.h (linear algebra file)
 

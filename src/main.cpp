@@ -23,5 +23,6 @@ int main( void )
 {
     Viewer* viewer = new Viewer(1024, 768);
     viewer->initialize();
+    viewer->run();
     return 0;
 }
