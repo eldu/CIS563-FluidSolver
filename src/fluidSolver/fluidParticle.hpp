@@ -4,6 +4,7 @@
 
 #include "GL/glew.h"
 #include "glm/glm.hpp"
+#include "../la.hpp"
 
 class Particle {
 public:

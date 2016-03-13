@@ -110,9 +110,10 @@ int Viewer::run() {
 
     do{
         double currentTime = glfwGetTime();
+        double deltaTime = currentTime - lastTime;
 
         // Run at a certain fps
-        if (currentTime - lastTime >= 1.0f / fps) {
+        if (deltaTime >= 1.0f / fps) {
             lastTime = currentTime; // update time
 
             // Clear the screen
@@ -135,6 +136,9 @@ int Viewer::run() {
 
             // Adjust Camera
             camera->recomputeCameraFromInputs(window);
+
+            // Update Fluid
+            fs->update(deltaTime);
 
             glDisableVertexAttribArray(0);
 

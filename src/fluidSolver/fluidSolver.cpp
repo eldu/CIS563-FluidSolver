@@ -29,13 +29,21 @@ FluidSolver::~FluidSolver() {
 
 }
 
+void FluidSolver::update(float deltaTime) {
+    for (Particle* p : particles) {
+        // Gravity
+        glm::vec3 g = glm::vec3(0, -GRAVITY, 0);
+        p->pos = p->pos + p->vel * deltaTime + 0.5f * g * deltaTime * deltaTime;
+    }
+
+    create();
+}
+
 void FluidSolver::fillFluid() {
     for (float x = fluid->min[0]; x < fluid->max[0]; x += particleSeparation) {
         for (float y = fluid->min[1]; y < fluid->max[1]; y += particleSeparation) {
             for (float z = fluid->min[2]; z < fluid->max[2]; z += particleSeparation) {
-                // Create fluid here
                 Particle* p = new Particle(glm::vec3(x, y, z));
-//                std::cout << "{" << p->pos[0] <<", " << p->pos[1] << ", " << p->pos[2] << "}" << std::endl;
                 particles.push_back(p);
             }
         }
