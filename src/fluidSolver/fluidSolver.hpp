@@ -28,14 +28,13 @@ public:
     std::vector<Particle *> particles;
     int numParticles = 0;
 
-    void fillFluid();
+    virtual void fillFluid();
     void update(float deltaTime);
 
     // Draw Particles on the screen
     void create();
     void draw();
     void destroy();
-
 private:
 
 };

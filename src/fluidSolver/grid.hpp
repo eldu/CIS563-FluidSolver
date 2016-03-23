@@ -27,6 +27,13 @@ public:
     int getIdxFromLocal(float x, float y, float z);
     glm::vec3 getIdxFromIdx(int idx);
     int getIdxFromIdxVec3(glm::vec3 idx);
+
+    std::vector<glm::vec3> getNeighborhood(glm::vec3 pos);
+
+    // Getter functions
+    float operator[](const int idx);
+    float operator[](const glm::vec3 &idx);
+
 private:
 };
 

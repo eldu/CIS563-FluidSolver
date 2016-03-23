@@ -18,6 +18,8 @@ public:
     glm::vec3 vel;
     glm::vec3 col = glm::vec3(0, 0, 1);
 
+    glm::vec3 gridCell;
+
     // Draw a particle on the screen
     void create();
     void draw();

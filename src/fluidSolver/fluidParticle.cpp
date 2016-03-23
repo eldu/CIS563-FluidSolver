@@ -4,6 +4,7 @@ Particle::Particle() {
     this->pos = glm::vec3(-1.0, -1.0, 0.0f);
     this->vel = glm::vec3();
     this->col = glm::vec3(0, 0, 1);
+
 }
 
 Particle::Particle(glm::vec3 pos) {

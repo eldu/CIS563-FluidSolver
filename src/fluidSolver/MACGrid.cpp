@@ -54,5 +54,5 @@ MACGrid::MACGrid(glm::vec3 resolution, glm::vec3 min, glm::vec3 max) {
 }
 
 glm::vec3 MACGrid::getLocalPos(glm::vec3 world) {
-    return world/cellWidth;
+    return (world - min)/cellWidth;
 }
