@@ -4,8 +4,9 @@
 #include "grid.hpp"
 #include "../la.hpp"
 #include "math.h"
+#include "../geom/geom.hpp"
 
-class MACGrid {
+class MACGrid : Geometry {
     public:
         MACGrid();
         MACGrid(int width, int height, int depth);
@@ -17,12 +18,21 @@ class MACGrid {
         Grid gridV;
         Grid gridW;
         Grid gridP;
+        Grid gridType;
 
         float cellWidth;
         int resx, resy, resz;
         glm::vec3 min, max;
 
         glm::vec3 getLocalPos(glm::vec3 world);
+
+
+        // Geometry Drawable Functions
+        int MACGRID_IDX_COUNT;
+        int MACGRID_VERT_COUNT;
+        void create();
+        void draw();
+        void destroy();
     private:
 };
 

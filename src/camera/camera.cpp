@@ -8,6 +8,19 @@
 
 using namespace glm;
 
+Camera::Camera() {
+    eye = glm::vec3(0,0,-5);
+    ref = glm::vec3(0, 0, 0);
+    world_up = glm::vec3(0, 1, 0);
+    up = glm::vec3(0, 1, 0);
+    right = glm::vec3(1, 0, 0);
+    look = glm::vec3(0, 0, -1);
+    this->width = 1024;
+    this->height = 768;
+
+    recompute();
+}
+
 Camera::Camera(int width, int height) {
     eye = glm::vec3(0,0,-5);
     ref = glm::vec3(0, 0, 0);

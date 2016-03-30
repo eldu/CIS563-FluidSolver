@@ -11,9 +11,9 @@ public:
     ~Geometry();
 
     virtual bool isCollision();
-    void create();
-    void draw();
-    void destroy();
+    virtual void create();
+    virtual void draw();
+    virtual void destroy();
 };
 
 #endif

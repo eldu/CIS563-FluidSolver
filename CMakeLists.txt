@@ -86,6 +86,10 @@ set(CORE_SRC
         src/camera/camera.cpp
         src/viewer/viewer.cpp
         src/fluidSolver/fluidSolver.cpp
+        src/fluidSolver/fluidParticle.cpp
+        src/fluidSolver/grid.cpp
+        src/fluidSolver/MACGrid.cpp
+        src/fluidSolver/flipSolver.cpp
         src/scene/scene.cpp
         src/geom/geom.cpp
         src/geom/cube.cpp
@@ -93,7 +97,6 @@ set(CORE_SRC
         src/shaders/shader.cpp
         src/la.cpp
         src/scene/jsonreader.cpp
-        src/fluidSolver/fluidParticle.cpp
         src/camera/input.cpp
         src/camera/controls.cpp
 )

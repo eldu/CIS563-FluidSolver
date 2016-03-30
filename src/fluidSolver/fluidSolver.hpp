@@ -13,7 +13,7 @@
 
 using namespace std;
 
-class FluidSolver {
+class FluidSolver : Geometry {
 public:
     FluidSolver();
     FluidSolver(Cube* container, Cube* fluid, float particleSeparation);
@@ -29,7 +29,7 @@ public:
     int numParticles = 0;
 
     virtual void fillFluid();
-    void update(float deltaTime);
+    virtual void update(float deltaTime);
 
     // Draw Particles on the screen
     void create();

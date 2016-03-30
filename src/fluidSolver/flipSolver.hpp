@@ -47,6 +47,11 @@ public:
     glm::vec3 interpolateVelocity(const glm::vec3& pos, MACGrid& m);
 
     void fillFluid();
+    void update(float deltaTime);
+
+    void create();
+    void draw();
+    void destroy();
 
 private:
 };

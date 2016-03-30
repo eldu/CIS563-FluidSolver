@@ -82,13 +82,6 @@ int Viewer::initialize() {
     // Get a handle for our "cameraMat" uniform
     matrixID = glGetUniformLocation(programID, "cameraMat");
 
-    // Initalize and create Objects
-//    Cube* unitCube = new Cube();
-//    unitCube->create();
-
-//    Triangle* unitTriangle = new Triangle();
-//    unitTriangle->create();
-
     // Fluid
     // TODO Make it so I don't have to hard code the filepath
     // Change with user input in the viewer or something;
@@ -96,7 +89,7 @@ int Viewer::initialize() {
     fs = reader->parse("../src/scene/scene.json");
 
     fs->container->create();
-    fs->fluid->create();
+//    fs->fluid->create();
     fs->create();
 
     // Initalize Camera
@@ -105,7 +98,7 @@ int Viewer::initialize() {
 }
 
 int Viewer::run() {
-    double fps = 24.0f;
+    double fps = 20.0f;
     double lastTime = glfwGetTime();
 
     do{
@@ -128,14 +121,12 @@ int Viewer::run() {
             glUniformMatrix4fv(matrixID, 1, GL_FALSE, &x[0][0]);
 
             // Draw Objects
-    //        unitCube->draw();
             fs->container->draw();
-            fs->fluid->draw();
+//            fs->fluid->draw();
             fs->draw();
-            //        unitTriangle->draw();
 
             // Adjust Camera
-            camera->recomputeCameraFromInputs(window);
+//            camera->recomputeCameraFromInputs(window);
 
             // Update Fluid
             fs->update(deltaTime);
@@ -152,11 +143,10 @@ int Viewer::run() {
            glfwWindowShouldClose(window) == 0 );
 
 //    // Cleanup VBO
-//    unitCube->destroy();
     fs->container->destroy();
-    fs->fluid->destroy();
+//    fs->fluid->destroy();
     fs->destroy();
-    //    unitTriangle->destroy();
+
     glDeleteVertexArrays(1, &VertexArrayID);
     glDeleteProgram(programID);
 

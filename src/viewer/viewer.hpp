@@ -19,6 +19,8 @@
 #include "../geom/triangle.hpp"
 #include "../scene/jsonreader.hpp"
 
+#include "../fluidSolver/flipSolver.hpp"
+
 class Viewer {
 private:
     int x;
@@ -45,7 +47,7 @@ public:
     Camera* camera;
 
     // cleanup
-    FluidSolver* fs;
+    FLIPSolver* fs;
 };
 
 #endif

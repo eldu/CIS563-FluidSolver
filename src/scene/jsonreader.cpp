@@ -8,7 +8,7 @@ JSONReader::JSONReader() {}
 JSONReader::~JSONReader() {}
 
 
-FluidSolver* JSONReader::parse(const char *filename) {
+FLIPSolver* JSONReader::parse(const char *filename) {
     std:string doc = readFile(filename);
     Json::Value root = loadJSON(doc);
     return parseJSON(root);
@@ -40,7 +40,7 @@ Json::Value JSONReader::loadJSON(const std::string &document) {
     return root;
 }
 
-FluidSolver* JSONReader::parseJSON(const Json::Value &root) {
+FLIPSolver* JSONReader::parseJSON(const Json::Value &root) {
     Json::Value containerDim = root["containerDim"];
     float scaleX = containerDim["scaleX"].asFloat();
     float scaleY = containerDim["scaleY"].asFloat();
@@ -56,5 +56,5 @@ FluidSolver* JSONReader::parseJSON(const Json::Value &root) {
     Cube* container = new Cube(scaleX, scaleY, scaleZ);
     Cube* fluid = new Cube(boundX, boundY, boundZ);
 
-    return new FluidSolver(container, fluid, particleSeparation);
+    return new FLIPSolver(container, fluid);
 }

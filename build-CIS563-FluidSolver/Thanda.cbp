@@ -112,6 +112,18 @@
       <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/input.hpp">
          <Option target="Thanda"/>
       </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/MACGrid.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/MACGrid.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/flipSolver.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/flipSolver.hpp">
+         <Option target="Thanda"/>
+      </Unit>
       <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/fluidParticle.cpp">
          <Option target="Thanda"/>
       </Unit>
@@ -122,6 +134,12 @@
          <Option target="Thanda"/>
       </Unit>
       <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/fluidSolver.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/grid.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/grid.hpp">
          <Option target="Thanda"/>
       </Unit>
       <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/geom/cube.cpp">

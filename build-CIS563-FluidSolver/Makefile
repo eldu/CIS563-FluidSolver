@@ -204,6 +204,60 @@ src/camera/input.cpp.s:
 	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/camera/input.cpp.s
 .PHONY : src/camera/input.cpp.s
 
+src/fluidSolver/MACGrid.o: src/fluidSolver/MACGrid.cpp.o
+
+.PHONY : src/fluidSolver/MACGrid.o
+
+# target to build an object file
+src/fluidSolver/MACGrid.cpp.o:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/MACGrid.cpp.o
+.PHONY : src/fluidSolver/MACGrid.cpp.o
+
+src/fluidSolver/MACGrid.i: src/fluidSolver/MACGrid.cpp.i
+
+.PHONY : src/fluidSolver/MACGrid.i
+
+# target to preprocess a source file
+src/fluidSolver/MACGrid.cpp.i:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/MACGrid.cpp.i
+.PHONY : src/fluidSolver/MACGrid.cpp.i
+
+src/fluidSolver/MACGrid.s: src/fluidSolver/MACGrid.cpp.s
+
+.PHONY : src/fluidSolver/MACGrid.s
+
+# target to generate assembly for a file
+src/fluidSolver/MACGrid.cpp.s:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/MACGrid.cpp.s
+.PHONY : src/fluidSolver/MACGrid.cpp.s
+
+src/fluidSolver/flipSolver.o: src/fluidSolver/flipSolver.cpp.o
+
+.PHONY : src/fluidSolver/flipSolver.o
+
+# target to build an object file
+src/fluidSolver/flipSolver.cpp.o:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/flipSolver.cpp.o
+.PHONY : src/fluidSolver/flipSolver.cpp.o
+
+src/fluidSolver/flipSolver.i: src/fluidSolver/flipSolver.cpp.i
+
+.PHONY : src/fluidSolver/flipSolver.i
+
+# target to preprocess a source file
+src/fluidSolver/flipSolver.cpp.i:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/flipSolver.cpp.i
+.PHONY : src/fluidSolver/flipSolver.cpp.i
+
+src/fluidSolver/flipSolver.s: src/fluidSolver/flipSolver.cpp.s
+
+.PHONY : src/fluidSolver/flipSolver.s
+
+# target to generate assembly for a file
+src/fluidSolver/flipSolver.cpp.s:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/flipSolver.cpp.s
+.PHONY : src/fluidSolver/flipSolver.cpp.s
+
 src/fluidSolver/fluidParticle.o: src/fluidSolver/fluidParticle.cpp.o
 
 .PHONY : src/fluidSolver/fluidParticle.o
@@ -257,6 +311,33 @@ src/fluidSolver/fluidSolver.s: src/fluidSolver/fluidSolver.cpp.s
 src/fluidSolver/fluidSolver.cpp.s:
 	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/fluidSolver.cpp.s
 .PHONY : src/fluidSolver/fluidSolver.cpp.s
+
+src/fluidSolver/grid.o: src/fluidSolver/grid.cpp.o
+
+.PHONY : src/fluidSolver/grid.o
+
+# target to build an object file
+src/fluidSolver/grid.cpp.o:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/grid.cpp.o
+.PHONY : src/fluidSolver/grid.cpp.o
+
+src/fluidSolver/grid.i: src/fluidSolver/grid.cpp.i
+
+.PHONY : src/fluidSolver/grid.i
+
+# target to preprocess a source file
+src/fluidSolver/grid.cpp.i:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/grid.cpp.i
+.PHONY : src/fluidSolver/grid.cpp.i
+
+src/fluidSolver/grid.s: src/fluidSolver/grid.cpp.s
+
+.PHONY : src/fluidSolver/grid.s
+
+# target to generate assembly for a file
+src/fluidSolver/grid.cpp.s:
+	$(MAKE) -f CMakeFiles/Thanda.dir/build.make CMakeFiles/Thanda.dir/src/fluidSolver/grid.cpp.s
+.PHONY : src/fluidSolver/grid.cpp.s
 
 src/geom/cube.o: src/geom/cube.cpp.o
 
@@ -519,12 +600,21 @@ help:
 	@echo "... src/camera/input.o"
 	@echo "... src/camera/input.i"
 	@echo "... src/camera/input.s"
+	@echo "... src/fluidSolver/MACGrid.o"
+	@echo "... src/fluidSolver/MACGrid.i"
+	@echo "... src/fluidSolver/MACGrid.s"
+	@echo "... src/fluidSolver/flipSolver.o"
+	@echo "... src/fluidSolver/flipSolver.i"
+	@echo "... src/fluidSolver/flipSolver.s"
 	@echo "... src/fluidSolver/fluidParticle.o"
 	@echo "... src/fluidSolver/fluidParticle.i"
 	@echo "... src/fluidSolver/fluidParticle.s"
 	@echo "... src/fluidSolver/fluidSolver.o"
 	@echo "... src/fluidSolver/fluidSolver.i"
 	@echo "... src/fluidSolver/fluidSolver.s"
+	@echo "... src/fluidSolver/grid.o"
+	@echo "... src/fluidSolver/grid.i"
+	@echo "... src/fluidSolver/grid.s"
 	@echo "... src/geom/cube.o"
 	@echo "... src/geom/cube.i"
 	@echo "... src/geom/cube.s"

@@ -7,9 +7,10 @@ FLIPSolver::FLIPSolver() {
 FLIPSolver::FLIPSolver(Cube *container, Cube *fluid) {
     this->container = container;
     this->fluid = fluid;
+    this->particleSeparation = 0.3f;
 
+    init();
     constructMACGrid();
-    fillFluid();
 }
 
 FLIPSolver::FLIPSolver(Cube *container, Cube *fluid, float particleSeparation) {
@@ -29,16 +30,11 @@ void FLIPSolver::init() {
 }
 
 void FLIPSolver::fillFluid() {
-    for (int i = 0; i < mGrid.resx; i++) {
-        for (int j = 0; j < mGrid.resy; j++) {
-            for (int k = 0; k < mGrid.resz; k++) {
-                for (int n = 0; n < numParticlesPerCell; n++) {
-                    Particle* p = new Particle(glm::vec3(i + random(),
-                                                         j + random(),
-                                                         k + random()));
-                    p->gridCell = glm::vec3(i, j, k); // Save grid cell
-                    particles.push_back(p);
-                }
+    for (float x = fluid->min[0]; x < fluid->max[0]; x += particleSeparation) {
+        for (float y = fluid->min[1]; y < fluid->max[1]; y += particleSeparation) {
+            for (float z = fluid->min[2]; z < fluid->max[2]; z += particleSeparation) {
+                Particle* p = new Particle(glm::vec3(x, y, z));
+                particles.push_back(p);
             }
         }
     }
@@ -46,13 +42,90 @@ void FLIPSolver::fillFluid() {
     numParticles = particles.size();
 }
 
+//void FLIPSolver::fillFluid() {
+//    float w = mGrid.cellWidth / numParticlesPerCell;
+
+////    particles.resize(mGrid.resx * mGrid.resy * mGrid.resz * numParticlesPerCell);
+
+//    for (int i = 0; i < mGrid.resx; i++) {
+//        for (int j = 0; j < mGrid.resy; j++) {
+//            for (int k = 0; k < mGrid.resz; k++) {
+//                float x = i * mGrid.cellWidth + mGrid.min[0];
+//                float y = j * mGrid.cellWidth + mGrid.min[1];
+//                float z = k * mGrid.cellWidth + mGrid.min[2];
+
+
+//                Particle* p1 = new Particle(glm::vec3(x + 0.25 * mGrid.cellWidth,
+//                                                     y + 0.25 * mGrid.cellWidth,
+//                                                     z + 0.25 * mGrid.cellWidth));
+
+//                Particle* p2 = new Particle(glm::vec3(x + 0.25 * mGrid.cellWidth,
+//                                                     y + 0.25 * mGrid.cellWidth,
+//                                                     z + 0.75 * mGrid.cellWidth));
+
+//                Particle* p3 = new Particle(glm::vec3(x + 0.25 * mGrid.cellWidth,
+//                                                     y + 0.75 * mGrid.cellWidth,
+//                                                     z + 0.25 * mGrid.cellWidth));
+
+//                Particle* p4 = new Particle(glm::vec3(x + 0.25 * mGrid.cellWidth,
+//                                                     y + 0.75 * mGrid.cellWidth,
+//                                                     z + 0.75 * mGrid.cellWidth));
+
+////                Particle* p5 = new Particle(glm::vec3(x + 0.75 * mGrid.cellWidth,
+////                                                     y + 0.25 * mGrid.cellWidth,
+////                                                     z + 0.25 * mGrid.cellWidth));
+
+////                Particle* p6 = new Particle(glm::vec3(x + 0.75 * mGrid.cellWidth,
+////                                                     y + 0.25 * mGrid.cellWidth,
+////                                                     z + 0.75 * mGrid.cellWidth));
+
+////                Particle* p7 = new Particle(glm::vec3(x + 0.75 * mGrid.cellWidth,
+////                                                     y + 0.75 * mGrid.cellWidth,
+////                                                     z + 0.25 * mGrid.cellWidth));
+
+////                Particle* p8 = new Particle(glm::vec3(x + 0.75 * mGrid.cellWidth,
+////                                                     y + 0.75 * mGrid.cellWidth,
+////                                                     z + 0.75 * mGrid.cellWidth));
+
+//                particles.push_back(p1);
+//                particles.push_back(p2);
+//                particles.push_back(p3);
+//                particles.push_back(p4);
+////                particles.push_back(p5);
+////                particles.push_back(p6);
+////                particles.push_back(p7);
+////                particles.push_back(p8);
+
+////                for (int n = 0; n < numParticlesPerCell; n++) {
+////                    Particle* p = new Particle(glm::vec3(x, y ,z);
+////                    p->gridCell = glm::vec3(i, j, k); // Save grid cell
+////                    particles.push_back(p);
+////                }
+//            }
+//        }
+//    }
+
+//    numParticles = particles.size();
+//}
+
+void FLIPSolver::update(float deltaTime) {
+    for (Particle* p : particles) {
+
+        // Gravity
+        glm::vec3 g = glm::vec3(0, -GRAVITY, 0);
+        p->pos = p->pos + p->vel * deltaTime + 0.5f * g * deltaTime * deltaTime;
+    }
+
+    create();
+}
+
 void FLIPSolver::constructMACGrid() {
-    glm::vec3 min = container->min;
-    glm::vec3 max = container->max;
+    glm::vec3 min = fluid->min;
+    glm::vec3 max = fluid->max;
 
     // glm::vec3 resolution = max - min;
     // TODO: Not hardcode this.... LOL....
-    glm::vec3 resolution = glm::vec3(4, 4, 4);
+    glm::vec3 resolution = glm::vec3(3, 2, 2);
 
     MACGrid(resolution, min, max);
 }
@@ -153,5 +226,22 @@ glm::vec3 FLIPSolver::interpolateVelocity(const glm::vec3& pos, MACGrid& m) {
     return glm::vec3(cU, cV, cW);
 }
 
+void FLIPSolver::create() {
+    for (Particle* p : particles) {
+        p->create();
+    }
+}
+
+void FLIPSolver::draw() {
+    for (Particle* p : particles) {
+        p->draw();
+    }
+}
+
+void FLIPSolver::destroy() {
+    for (Particle* p : particles) {
+        p->destroy();
+    }
+}
 
 
