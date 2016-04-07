@@ -54,10 +54,21 @@ MACGrid::MACGrid(glm::vec3 resolution, glm::vec3 min, glm::vec3 max) {
     gridP = Grid(resx, resy, resz);
 }
 
-glm::vec3 MACGrid::getLocalPos(glm::vec3 world) {
-    return (world - min)/cellWidth;
+glm::vec3 MACGrid::getLocalP(glm::vec3 world) {
+    return (world - min) / cellWidth + glm::vec3(0.5f, 0.5f, 0.5f);
 }
 
+glm::vec3 MACGrid::getLocalU(glm::vec3 world) {
+    return (world - min) / cellWidth + glm::vec3(0.f, 0.5f, 0.5f);
+}
+
+glm::vec3 MACGrid::getLocalV(glm::vec3 world) {
+    return (world - min) / cellWidth + glm::vec3(0.5f, 0.f, 0.5f);
+}
+
+glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
+    return (world - min) / cellWidth + glm::vec3(0.5f, 0.5f, 0.f);
+}
 
 void MACGrid::create() {
 //    GLuint macgrid_idx[];

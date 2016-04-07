@@ -1,4 +1,5 @@
 #include "grid.hpp"
+#include <iostream>
 
 /* * * * * * * * * * * * * * * * * * * * * *
  * Constructors                            *
@@ -28,7 +29,7 @@ int Grid::getIdx(float x, float y, float z) {
         return -1;
     }
 
-    return resx * resx * i + resy * j + k;
+    return i + j * resx + k * resx * resy;
 }
 
 int Grid::getIdx(glm::vec3 pos) {
@@ -40,21 +41,28 @@ int Grid::getIdx(glm::vec3 pos) {
  * * * * * * * * * * * * * * * * * * * * * * * */
 // Relies on valid int idx
 glm::vec3 Grid::getIdxFromIdx(int idx) {
-    int i = idx / (resx * resx);
-    int j = (idx - i * resx * resx) / resy;
-    int k = idx - (i * resx * resx + j * resy);
+    int wait = idx;
+
+    int i = idx % resx;
+    int j = (idx / resx) % resy;
+    int k = idx / (resx * resy);
 
     return glm::vec3(i, j, k);
 }
 
 // TODO: CLEAN THIS UP AND MAKE SURE NO INDEX OUT OF BOUNDS
 int Grid::convertIdx(glm::vec3 idx) {
-//    if (glm::all(glm::greaterThan(idx, glm::vec3())) &&
-//        glm::all(glm::lessThan(idx, glm::vec3(resx, resy, resz)))) {
-        return idx[0] * resx * resx + idx[1] * resy + idx[2];
-//    } else {
-//        return -1;
-//    }
+    int result = idx[0] + idx[1] * resx + idx[2] * resx * resy;
+    if (result >= data.size()) {
+        std::cout << "Index is too large";
+        return -1;
+    } else {
+        result;
+    }
+}
+
+int Grid::convertIdx(int i, int j, int k) {
+    return i + j * resx + k * resx * resy;
 }
 
 
@@ -103,17 +111,17 @@ float Grid::operator[](const glm::vec3 &idx) {
     return data[convertIdx(idx)];
 }
 
-void set(int i, int j, int k, float val) {
+void Grid::set(int i, int j, int k, float val) {
     int idx = convertIdx(i, j, k);
     set(idx, val);
 }
 
-void set(glm::vec3 ijk, float val) {
+void Grid::set(glm::vec3 ijk, float val) {
     int idx = convertIdx(ijk);
     set(idx, val);
 }
 
-void set(int idx, float val) {
+void Grid::set(int idx, float val) {
     if (idx < 0) {
         std::cout << "Attemptting to set val at index out of bounds";
     } else {

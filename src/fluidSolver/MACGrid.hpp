@@ -24,7 +24,12 @@ class MACGrid : Geometry {
         int resx, resy, resz;
         glm::vec3 min, max;
 
-        glm::vec3 getLocalPos(glm::vec3 world);
+
+        // Get Local Positions
+        glm::vec3 getLocalP(glm::vec3 world);
+        glm::vec3 getLocalU(glm::vec3 world);
+        glm::vec3 getLocalV(glm::vec3 world);
+        glm::vec3 getLocalW(glm::vec3 world);
 
 
         // Geometry Drawable Functions
