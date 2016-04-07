@@ -1,5 +1,9 @@
 #include "grid.hpp"
 
+/* * * * * * * * * * * * * * * * * * * * * *
+ * Constructors                            *
+ * * * * * * * * * * * * * * * * * * * * * */
+
 Grid::Grid() {
 }
 
@@ -11,12 +15,10 @@ Grid::Grid(int width, int height, int depth) {
     data.resize(resx * resy * resz);
 }
 
-
-int Grid::getIdxFromLocalVec3(glm::vec3 pos) {
-    return getIdxFromLocal(pos[0], pos[1], pos[2]);
-}
-
-int Grid::getIdxFromLocal(float x, float y, float z) {
+/* * * * * * * * * * * * * * * * * * * * * * * *
+ * Local to index                              *
+ * * * * * * * * * * * * * * * * * * * * * * * */
+int Grid::getIdx(float x, float y, float z) {
     int i = (int) x / resx;
     int j = (int) y / resy;
     int k = (int) z / resz;
@@ -29,6 +31,13 @@ int Grid::getIdxFromLocal(float x, float y, float z) {
     return resx * resx * i + resy * j + k;
 }
 
+int Grid::getIdx(glm::vec3 pos) {
+    return getIdx(pos[0], pos[1], pos[2]);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * *
+ * Index Manipulators  (input index)           *
+ * * * * * * * * * * * * * * * * * * * * * * * */
 // Relies on valid int idx
 glm::vec3 Grid::getIdxFromIdx(int idx) {
     int i = idx / (resx * resx);
@@ -39,7 +48,7 @@ glm::vec3 Grid::getIdxFromIdx(int idx) {
 }
 
 // TODO: CLEAN THIS UP AND MAKE SURE NO INDEX OUT OF BOUNDS
-int Grid::getIdxFromIdxVec3(glm::vec3 idx) {
+int Grid::convertIdx(glm::vec3 idx) {
 //    if (glm::all(glm::greaterThan(idx, glm::vec3())) &&
 //        glm::all(glm::lessThan(idx, glm::vec3(resx, resy, resz)))) {
         return idx[0] * resx * resx + idx[1] * resy + idx[2];
@@ -48,8 +57,13 @@ int Grid::getIdxFromIdxVec3(glm::vec3 idx) {
 //    }
 }
 
+
+/* * * * * * * * * * * * * * * * * * * * * *
+ * Neighborhood                            *
+ * * * * * * * * * * * * * * * * * * * * * */
+
 std::vector<glm::vec3> Grid::getNeighborhood(glm::vec3 pos) {
-    int idx = getIdxFromLocalVec3(pos);
+    int idx = getIdx(pos);
     glm::vec3 ijk = getIdxFromIdx(idx);
 
 //    int indexes[8];
@@ -78,10 +92,31 @@ std::vector<glm::vec3> Grid::getNeighborhood(glm::vec3 pos) {
     return result;
 }
 
+/* * * * * * * * * * * * * * * * * * * * * *
+ * Setters and Getters                     *
+ * * * * * * * * * * * * * * * * * * * * * */
 float Grid::operator[](const int idx) {
     return data[idx];
 }
 
 float Grid::operator[](const glm::vec3 &idx) {
-    return data[getIdxFromIdxVec3(idx)];
+    return data[convertIdx(idx)];
+}
+
+void set(int i, int j, int k, float val) {
+    int idx = convertIdx(i, j, k);
+    set(idx, val);
+}
+
+void set(glm::vec3 ijk, float val) {
+    int idx = convertIdx(ijk);
+    set(idx, val);
+}
+
+void set(int idx, float val) {
+    if (idx < 0) {
+        std::cout << "Attemptting to set val at index out of bounds";
+    } else {
+        data[idx] = val;
+    }
 }

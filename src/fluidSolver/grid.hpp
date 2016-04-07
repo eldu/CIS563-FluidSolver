@@ -22,17 +22,27 @@ public:
     float cellWidth;
 
     // Functions
+
+
     // Get index equations
-    int getIdxFromLocalVec3(glm::vec3 pos);
-    int getIdxFromLocal(float x, float y, float z);
+    int getIdx(glm::vec3 pos);
+    int getIdx(float x, float y, float z);
+
     glm::vec3 getIdxFromIdx(int idx);
-    int getIdxFromIdxVec3(glm::vec3 idx);
+
+    int convertIdx(glm::vec3 idx);
+    int convertIdx(int i, int j, int k);
 
     std::vector<glm::vec3> getNeighborhood(glm::vec3 pos);
 
     // Getter functions
     float operator[](const int idx);
     float operator[](const glm::vec3 &idx);
+
+    // Set Functions
+    void set(int idx, float val);
+    void set(int i, int j, int k, float val);
+    void set(glm::vec3 ijk, float val);
 
 private:
 };
