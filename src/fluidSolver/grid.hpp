@@ -27,7 +27,6 @@ public:
     // Get index equations
     int getIdx(glm::vec3 pos);
     int getIdx(float x, float y, float z);
-
     glm::vec3 getIdxFromIdx(int idx);
 
     int convertIdx(glm::vec3 idx);

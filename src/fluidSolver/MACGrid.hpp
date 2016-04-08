@@ -7,10 +7,14 @@
 #include "../geom/geom.hpp"
 
 class MACGrid : Geometry {
+    private:
+        GLuint vertexbuffer;
+        GLuint colorbuffer;
+        GLuint indexbuffer;
     public:
         MACGrid();
         MACGrid(int width, int height, int depth);
-        MACGrid(int width, int height, int depth, int cellsize);
+        MACGrid(int width, int height, int depth, float cellsize);
         MACGrid(glm::vec3 resolution, glm::vec3 min, glm::vec3 max);
 
         // Grids
