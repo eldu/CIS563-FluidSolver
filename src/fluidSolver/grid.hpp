@@ -1,5 +1,4 @@
-#ifndef FS_GRID_H
-#define FS_GRID_H
+#pragma once
 
 #include "GL/glew.h"
 #include "glm/glm.hpp"
@@ -8,15 +7,16 @@
 
 // Everything is implemented such that the grid cells go from 0 to 1.
 
+template <typename T>
 class Grid {
 public:
     // Constructors
     Grid();
-    Grid(int width, int height, int depth);
+    Grid(const int width, const int height, const int depth);
 
     // Variables
     int resx, resy, resz; // Resolution of the grid
-    std::vector<float> data;
+    std::vector<T> data;
 
     // May delete
     float cellWidth;
@@ -43,7 +43,9 @@ public:
     void set(int i, int j, int k, float val);
     void set(glm::vec3 ijk, float val);
 
+//    int main();
+
 private:
 };
 
-#endif
+//#endif

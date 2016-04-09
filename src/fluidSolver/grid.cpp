@@ -5,21 +5,39 @@
  * Constructors                            *
  * * * * * * * * * * * * * * * * * * * * * */
 
-Grid::Grid() {
+template <>
+Grid<float>::Grid() {
 }
 
-Grid::Grid(int width, int height, int depth) {
+template <>
+Grid<float>::Grid(const int width, const int height, const int depth) {
     resx = width;
     resy = height;
     resz = depth;
 
+//    data = new data<T>(resx * resy * resz);
+    data.resize(resx * resy * resz);
+}
+
+template <>
+Grid<bool>::Grid() {
+}
+
+template <>
+Grid<bool>::Grid(const int width, const int height, const int depth) {
+    resx = width;
+    resy = height;
+    resz = depth;
+
+//    data = new data<T>(resx * resy * resz);
     data.resize(resx * resy * resz);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * *
  * Local to index                              *
  * * * * * * * * * * * * * * * * * * * * * * * */
-int Grid::getIdx(float x, float y, float z) {
+template <typename T>
+int Grid<T>::getIdx(float x, float y, float z) {
     int i = (int) x / resx;
     int j = (int) y / resy;
     int k = (int) z / resz;
@@ -32,7 +50,8 @@ int Grid::getIdx(float x, float y, float z) {
     return i + j * resx + k * resx * resy;
 }
 
-int Grid::getIdx(glm::vec3 pos) {
+template <typename T>
+int Grid<T>::getIdx(glm::vec3 pos) {
     return getIdx(pos[0], pos[1], pos[2]);
 }
 
@@ -40,7 +59,8 @@ int Grid::getIdx(glm::vec3 pos) {
  * Index Manipulators  (input index)           *
  * * * * * * * * * * * * * * * * * * * * * * * */
 // Relies on valid int idx
-glm::vec3 Grid::getIdxFromIdx(int idx) {
+template <typename T>
+glm::vec3 Grid<T>::getIdxFromIdx(int idx) {
     int wait = idx;
 
     int i = idx % resx;
@@ -51,7 +71,8 @@ glm::vec3 Grid::getIdxFromIdx(int idx) {
 }
 
 // TODO: CLEAN THIS UP AND MAKE SURE NO INDEX OUT OF BOUNDS
-int Grid::convertIdx(glm::vec3 idx) {
+template <typename T>
+int Grid<T>::convertIdx(glm::vec3 idx) {
     int result = idx[0] + idx[1] * resx + idx[2] * resx * resy;
     if (result >= data.size()) {
         std::cout << "Index is too large";
@@ -61,7 +82,8 @@ int Grid::convertIdx(glm::vec3 idx) {
     }
 }
 
-int Grid::convertIdx(int i, int j, int k) {
+template <typename T>
+int Grid<T>::convertIdx(int i, int j, int k) {
     return i + j * resx + k * resx * resy;
 }
 
@@ -69,8 +91,8 @@ int Grid::convertIdx(int i, int j, int k) {
 /* * * * * * * * * * * * * * * * * * * * * *
  * Neighborhood                            *
  * * * * * * * * * * * * * * * * * * * * * */
-
-std::vector<glm::vec3> Grid::getNeighborhood(glm::vec3 pos) {
+template <typename T>
+std::vector<glm::vec3> Grid<T>::getNeighborhood(glm::vec3 pos) {
     int idx = getIdx(pos);
     glm::vec3 ijk = getIdxFromIdx(idx);
 
@@ -103,28 +125,39 @@ std::vector<glm::vec3> Grid::getNeighborhood(glm::vec3 pos) {
 /* * * * * * * * * * * * * * * * * * * * * *
  * Setters and Getters                     *
  * * * * * * * * * * * * * * * * * * * * * */
-float Grid::operator[](const int idx) {
+template <typename T>
+float Grid<T>::operator[](const int idx) {
     return data[idx];
 }
 
-float Grid::operator[](const glm::vec3 &idx) {
+template <typename T>
+float Grid<T>::operator[](const glm::vec3 &idx) {
     return data[convertIdx(idx)];
 }
 
-void Grid::set(int i, int j, int k, float val) {
+template <typename T>
+void Grid<T>::set(int i, int j, int k, float val) {
     int idx = convertIdx(i, j, k);
     set(idx, val);
 }
 
-void Grid::set(glm::vec3 ijk, float val) {
+template <typename T>
+void Grid<T>::set(glm::vec3 ijk, float val) {
     int idx = convertIdx(ijk);
     set(idx, val);
 }
 
-void Grid::set(int idx, float val) {
+template <typename T>
+void Grid<T>::set(int idx, float val) {
     if (idx < 0) {
         std::cout << "Attemptting to set val at index out of bounds";
     } else {
         data[idx] = val;
     }
 }
+
+
+//int main() {
+////    std::cout << "HELLO";
+////    Grid<float> a = new Grid<float>();
+//}

@@ -17,11 +17,11 @@ MACGrid::MACGrid(int width, int height, int depth, float cellsize) {
     cellWidth = cellsize;
 
     // Initalize all of the grids
-    gridU = Grid(resx + 1, resy, resz);
-    gridV = Grid(resx, resy + 1, resz);
-    gridW = Grid(resx, resy, resz + 1);
-    gridP = Grid(resx, resy, resz);
-    gridType = Grid(resx, resy, resz);
+    gridU = new Grid<float>(resx + 1, resy, resz);
+    gridV = new Grid<float>(resx, resy + 1, resz);
+    gridW = new Grid<float>(resx, resy, resz + 1);
+    gridP = new Grid<float>(resx, resy, resz);
+    gridM = new Grid<bool>(resx, resy, resz);
 }
 
 
@@ -29,9 +29,9 @@ MACGrid::MACGrid(glm::vec3 resolution, glm::vec3 min, glm::vec3 max) {
     this->min = min;
     this->max = max;
 
-    resx = resolution[0];
-    resy = resolution[1];
-    resz = resolution[2];
+    resx = (int) resolution[0];
+    resy = (int) resolution[1];
+    resz = (int) resolution[2];
 
     glm::vec3 calibrate = max - min;
     float cellx = calibrate[0] / resx;
@@ -48,10 +48,11 @@ MACGrid::MACGrid(glm::vec3 resolution, glm::vec3 min, glm::vec3 max) {
     }
 
     // Initalize all of the grids
-    gridU = Grid(resx + 1, resy, resz);
-    gridV = Grid(resx, resy + 1, resz);
-    gridW = Grid(resx, resy, resz + 1);
-    gridP = Grid(resx, resy, resz);
+//    gridU = new Grid<float>(resx + 1, resy, resz);
+//    gridV = new Grid<float>(resx, resy + 1, resz);
+//    gridW = new Grid<float>(resx, resy, resz + 1);
+//    gridP = new Grid<float>(resx, resy, resz);
+//    gridM = new Grid<bool>(resx, resy, resz);
 }
 
 glm::vec3 MACGrid::getLocalP(glm::vec3 world) {
