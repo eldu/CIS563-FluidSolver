@@ -90,6 +90,7 @@ int Viewer::initialize() {
 
     fs->container->create();
 //    fs->fluid->create();
+//    fs->mGrid.create();
     fs->create();
 
     // Initalize Camera
@@ -123,6 +124,7 @@ int Viewer::run() {
             // Draw Objects
             fs->container->draw();
 //            fs->fluid->draw();
+//            fs->mGrid.draw();
             fs->draw();
 
             // Adjust Camera
@@ -145,6 +147,7 @@ int Viewer::run() {
 //    // Cleanup VBO
     fs->container->destroy();
 //    fs->fluid->destroy();
+//    fs->mGrid.destroy();
     fs->destroy();
 
     glDeleteVertexArrays(1, &VertexArrayID);

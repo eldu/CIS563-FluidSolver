@@ -1,4 +1,5 @@
 #include "MACGrid.hpp"
+#include <iostream>
 
 
 MACGrid::MACGrid() : MACGrid(10, 10, 10, 1) {}
@@ -72,10 +73,10 @@ glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
 }
 
 void MACGrid::create() {
-    MACGRID_IDX_COUNT = 6 * resx * resy * resz;
+    MACGRID_IDX_COUNT = 2 * resx * resy * resz;
     MACGRID_VERT_COUNT = (resx + 1) * (resy + 1) * (resz + 1);
 
-    GLuint MACGRID_idx[MACGRID_IDX_COUNT];
+    std::vector<GLuint> MACGRID_idx(MACGRID_IDX_COUNT);
     std::vector<glm::vec3> MACGRID_vert_pos(MACGRID_VERT_COUNT);
     std::vector<glm::vec3> MACGRID_vert_col(MACGRID_VERT_COUNT);
 
@@ -118,7 +119,7 @@ void MACGrid::create() {
 
     glGenBuffers(1, &indexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, indexbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * MACGRID_IDX_COUNT, MACGRID_idx, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(GLuint) * MACGRID_IDX_COUNT, &MACGRID_idx, GL_STATIC_DRAW);
 
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);

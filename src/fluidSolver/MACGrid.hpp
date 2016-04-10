@@ -5,6 +5,9 @@
 #include "../la.hpp"
 #include "math.h"
 #include "../geom/geom.hpp"
+#include "GL/glew.h"
+#include "glm/glm.hpp"
+
 
 class MACGrid : Geometry {
     private:

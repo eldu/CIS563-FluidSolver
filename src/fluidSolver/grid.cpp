@@ -15,7 +15,6 @@ Grid<float>::Grid(const int width, const int height, const int depth) {
     resy = height;
     resz = depth;
 
-//    data = new data<T>(resx * resy * resz);
     data.resize(resx * resy * resz);
 }
 
@@ -29,7 +28,6 @@ Grid<bool>::Grid(const int width, const int height, const int depth) {
     resy = height;
     resz = depth;
 
-//    data = new data<T>(resx * resy * resz);
     data.resize(resx * resy * resz);
 }
 
@@ -70,16 +68,16 @@ glm::vec3 Grid<T>::getIdxFromIdx(int idx) {
     return glm::vec3(i, j, k);
 }
 
-// TODO: CLEAN THIS UP AND MAKE SURE NO INDEX OUT OF BOUNDS
 template <typename T>
 int Grid<T>::convertIdx(glm::vec3 idx) {
     int result = idx[0] + idx[1] * resx + idx[2] * resx * resy;
-    if (result >= data.size()) {
-        std::cout << "Index is too large";
-        return -1;
-    } else {
-        result;
-    }
+    return result;
+//    if (result >= data.size() || result < 0) {
+//        std::cout << "Index is too large";
+//        return -1;
+//    } else {
+//        result;
+//    }
 }
 
 template <typename T>
@@ -117,8 +115,6 @@ std::vector<glm::vec3> Grid<T>::getNeighborhood(glm::vec3 pos) {
 //        }
     }
 
-
-
     return result;
 }
 
@@ -155,9 +151,3 @@ void Grid<T>::set(int idx, float val) {
         data[idx] = val;
     }
 }
-
-
-//int main() {
-////    std::cout << "HELLO";
-////    Grid<float> a = new Grid<float>();
-//}
