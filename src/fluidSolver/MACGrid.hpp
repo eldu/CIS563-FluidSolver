@@ -21,11 +21,11 @@ class MACGrid : Geometry {
         MACGrid(glm::vec3 resolution, glm::vec3 min, glm::vec3 max);
 
         // Grids
-        Grid<float>* gridU;
-        Grid<float>* gridV;
-        Grid<float>* gridW;
-        Grid<float>* gridP;
-        Grid<bool>* gridM; // Marker Grid
+        Grid* gridU;
+        Grid* gridV;
+        Grid* gridW;
+        Grid* gridP;
+        Grid* gridM; // Marker Grid
 
         float cellWidth;
         int resx, resy, resz;

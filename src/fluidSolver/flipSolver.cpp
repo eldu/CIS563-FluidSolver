@@ -42,105 +42,49 @@ void FLIPSolver::fillFluid() {
     numParticles = particles.size();
 }
 
-//void FLIPSolver::fillFluid() {
-//    float w = mGrid.cellWidth / numParticlesPerCell;
-
-////    particles.resize(mGrid.resx * mGrid.resy * mGrid.resz * numParticlesPerCell);
-
-//    for (int i = 0; i < mGrid.resx; i++) {
-//        for (int j = 0; j < mGrid.resy; j++) {
-//            for (int k = 0; k < mGrid.resz; k++) {
-//                float x = i * mGrid.cellWidth + mGrid.min[0];
-//                float y = j * mGrid.cellWidth + mGrid.min[1];
-//                float z = k * mGrid.cellWidth + mGrid.min[2];
-
-
-//                Particle* p1 = new Particle(glm::vec3(x + 0.25 * mGrid.cellWidth,
-//                                                     y + 0.25 * mGrid.cellWidth,
-//                                                     z + 0.25 * mGrid.cellWidth));
-
-//                Particle* p2 = new Particle(glm::vec3(x + 0.25 * mGrid.cellWidth,
-//                                                     y + 0.25 * mGrid.cellWidth,
-//                                                     z + 0.75 * mGrid.cellWidth));
-
-//                Particle* p3 = new Particle(glm::vec3(x + 0.25 * mGrid.cellWidth,
-//                                                     y + 0.75 * mGrid.cellWidth,
-//                                                     z + 0.25 * mGrid.cellWidth));
-
-//                Particle* p4 = new Particle(glm::vec3(x + 0.25 * mGrid.cellWidth,
-//                                                     y + 0.75 * mGrid.cellWidth,
-//                                                     z + 0.75 * mGrid.cellWidth));
-
-////                Particle* p5 = new Particle(glm::vec3(x + 0.75 * mGrid.cellWidth,
-////                                                     y + 0.25 * mGrid.cellWidth,
-////                                                     z + 0.25 * mGrid.cellWidth));
-
-////                Particle* p6 = new Particle(glm::vec3(x + 0.75 * mGrid.cellWidth,
-////                                                     y + 0.25 * mGrid.cellWidth,
-////                                                     z + 0.75 * mGrid.cellWidth));
-
-////                Particle* p7 = new Particle(glm::vec3(x + 0.75 * mGrid.cellWidth,
-////                                                     y + 0.75 * mGrid.cellWidth,
-////                                                     z + 0.25 * mGrid.cellWidth));
-
-////                Particle* p8 = new Particle(glm::vec3(x + 0.75 * mGrid.cellWidth,
-////                                                     y + 0.75 * mGrid.cellWidth,
-////                                                     z + 0.75 * mGrid.cellWidth));
-
-//                particles.push_back(p1);
-//                particles.push_back(p2);
-//                particles.push_back(p3);
-//                particles.push_back(p4);
-////                particles.push_back(p5);
-////                particles.push_back(p6);
-////                particles.push_back(p7);
-////                particles.push_back(p8);
-
-////                for (int n = 0; n < numParticlesPerCell; n++) {
-////                    Particle* p = new Particle(glm::vec3(x, y ,z);
-////                    p->gridCell = glm::vec3(i, j, k); // Save grid cell
-////                    particles.push_back(p);
-////                }
-//            }
-//        }
-//    }
-
-//    numParticles = particles.size();
-//}
-
 void FLIPSolver::update(float deltaTime) {
     for (Particle* p : particles) {
-
         // Gravity
         glm::vec3 g = glm::vec3(0, -GRAVITY, 0);
         p->pos = p->pos + p->vel * deltaTime + 0.5f * g * deltaTime * deltaTime;
     }
-
     create();
 }
 
 void FLIPSolver::constructMACGrid() {
-    glm::vec3 min = fluid->min;
-    glm::vec3 max = fluid->max;
+    glm::vec3 min = container->min;
+    glm::vec3 max = container->max;
 
     // glm::vec3 resolution = max - min;
     // TODO: Not hardcode this.... LOL....
-    glm::vec3 resolution = glm::vec3(3, 2, 2);
+    glm::vec3 resolution = glm::vec3(5, 5, 5);
 
     MACGrid(resolution, min, max);
 }
 
 void FLIPSolver::storeParticleVelocityToGrid() {
     for(Particle *p : particles) {
-//        glm::vec3 local = mGrid.getLocalPos(p->pos);
+
+        // Get Local Positions wrt grids
+        glm::vec3 lu = mGrid.getLocalU(p->pos);
+        glm::vec3 lv = mGrid.getLocalV(p->pos);
+        glm::vec3 lw = mGrid.getLocalW(p->pos);
+
+        // Splat
+        mGrid.gridU->splatVelocity(lu, p->vel[0], 0);
+        mGrid.gridV->splatVelocity(lv, p->vel[1], 1);
+        mGrid.gridW->splatVelocity(lw, p->vel[2], 2);
+
+
+//        glm::vec3 local = mGrid.grid(p->pos);
 
 //        std::vector<glm::vec3> neighborhoodU = mGrid.gridU.getNeighborhood(local);
 //        std::vector<glm::vec3> neighborhoodV = mGrid.gridV.getNeighborhood(local);
 //        std::vector<glm::vec3> neighborhoodW = mGrid.gridW.getNeighborhood(local);
 
-//        glm::vec3 deltaX = glm::abs(local - neighborhoodU[0] + glm::vec3(-0.5, 0, 0));
-//        glm::vec3 deltaY = glm::abs(local - neighborhoodV[0] + glm::vec3(0, -0.5, 0));
-//        glm::vec3 deltaZ = glm::abs(local - neighborhoodW[0] + glm::vec3(0, 0, -0.5));
+//        glm::vec3 deltaX = glm::abs(local - neighborhoodU[0]);
+//        glm::vec3 deltaY = glm::abs(local - neighborhoodV[0]);
+//        glm::vec3 deltaZ = glm::abs(local - neighborhoodW[0]);
 
 //        // TODO Check these indices
 //        for (glm::vec3 idx : neighborhoodU) {
@@ -149,9 +93,9 @@ void FLIPSolver::storeParticleVelocityToGrid() {
 //            glm::vec3 kernelZ = (idx - glm::vec3(0, 0, 0.5)) / deltaZ;
 //            // TODO: CLEAN THIS UP SERIOUSLY
 //            // FIX OVERRIDED [] OPERATOR
-//            mGrid.gridU.data[mGrid.gridU.getIdx(idx)] += kernelX[0] / 4.0; // TODO: Change hard coded average
-//            mGrid.gridV.data[mGrid.gridV.getIdx(idx)] += kernelY[1] / 4.0;
-//            mGrid.gridW.data[mGrid.gridW.getIdx(idx)] += kernelZ[2] / 4.0;
+//            mGrid.gridU.data[mGrid.gridU.getIdx(idx)] += kernelX[0] / weight; // TODO: Change hard coded average
+//            mGrid.gridV.data[mGrid.gridV.getIdx(idx)] += kernelY[1] / weight;
+//            mGrid.gridW.data[mGrid.gridW.getIdx(idx)] += kernelZ[2] / weight;
 //        }
     }
 

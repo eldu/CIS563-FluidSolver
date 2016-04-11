@@ -18,11 +18,11 @@ MACGrid::MACGrid(int width, int height, int depth, float cellsize) {
     cellWidth = cellsize;
 
     // Initalize all of the grids
-    gridU = new Grid<float>(resx + 1, resy, resz);
-    gridV = new Grid<float>(resx, resy + 1, resz);
-    gridW = new Grid<float>(resx, resy, resz + 1);
-    gridP = new Grid<float>(resx, resy, resz);
-    gridM = new Grid<bool>(resx, resy, resz);
+    gridU = new Grid(resx + 1, resy, resz);
+    gridV = new Grid(resx, resy + 1, resz);
+    gridW = new Grid(resx, resy, resz + 1);
+    gridP = new Grid(resx, resy, resz);
+    gridM = new Grid(resx, resy, resz);
 }
 
 
@@ -49,11 +49,11 @@ MACGrid::MACGrid(glm::vec3 resolution, glm::vec3 min, glm::vec3 max) {
     }
 
     // Initalize all of the grids
-//    gridU = new Grid<float>(resx + 1, resy, resz);
-//    gridV = new Grid<float>(resx, resy + 1, resz);
-//    gridW = new Grid<float>(resx, resy, resz + 1);
-//    gridP = new Grid<float>(resx, resy, resz);
-//    gridM = new Grid<bool>(resx, resy, resz);
+    gridU = new Grid(resx + 1, resy, resz);
+    gridV = new Grid(resx, resy + 1, resz);
+    gridW = new Grid(resx, resy, resz + 1);
+    gridP = new Grid(resx, resy, resz);
+    gridM = new Grid(resx, resy, resz);
 }
 
 glm::vec3 MACGrid::getLocalP(glm::vec3 world) {
@@ -73,7 +73,7 @@ glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
 }
 
 void MACGrid::create() {
-    MACGRID_IDX_COUNT = 2 * resx * resy * resz;
+    MACGRID_IDX_COUNT = 6 * resx * resy * resz;
     MACGRID_VERT_COUNT = (resx + 1) * (resy + 1) * (resz + 1);
 
     std::vector<GLuint> MACGRID_idx(MACGRID_IDX_COUNT);
@@ -106,13 +106,13 @@ void MACGrid::create() {
     for (int i = 0; i < resx; i++) {
         for (int j = 0; j < resy; j++) {
             for (int k = 0; k < resz; k++) {
-                int idx = i + j * resx + k * resx * resy;
+                int idx = i + j * (resx + 1) + k * (resx + 1) * (resy + 1);
                 MACGRID_idx[count++] = idx;
                 MACGRID_idx[count++] = idx + 1;
                 MACGRID_idx[count++] = idx;
-                MACGRID_idx[count++] = idx + resx;
+                MACGRID_idx[count++] = idx + resx + 1;
                 MACGRID_idx[count++] = idx;
-                MACGRID_idx[count++] = idx + resx * resy;
+                MACGRID_idx[count++] = idx + (resx + 1 * resy + 1);
             }
         }
     }

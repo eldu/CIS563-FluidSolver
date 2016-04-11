@@ -4,10 +4,11 @@
 #include "glm/glm.hpp"
 #include "../la.hpp"
 #include <vector>
+#include "fluidParticle.hpp"
 
 // Everything is implemented such that the grid cells go from 0 to 1.
 
-template <typename T>
+//template <typename T>
 class Grid {
 public:
     // Constructors
@@ -16,32 +17,42 @@ public:
 
     // Variables
     int resx, resy, resz; // Resolution of the grid
-    std::vector<T> data;
+    std::vector<float> data;
+    std::vector<float> numP; // number of particles affecting, useful for velocity splatting
 
     // May delete
-    float cellWidth;
+//    float cellWidth;
 
-    // Functions
 
+    void splatVelocity(glm::vec3 pos, float velocity, int dir);
+    float distance(glm::vec3 pos, glm::ivec3 IJK, int dir);
 
     // Get index equations
     int getIdx(glm::vec3 pos);
     int getIdx(float x, float y, float z);
-    glm::vec3 getIdxFromIdx(int idx);
 
-    int convertIdx(glm::vec3 idx);
+    glm::ivec3 getIJK(glm::vec3 pos);
+    glm::ivec3 getIJK(float x, float y, float z);
+    glm::ivec3 getIdxFromIdx(int idx);
+
+    int convertIdx(glm::ivec3 idx);
     int convertIdx(int i, int j, int k);
 
-    std::vector<glm::vec3> getNeighborhood(glm::vec3 pos);
+    bool inBounds(glm::ivec3 idx);
+
+    std::vector<glm::ivec3> getNeighborhood(glm::vec3 pos);
+
+    void averageGrid();
 
     // Getter functions
     float operator[](const int idx);
-    float operator[](const glm::vec3 &idx);
+    float operator[](const glm::ivec3 &idx);
 
     // Set Functions
     void set(int idx, float val);
     void set(int i, int j, int k, float val);
-    void set(glm::vec3 ijk, float val);
+    void set(glm::ivec3 ijk, float val);
+
 
 //    int main();
 
