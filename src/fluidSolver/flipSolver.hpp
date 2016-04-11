@@ -7,6 +7,9 @@
 #include "fluidSolver.hpp"
 #include "MACGrid.hpp"
 #include "math.h"
+#include "tbb/tbb.h"
+
+using namespace tbb;
 
 class FLIPSolver : FluidSolver {
 public:
@@ -22,7 +25,7 @@ public:
     MACGrid mGrid;
 
     // NUmber of Particles Per Cell
-    int numParticlesPerCell = 4;
+//    int numParticlesPerCell = 4;
 
     // Create the MACGrid
     void constructMACGrid();
@@ -44,7 +47,9 @@ public:
     // gridPos to get the correct index (i,j,k). Using this index, we interpolate
     // separately for each component. Think of how you want to design your function
     // calls for good modularity and code reuse
-    glm::vec3 interpolateVelocity(const glm::vec3& pos, MACGrid& m);
+    glm::vec3 interpolateVelocity(const glm::vec3& pos);
+
+    void transferVelocityToParticle();
 
     void fillFluid();
     void update(float deltaTime);

@@ -72,6 +72,59 @@ glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
     return (world - min) / cellWidth + glm::vec3(0.5f, 0.5f, 0.f);
 }
 
+
+void MACGrid::markEdgeCells() {
+    // Mark Edge Cells Once
+    for (int i = 0; i < resx; i++) {
+        for (int j = 0; j < resy; j++) {
+            int idx0 = gridM->convertIdx(i, j, 0);
+            int idxZ = gridM->convertIdx(i, j, resz - 1);
+            gridM->set(idx0, 2.f);
+            gridM->set(idxZ, 2.f);
+        }
+
+        for (int k = 0; k < resz; k++) {
+            int idx0 = gridM->convertIdx(i, 0, k);
+            int idxY = gridM->convertIdx(i, resy - 1, k);
+            gridM->set(idx0, 2.f);
+            gridM->set(idxY, 2.f);
+        }
+    }
+
+    for (int j = 0; j < resy; j++) {
+        for (int k = 0; k < resz; k++) {
+            int idx0 = gridM->convertIdx(0, j, k);
+            int idxX = gridM->convertIdx(resx - 1, j, k);
+            gridM->set(idx0, 2.f);
+            gridM->set(idxX, 2.f);
+        }
+    }
+}
+
+// ENFORCE BOUNDARY CONDITIONS
+// There should be no flow into or out of solid cells.
+// If u is the velocity in the fluid cell and n is the normal
+// to the neighboring stationary solid, u·n=0. So, if a fluid cell
+// has a solid neighboring cell, set the velocity component that
+// points into a neighboring solid cell to zero
+void MACGrid::enforceBoundaryConditions() {
+    for (int i = 0; i < resx; i++) {
+        for (int j = 0; j < resy; j++) {
+            for (int k = 0; k < resz; k++) {
+                int idx = gridM->getIdx(i, j, k);
+                // If I'm a solid cell, then the velocities at ijk of my cell,
+                // actually correspond to the cells going into me.
+                if (fequal(gridM->get(idx), 2.f)) {
+                    gridU->set(idx, 0.f);
+                    gridV->set(idx, 0.f);
+                    gridW->set(idx, 0.f);
+                }
+            }
+
+        }
+    }
+}
+
 void MACGrid::create() {
     MACGRID_IDX_COUNT = 6 * resx * resy * resz;
     MACGRID_VERT_COUNT = (resx + 1) * (resy + 1) * (resz + 1);

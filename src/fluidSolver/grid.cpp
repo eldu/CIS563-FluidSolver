@@ -75,18 +75,14 @@ glm::ivec3 Grid::getIJK(float x, float y, float z) {
 /* * * * * * * * * * * * * * * * * * * * * * * *
  * Functions          *
  * * * * * * * * * * * * * * * * * * * * * * * */
-
-
-
 // template <typename T>
 void Grid::splatVelocity(glm::vec3 pos, float velocity, int dir) {
     glm::ivec3 IJK = getIJK(pos);
-
     std::vector<glm::ivec3> neighborhood = getNeighborhood(IJK);
 
     for (glm::ivec3 cell : neighborhood) {
         float dist = fabs(pos[dir] - cell[dir]);
-        int idx = getIdx(cell);
+        int idx = convertIdx(cell);
 
         data[idx] += velocity * dist;
         numP[idx]++; // Update Number of Particles
@@ -94,19 +90,59 @@ void Grid::splatVelocity(glm::vec3 pos, float velocity, int dir) {
 }
 
 void Grid::averageGrid() {
-    for (int i = 0; i < data.length; i++) {
+    for (int i = 0; i < data.size(); i++) {
         if (numP[i] > 1) {
             data[i] /= numP[i];
         }
     }
 }
 
-// pos: Local Position
-// idx: Index want to splat
-//float Grid::distance(glm::vec3 pos, glm::ivec3 IJK, int dir) {
-//    return fabs(pos[direction] - idx[direction]); // Range: [0, 1)
-//}
+void Grid::clearGrid() {
+    for (int i = 0; i < data.size(); i++) {
+            numP[i] = 0;
+            data[i] = 0;
+    }
+}
 
+void Grid::clearMarkers() {
+    for (int i = 1; i < resx - 1; i++) {
+        for (int j = 1; j < resy - 1; j++) {
+            for (int k = 1; k < resz - 1; k++) {
+                data[convertIdx(i, j, k)] = 0.f;
+            }
+        }
+    }
+}
+
+float Grid::TriLERP(glm::vec3 pos) {
+    glm::ivec3 ijk = getIJK(pos);
+    glm::vec3 dist = glm::abs(pos - glm::vec3(ijk));
+
+    // INTERPOLATE ON X
+    // 0, 1
+    float cU00 = data[convertIdx(ijk)] * (1.0 - dist[0])
+                 + data[convertIdx(ijk[0] + 1, ijk[1], ijk[2])] * dist[0];
+    // 7, 2
+    float cU01 = data[convertIdx(ijk[0], ijk[1], ijk[2] + 1)] * (1.0 - dist[0])
+                 + data[convertIdx(ijk[0] + 1, ijk[1] + 1, ijk[2])] * dist[0];
+    // 5, 3
+    float cU10 = data[convertIdx(ijk[0], ijk[1] + 1, ijk[2])] * (1.0 - dist[0])
+                 + data[convertIdx(ijk[0] + 1, ijk[1], ijk[2] + 1)] * dist[0];
+    // 6, 4
+    float cU11 = data[convertIdx(ijk[0], ijk[1] + 1, ijk[2] + 1)] * (1.0 - dist[0])
+                 + data[convertIdx(ijk[0] + 1, ijk[1] + 1, ijk[2] + 1)] * dist[0];
+
+    // INTERPOLATE ON Y
+    // U
+    float cU0 = cU00 * (1 - dist[1]) + cU10 * dist[1];
+    float cU1 = cU01 * (1 - dist[1]) + cU11 * dist[1];
+
+    // INTERPOLATE ON Z
+    // U
+    float cU = cU0 * (1 - dist[2]) + cU1 * dist[2];
+
+    return cU;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * *
  * Index Manipulators  (input index)           *
@@ -145,7 +181,7 @@ int Grid::convertIdx(int i, int j, int k) {
  * Neighborhood                            *
  * * * * * * * * * * * * * * * * * * * * * */
 // template <typename T>
-std::vector<glm::ivec3> Grid::getNeighborhood(glm::vec3 ijk) {
+std::vector<glm::ivec3> Grid::getNeighborhood(glm::ivec3 ijk) {
     std::vector<glm::ivec3> result;
     glm::ivec3 possible[8];
 
@@ -177,6 +213,10 @@ bool Grid::inBounds(glm::ivec3 idx) {
 /* * * * * * * * * * * * * * * * * * * * * *
  * Setters and Getters                     *
  * * * * * * * * * * * * * * * * * * * * * */
+float Grid::get(const int idx) {
+    return data[idx];
+}
+
 // template <typename T>
 float Grid::operator[](const int idx) {
     return data[idx];

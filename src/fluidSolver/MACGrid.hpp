@@ -7,6 +7,7 @@
 #include "../geom/geom.hpp"
 #include "GL/glew.h"
 #include "glm/glm.hpp"
+#include "tbb/tbb.h"
 
 
 class MACGrid : Geometry {
@@ -31,6 +32,9 @@ class MACGrid : Geometry {
         int resx, resy, resz;
         glm::vec3 min, max;
 
+        // Markers
+        void markEdgeCells();
+        void enforceBoundaryConditions();
 
         // Get Local Positions
         glm::vec3 getLocalP(glm::vec3 world);

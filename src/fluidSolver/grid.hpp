@@ -23,7 +23,6 @@ public:
     // May delete
 //    float cellWidth;
 
-
     void splatVelocity(glm::vec3 pos, float velocity, int dir);
     float distance(glm::vec3 pos, glm::ivec3 IJK, int dir);
 
@@ -39,22 +38,25 @@ public:
     int convertIdx(int i, int j, int k);
 
     bool inBounds(glm::ivec3 idx);
-
-    std::vector<glm::ivec3> getNeighborhood(glm::vec3 pos);
+    std::vector<glm::ivec3> getNeighborhood(glm::ivec3 ijk);
 
     void averageGrid();
+    void clearGrid();
+    void clearMarkers();
+
+    float TriLERP(glm::vec3 pos);
+
+    void markWalls();
 
     // Getter functions
     float operator[](const int idx);
     float operator[](const glm::ivec3 &idx);
+    float get(const int idx);
 
     // Set Functions
     void set(int idx, float val);
     void set(int i, int j, int k, float val);
     void set(glm::ivec3 ijk, float val);
-
-
-//    int main();
 
 private:
 };
