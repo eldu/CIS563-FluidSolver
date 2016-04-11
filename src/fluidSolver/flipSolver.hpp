@@ -25,9 +25,6 @@ public:
 
     MACGrid mGrid;
 
-    // NUmber of Particles Per Cell
-//    int numParticlesPerCell = 4;
-
     // Create the MACGrid
     void constructMACGrid();
 

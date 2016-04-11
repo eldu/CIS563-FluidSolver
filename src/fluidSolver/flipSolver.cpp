@@ -42,18 +42,9 @@ void FLIPSolver::fillFluid() {
     numParticles = particles.size();
 }
 
-//void FLIPSolver::update(float deltaTime) {
-//    for (Particle* p : particles) {
-//        // Gravity
-//        glm::vec3 g = glm::vec3(0, -GRAVITY, 0);
-//        p->pos = p->pos + p->vel * deltaTime + 0.5f * g * deltaTime * deltaTime;
-//    }
-//    create();
-//}
-
 void FLIPSolver::update(float deltaTime) {
-#define PIC
-#ifdef PIC
+#define WAIT
+#ifdef WAIT
     mGrid.gridM->clearMarkers();
 
     // MARK FLUID
@@ -72,7 +63,7 @@ void FLIPSolver::update(float deltaTime) {
     // to the neighboring stationary solid, u·n=0. So, if a fluid cell
     // has a solid neighboring cell, set the velocity component that
     // points into a neighboring solid cell to zero
-    mGrid.enforceBoundaryConditions();
+//    mGrid.enforceBoundaryConditions();
 
     // RESOLVE FORCES ON GRID
     // GRAVITY

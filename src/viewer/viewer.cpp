@@ -72,7 +72,7 @@ int Viewer::initialize() {
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
-                                    "../src/shaders/ColorFragmentShader.glsl" );
+                             "../src/shaders/ColorFragmentShader.glsl");
 
 //        // Create and compile our GLSL program from the shaders
 //        GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
@@ -124,7 +124,7 @@ int Viewer::run() {
             fs->container->draw();
 //            fs->fluid->draw();
 //            fs->mGrid.draw();
-            fs->draw();
+//            fs->draw();
 
             // Adjust Camera
 //            camera->recomputeCameraFromInputs(window);
