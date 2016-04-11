@@ -72,33 +72,41 @@ glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
     return (world - min) / cellWidth + glm::vec3(0.5f, 0.5f, 0.f);
 }
 
+void MACGrid::addGravity(float deltaTime) {
+    for (int n = 0; n < resx * resy * resz; n++) {
+//        if (!fqual(gridM->get(idx), 2.f)) {
+
+//        }
+        gridV->add(n, 0.5 * -GRAVITY * deltaTime);
+    }
+}
 
 void MACGrid::markEdgeCells() {
     // Mark Edge Cells Once
-    for (int i = 0; i < resx; i++) {
-        for (int j = 0; j < resy; j++) {
-            int idx0 = gridM->convertIdx(i, j, 0);
-            int idxZ = gridM->convertIdx(i, j, resz - 1);
-            gridM->set(idx0, 2.f);
-            gridM->set(idxZ, 2.f);
-        }
+//    for (int i = 0; i < resx; i++) {
+//        for (int j = 0; j < resy; j++) {
+//            int idx0 = gridM->convertIdx(i, j, 0);
+//            int idxZ = gridM->convertIdx(i, j, resz - 1);
+//            gridM->set(idx0, 2.f);
+//            gridM->set(idxZ, 2.f);
+//        }
 
-        for (int k = 0; k < resz; k++) {
-            int idx0 = gridM->convertIdx(i, 0, k);
-            int idxY = gridM->convertIdx(i, resy - 1, k);
-            gridM->set(idx0, 2.f);
-            gridM->set(idxY, 2.f);
-        }
-    }
+//        for (int k = 0; k < resz; k++) {
+//            int idx0 = gridM->convertIdx(i, 0, k);
+//            int idxY = gridM->convertIdx(i, resy - 1, k);
+//            gridM->set(idx0, 2.f);
+//            gridM->set(idxY, 2.f);
+//        }
+//    }
 
-    for (int j = 0; j < resy; j++) {
-        for (int k = 0; k < resz; k++) {
-            int idx0 = gridM->convertIdx(0, j, k);
-            int idxX = gridM->convertIdx(resx - 1, j, k);
-            gridM->set(idx0, 2.f);
-            gridM->set(idxX, 2.f);
-        }
-    }
+//    for (int j = 0; j < resy; j++) {
+//        for (int k = 0; k < resz; k++) {
+//            int idx0 = gridM->convertIdx(0, j, k);
+//            int idxX = gridM->convertIdx(resx - 1, j, k);
+//            gridM->set(idx0, 2.f);
+//            gridM->set(idxX, 2.f);
+//        }
+//    }
 }
 
 // ENFORCE BOUNDARY CONDITIONS

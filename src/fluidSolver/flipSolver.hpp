@@ -8,6 +8,7 @@
 #include "MACGrid.hpp"
 #include "math.h"
 #include "tbb/tbb.h"
+#include <iostream>
 
 using namespace tbb;
 
@@ -48,6 +49,8 @@ public:
     // separately for each component. Think of how you want to design your function
     // calls for good modularity and code reuse
     glm::vec3 interpolateVelocity(const glm::vec3& pos);
+
+    void extrapolateVelocity();
 
     void transferVelocityToParticle();
 

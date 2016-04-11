@@ -58,6 +58,9 @@ public:
     void set(int i, int j, int k, float val);
     void set(glm::ivec3 ijk, float val);
 
+    // Add functions
+    void add(int idx, float val);
+
 private:
 };
 

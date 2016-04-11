@@ -36,6 +36,9 @@ class MACGrid : Geometry {
         void markEdgeCells();
         void enforceBoundaryConditions();
 
+        // Forces
+        void addGravity(float deltaTime);
+
         // Get Local Positions
         glm::vec3 getLocalP(glm::vec3 world);
         glm::vec3 getLocalU(glm::vec3 world);

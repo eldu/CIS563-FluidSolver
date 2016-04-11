@@ -242,8 +242,16 @@ void Grid::set(glm::ivec3 ijk, float val) {
 // template <typename T>
 void Grid::set(int idx, float val) {
     if (idx < 0) {
-        std::cout << "Attemptting to set val at index out of bounds";
+        std::cout << "Attempting to set val at index out of bounds";
     } else {
         data[idx] = val;
+    }
+}
+
+void Grid::add(int idx, float val) {
+    if (idx < 0) {
+        std::cout << "Attempting to add val at index out of bounds";
+    } else {
+        data[idx] += val;
     }
 }

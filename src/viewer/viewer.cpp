@@ -78,7 +78,6 @@ int Viewer::initialize() {
 //        GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
 //                                        "../src/shaders/SimpleFragmentShader.glsl" );
 
-
     // Get a handle for our "cameraMat" uniform
     matrixID = glGetUniformLocation(programID, "cameraMat");
 

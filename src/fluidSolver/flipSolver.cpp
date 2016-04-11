@@ -27,8 +27,6 @@ FLIPSolver::~FLIPSolver() {
 void FLIPSolver::init() {
     fillFluid();
     constructMACGrid();
-
-
 }
 
 void FLIPSolver::fillFluid() {
@@ -61,7 +59,8 @@ void FLIPSolver::update(float deltaTime) {
     // MARK FLUID
     for (Particle* p : particles) {
         glm::vec3 local = mGrid.getLocalP(p->pos);
-        mGrid.gridM->set(mGrid.gridM->getIdx(local), 1.f); // MARK FLUID
+        std::cout << "(" << local[0] << " " << local[1] << " " << local[2] << ") ";
+//        mGrid.gridM->set(mGrid.gridM->getIdx(local), 1.f); // MARK FLUID
     }
 
     // TRANSFER PARTICLE TO GRID
@@ -77,14 +76,21 @@ void FLIPSolver::update(float deltaTime) {
 
     // RESOLVE FORCES ON GRID
     // GRAVITY
+    mGrid.addGravity(deltaTime);
     // PRESSURE
 
     // EXTRAPOLATE VELOCITY
 
+
+
     // TRANSFER MACGRID TO PARTICLE
+    transferVelocityToParticle();
         // FIND PIC VELOCITY
         // FIND FLIP VELOCITY
     // ADVECT
+    for (Particle* p : particles) {
+        p->pos = p->pos + p->vel * deltaTime;
+    }
     // COLLISISON DETECTION AND RESPONCE
 #else
     // SIMPLE
@@ -107,6 +113,10 @@ void FLIPSolver::constructMACGrid() {
     glm::vec3 resolution = glm::vec3(5, 5, 5);
 
     MACGrid(resolution, min, max);
+}
+
+void FLIPSolver::extrapolateVelocity() {
+
 }
 
 void FLIPSolver::storeParticleVelocityToGrid() {
@@ -160,9 +170,9 @@ void FLIPSolver::storeParticleVelocityToGrid() {
 
 // This is a lie. I'm sorry.
 void FLIPSolver::transferVelocityToParticle() {
-//    for (Particle *p : particles) {
-//        p->vel = interpolateVelocity(p->pos);
-//    }
+    for (Particle *p : particles) {
+        p->vel = interpolateVelocity(p->pos);
+    }
 }
 
 // I messed up my overloaded functions so it has to be like this for now
