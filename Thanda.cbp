@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="Thanda" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="Thanda">
+         <Option output="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Thanda" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DTW_STATIC" />
+            <Add option="-DTW_NO_LIB_PRAGMA" />
+            <Add option="-DTW_NO_DIRECT3D" />
+            <Add option="-DGLEW_STATIC" />
+            <Add option="-D_CRT_SECURE_NO_WARNINGS" />
+            <Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1" />
+            <Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.0.2/include" />
+            <Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include" />
+            <Add directory="/Library/Frameworks" />
+            <Add directory="/System/Library/Frameworks" />
+            <Add directory="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/nuparu/include" />
+            <Add directory="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/nuparu/src" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 Thanda" />
+            <CompileFile command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="Thanda/fast">
+         <Option output="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Thanda" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DTW_STATIC" />
+            <Add option="-DTW_NO_LIB_PRAGMA" />
+            <Add option="-DTW_NO_DIRECT3D" />
+            <Add option="-DGLEW_STATIC" />
+            <Add option="-D_CRT_SECURE_NO_WARNINGS" />
+            <Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1" />
+            <Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/7.0.2/include" />
+            <Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include" />
+            <Add directory="/Library/Frameworks" />
+            <Add directory="/System/Library/Frameworks" />
+            <Add directory="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/nuparu/include" />
+            <Add directory="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/nuparu/src" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 Thanda/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="edit_cache">
+         <Option working_dir="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/camera.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/camera.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/controls.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/controls.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/input.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/camera/input.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/MACGrid.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/MACGrid.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/flipSolver.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/flipSolver.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/fluidParticle.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/fluidParticle.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/fluidSolver.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/fluidSolver.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/grid.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/fluidSolver/grid.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/geom/cube.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/geom/cube.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/geom/geom.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/geom/geom.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/geom/triangle.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/geom/triangle.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/la.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/la.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/main.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/main.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/scene/jsonreader.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/scene/jsonreader.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/scene/scene.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/scene/scene.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/shaders/shader.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/shaders/shader.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/viewer/viewer.cpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/src/viewer/viewer.hpp">
+         <Option target="Thanda"/>
+      </Unit>
+      <Unit filename="/Users/Ellen/Desktop/CIS_563/CIS563-FluidSolver/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

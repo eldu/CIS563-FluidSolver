@@ -71,8 +71,8 @@ int Viewer::initialize() {
     glBindVertexArray(VertexArrayID);
 
     // Create and compile our GLSL program from the shaders
-    programID = LoadShaders( "../src/shaders/TransformVertexShader.glsl",
-                             "../src/shaders/ColorFragmentShader.glsl");
+    programID = LoadShaders( "src/shaders/TransformVertexShader.glsl",
+                             "src/shaders/ColorFragmentShader.glsl");
 
 //        // Create and compile our GLSL program from the shaders
 //        GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
@@ -85,7 +85,7 @@ int Viewer::initialize() {
     // TODO Make it so I don't have to hard code the filepath
     // Change with user input in the viewer or something;
     JSONReader* reader;
-    fs = reader->parse("../src/scene/scene.json");
+    fs = reader->parse("src/scene/scene.json");
 
     fs->container->create();
 //    fs->fluid->create();
@@ -124,7 +124,7 @@ int Viewer::run() {
             fs->container->draw();
 //            fs->fluid->draw();
 //            fs->mGrid.draw();
-//            fs->draw();
+            fs->draw();
 
             // Adjust Camera
 //            camera->recomputeCameraFromInputs(window);
