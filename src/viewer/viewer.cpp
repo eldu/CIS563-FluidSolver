@@ -98,7 +98,7 @@ int Viewer::initialize() {
 }
 
 int Viewer::run() {
-    double fps = 20.0f;
+    double fps = 24.0f;
     double lastTime = glfwGetTime();
 
     do{

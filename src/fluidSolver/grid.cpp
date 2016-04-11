@@ -203,6 +203,23 @@ std::vector<glm::ivec3> Grid::getNeighborhood(glm::ivec3 ijk) {
     return result;
 }
 
+std::vector<int> Grid::getFaceNeighbors(int i, int j, int k) {
+    std::vector<int> result;
+    for (int a = -1; a < 2; a += 2) {
+        for (int b = 0; b < 3; b++) {
+            glm::ivec3 poss = glm::ivec3(i, j, k);
+            poss[b] += a;
+
+            int cand = convertIdx(poss);
+
+            if (cand >= 0) {
+                result.push_back(cand);
+            }
+        }
+    }
+    return result;
+}
+
 // template <typename T>
 bool Grid::inBounds(glm::ivec3 idx) {
     return idx[0] >= 0 && idx[0] < resx &&

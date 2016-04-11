@@ -39,6 +39,7 @@ public:
 
     bool inBounds(glm::ivec3 idx);
     std::vector<glm::ivec3> getNeighborhood(glm::ivec3 ijk);
+    std::vector<int> getFaceNeighbors(int i, int j, int k);
 
     void averageGrid();
     void clearGrid();

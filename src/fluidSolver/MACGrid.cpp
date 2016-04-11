@@ -72,6 +72,63 @@ glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
     return (world - min) / cellWidth + glm::vec3(0.5f, 0.5f, 0.f);
 }
 
+
+void MACGrid::velocityExtrapolation() {
+    for (int i = 0; i < resx; i++) {
+        for (int j = 0; j < resy; j++) {
+            for (int k = 0; k < resz; k++) {
+                int idx = gridM->convertIdx(i, j, k);
+
+                if (fequal(gridM->get(idx), 0.f)) {
+                    // Face Neighbors
+                    for (int nidx : gridM->getFaceNeighbors(i, j, k)) {
+                        if (gridM->get(nidx) == 1) { // If neighbor is fluid, mark fluid
+                               gridM->set(idx, 1.f);
+                               break;
+                        }
+                    }
+                    // Everything is default 0.f = empty or near solid
+                    // 2.f = solid (the boundaries)
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < resx; i++) {
+        for (int j = 0; j < resy; j++) {
+            for (int k = 0; k < resz; k++) {
+                int idx = gridM->convertIdx(i, j, k);
+
+                if (fequal(gridM->get(idx), 0.f)) {
+                    float numFluid = 0.f;
+                    float U = 0.f;
+                    float V = 0.f;
+                    float W = 0.f;
+
+                    // Face Neighbors
+                    for (int nidx : gridM->getFaceNeighbors(i, j, k)) {
+                        if (gridM->get(nidx) == 1) {
+                            // Neighbor is fluid
+                            // TODO: Probably will end up not working.
+                            numFluid++;
+                            U += gridU->get(nidx);
+                            V += gridV->get(nidx);
+                            W += gridW->get(nidx);
+                        }
+                    }
+
+                    // If you have fluid neighbors, get the average of their velocities
+                    if (numFluid > 0) {
+                        gridU->set(idx, U / numFluid);
+                        gridV->set(idx, V / numFluid);
+                        gridW->set(idx, W / numFluid);
+                    }
+                }
+            }
+        }
+    }
+}
+
 void MACGrid::addGravity(float deltaTime) {
     for (int n = 0; n < resx * resy * resz; n++) {
 //        if (!fqual(gridM->get(idx), 2.f)) {

@@ -50,8 +50,8 @@ void FLIPSolver::update(float deltaTime) {
     // MARK FLUID
     for (Particle* p : particles) {
         glm::vec3 local = mGrid.getLocalP(p->pos);
-        std::cout << "(" << local[0] << " " << local[1] << " " << local[2] << ") ";
-//        mGrid.gridM->set(mGrid.gridM->getIdx(local), 1.f); // MARK FLUID
+//        std::cout << "(" << local[0] << " " << local[1] << " " << local[2] << ") ";
+        mGrid.gridM->set(mGrid.gridM->getIdx(local), 1.f); // MARK FLUID
     }
 
     // TRANSFER PARTICLE TO GRID
@@ -66,13 +66,13 @@ void FLIPSolver::update(float deltaTime) {
 //    mGrid.enforceBoundaryConditions();
 
     // RESOLVE FORCES ON GRID
-    // GRAVITY
+    // GRAVITY (This is not right. What have I done. lol...)
     mGrid.addGravity(deltaTime);
+
     // PRESSURE
 
     // EXTRAPOLATE VELOCITY
-
-
+    mGrid.velocityExtrapolation();
 
     // TRANSFER MACGRID TO PARTICLE
     transferVelocityToParticle();
@@ -80,9 +80,20 @@ void FLIPSolver::update(float deltaTime) {
         // FIND FLIP VELOCITY
     // ADVECT
     for (Particle* p : particles) {
-        p->pos = p->pos + p->vel * deltaTime;
+        glm::vec3 newPos = p->pos + p->vel * deltaTime;
+
+        if (glm::any(glm::lessThan(newPos, container->min)) || glm::any(glm::greaterThan(newPos, container->max))) {
+            p->vel = glm::vec3();
+        } else {
+            p->pos = newPos;
+        }
+
+
     }
     // COLLISISON DETECTION AND RESPONCE
+
+
+
 #else
     // SIMPLE
     for (Particle* p : particles) {

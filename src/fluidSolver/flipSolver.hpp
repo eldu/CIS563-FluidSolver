@@ -9,6 +9,8 @@
 #include "math.h"
 #include "tbb/tbb.h"
 #include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 using namespace tbb;
 

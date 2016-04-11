@@ -36,6 +36,8 @@ class MACGrid : Geometry {
         void markEdgeCells();
         void enforceBoundaryConditions();
 
+        void velocityExtrapolation();
+
         // Forces
         void addGravity(float deltaTime);
 
