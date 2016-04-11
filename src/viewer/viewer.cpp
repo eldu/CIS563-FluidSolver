@@ -127,7 +127,7 @@ int Viewer::run() {
             fs->draw();
 
             // Adjust Camera
-//            camera->recomputeCameraFromInputs(window);
+            camera->recomputeCameraFromInputs(window);
 
             // Update Fluid
             fs->update(deltaTime);

@@ -55,6 +55,8 @@ FLIPSolver* JSONReader::parseJSON(const Json::Value &root) {
 
     Cube* container = new Cube(scaleX, scaleY, scaleZ);
     Cube* fluid = new Cube(boundX, boundY, boundZ);
+    fluid->min += glm::vec3(0.f, 1.f, 0.f);
+    fluid->max += glm::vec3(0.f, 1.f, 0.f);
 
     return new FLIPSolver(container, fluid);
 }

@@ -25,7 +25,8 @@ public:
     Cube* container;
     Cube* fluid;
 
-    MACGrid mGrid;
+    MACGrid oldGrid;
+    MACGrid newGrid;
 
     // Create the MACGrid
     void constructMACGrid();

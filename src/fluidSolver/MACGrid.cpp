@@ -140,30 +140,30 @@ void MACGrid::addGravity(float deltaTime) {
 
 void MACGrid::markEdgeCells() {
     // Mark Edge Cells Once
-//    for (int i = 0; i < resx; i++) {
-//        for (int j = 0; j < resy; j++) {
-//            int idx0 = gridM->convertIdx(i, j, 0);
-//            int idxZ = gridM->convertIdx(i, j, resz - 1);
-//            gridM->set(idx0, 2.f);
-//            gridM->set(idxZ, 2.f);
-//        }
+    for (int i = 0; i < resx; i++) {
+        for (int j = 0; j < resy; j++) {
+            int idx0 = gridM->convertIdx(i, j, 0);
+            int idxZ = gridM->convertIdx(i, j, resz - 1);
+            gridM->set(idx0, 2.f);
+            gridM->set(idxZ, 2.f);
+        }
 
-//        for (int k = 0; k < resz; k++) {
-//            int idx0 = gridM->convertIdx(i, 0, k);
-//            int idxY = gridM->convertIdx(i, resy - 1, k);
-//            gridM->set(idx0, 2.f);
-//            gridM->set(idxY, 2.f);
-//        }
-//    }
+        for (int k = 0; k < resz; k++) {
+            int idx0 = gridM->convertIdx(i, 0, k);
+            int idxY = gridM->convertIdx(i, resy - 1, k);
+            gridM->set(idx0, 2.f);
+            gridM->set(idxY, 2.f);
+        }
+    }
 
-//    for (int j = 0; j < resy; j++) {
-//        for (int k = 0; k < resz; k++) {
-//            int idx0 = gridM->convertIdx(0, j, k);
-//            int idxX = gridM->convertIdx(resx - 1, j, k);
-//            gridM->set(idx0, 2.f);
-//            gridM->set(idxX, 2.f);
-//        }
-//    }
+    for (int j = 0; j < resy; j++) {
+        for (int k = 0; k < resz; k++) {
+            int idx0 = gridM->convertIdx(0, j, k);
+            int idxX = gridM->convertIdx(resx - 1, j, k);
+            gridM->set(idx0, 2.f);
+            gridM->set(idxX, 2.f);
+        }
+    }
 }
 
 // ENFORCE BOUNDARY CONDITIONS
