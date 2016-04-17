@@ -43,6 +43,7 @@ void FLIPSolver::fillFluid() {
 }
 
 void FLIPSolver::update(float deltaTime) {
+
 #define WAIT
 #ifdef WAIT
     newGrid.gridM->clearMarkers();

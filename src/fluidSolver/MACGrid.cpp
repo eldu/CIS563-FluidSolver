@@ -23,6 +23,7 @@ MACGrid::MACGrid(int width, int height, int depth, float cellsize) {
     gridW = new Grid(resx, resy, resz + 1);
     gridP = new Grid(resx, resy, resz);
     gridM = new Grid(resx, resy, resz);
+    gridA = new Grid(resx, resy, resz);
 }
 
 
@@ -71,6 +72,136 @@ glm::vec3 MACGrid::getLocalV(glm::vec3 world) {
 glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
     return (world - min) / cellWidth + glm::vec3(0.5f, 0.5f, 0.f);
 }
+
+
+// Setting up matrix entries for the pressure equations
+void MACGrid::pressureSolve(float dt, float dx) {
+   int n = gridM->data.size();
+   Eigen::VectorXd x(n), b(n);
+   Eigen::SparseMatrix<float> A(n,n);
+
+   // Set everything to zero otherwise we'll get weird NaNs
+   A.setZero();
+   x.setZero;
+   b.setZero;
+
+   // fill A and b
+   float rho = 1.0f;
+   float dx = 1.0f; // TODO: Actually cell size?
+   float Ascale = dt / (rho * dx * dx);
+   float Bscale = 1.0f / dx;
+
+   // Fill A
+   typedef Triplet<float> T;
+   std::vector<T> tripleList;
+
+   for (int i = 0; i < resx; i++) {
+       for (int j = 0; j < resy; j++) {
+           for (int k = 0; k < resz; k++) {
+               int idx = gridM->convertIdx(i, j, k);
+               int idxplusi = gridM->convertIdx(i + 1, j, k);
+               int idxplusj = gridM->convertIdx(i, j + 1, k);
+               int idxplusk = gridM->convertIdx(i, j, k + 1);
+               int idxminusi = gridM->convertIdx(i - 1, j, k);
+
+               int type = (int) gridM->get(idx);
+               int typeplusi = (int) gridM->get(idxplusi);
+               int typeplusj = (int) gridM->get(idxplusj);
+               int typeplusk = (int) gridM->get(idxplusk);
+               int typeminusi = (int) gridM->get(idxminusi);
+
+               // A
+               if (type == FLUID) {
+                   if (typeplusi == FLUID) {
+                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                       tripleList.push_back(Eigen::Triple<float>(idxplusi, idx, Ascale));
+                       tripleList.push_back(Eigen::Triple<float>(idx, idxplusi, -Ascale)); // TODO: CHECK
+                   } else if (typeplusi == EMPTY) {
+                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                   }
+
+                   if (typeplusj == FLUID) {
+                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                       tripleList.push_back(Eigen::Triple<float>(idxplusj, idx, Ascale));
+                       tripleList.push_back(Eigen::Triple<float>(idx, idxplusj, -Ascale)); // TODO: CHECK
+                   } else if (typeplusi == EMPTY) {
+                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                   }
+
+                   if (typeplusk == FLUID) {
+                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                       tripleList.push_back(Eigen::Triple<float>(idxplusk, idx, Ascale));
+                       tripleList.push_back(Eigen::Triple<float>(idx, idxplusk, -Ascale)); // TODO: CHECK
+                   } else if (typeplusi == EMPTY) {
+                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                   }
+               }
+
+               // B
+               if (typeminusi == solid) {
+//                   b[idx] -= Bscale * grid
+               }
+           }
+       }
+   }
+
+   A.setFromTriplets(tripletList.begin(), tripletList.end());
+
+
+   Eigen::ConjugateGradient<SparseMatrix<double> > cg;
+   cg.compute(A);
+   x = cg.solve(b);
+   std::cout << "#iterations:     " << cg.iterations() << std::endl;
+   std::cout << "estimated error: " << cg.error()      << std::endl;
+   // update b, and solve again
+   x = cg.solve(b);
+
+//    float rho = 1.0f;
+    float scale = dt / (dx * dx);
+
+
+    Grid Adiag, Aplusi, Aplusj, Aplusk;
+
+    for (int i = 0; i < resx; i++) {
+        for (int j = 0; j < resy; j++) {
+            for (int k = 0; k < resz; k++) {
+                int m_ijk = (int) gridM->get(i, j, k);
+
+                if (m_ijk == 1) {
+                    int other = (int) gridM->get(i+1, j, k);
+                    if (other == 1) { // Fluid
+                        Adiag.add(m_ijk, scale);
+                        Adiag.add(i+1, j, k, scale);
+                        Aplusi.set(i, j , k, -scale);
+                    } else if (other == 0) { // Empty
+                        Adiag.add(i, j, k, scale);
+                    }
+
+                    other = (int) gridM->get(i, j+1, k);
+                    if (other == 1) { // Fluid
+                        Adiag.add(m_ijk, scale);
+                        Adiag.add(i, j+1, k, scale);
+                        Aplusi.set(i, j , k, -scale);
+                    } else if (other == 0) { // Empty
+                        Adiag.add(m_ijk, scale);
+                    }
+
+                    other = (int) gridM->get(i+1, j, k);
+                    if (other == 1) { // Fluid
+                        Adiag.add(i, j, k, scale);
+                        Adiag.add(i, j, k+1, scale);
+                        Aplusi.set(i, j , k, -scale);
+                    } else if (other == 0) { // Empty
+                        Adiag.add(m_ijk, scale);
+                    }
+                }
+
+            }
+        }
+    }
+
+}
+
 
 
 void MACGrid::velocityExtrapolation() {

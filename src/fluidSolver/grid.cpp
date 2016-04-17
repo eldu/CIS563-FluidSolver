@@ -230,6 +230,11 @@ bool Grid::inBounds(glm::ivec3 idx) {
 /* * * * * * * * * * * * * * * * * * * * * *
  * Setters and Getters                     *
  * * * * * * * * * * * * * * * * * * * * * */
+float Grid::get(const int i, const int j, const int k) {
+    int idx = convertIdx(i, j, k);
+    return data[idx];
+}
+
 float Grid::get(const int idx) {
     return data[idx];
 }
@@ -271,4 +276,9 @@ void Grid::add(int idx, float val) {
     } else {
         data[idx] += val;
     }
+}
+
+void Grid::add(int i, int j, int k, float val) {
+    int idx = convertIdx(i, j, k);
+    add(idx, val);
 }

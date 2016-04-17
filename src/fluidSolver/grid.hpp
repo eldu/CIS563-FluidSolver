@@ -53,6 +53,7 @@ public:
     float operator[](const int idx);
     float operator[](const glm::ivec3 &idx);
     float get(const int idx);
+    float get(const int i, const int j, const int k);
 
     // Set Functions
     void set(int idx, float val);
@@ -61,6 +62,7 @@ public:
 
     // Add functions
     void add(int idx, float val);
+    void add(int i, int j, int k);
 
 private:
 };

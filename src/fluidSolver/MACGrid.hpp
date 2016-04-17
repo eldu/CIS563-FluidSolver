@@ -8,6 +8,10 @@
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "tbb/tbb.h"
+#include <Eigen/Sparse>
+#include <vector>
+
+
 
 
 class MACGrid : Geometry {
@@ -27,10 +31,17 @@ class MACGrid : Geometry {
         Grid* gridW;
         Grid* gridP;
         Grid* gridM; // Marker Grid
+        Grid* gridA; // Coefficients Matrix Basically
 
+
+        // Variables
         float cellWidth;
         int resx, resy, resz;
         glm::vec3 min, max;
+        static int EMPTY = 0;
+        static int FLUID = 1;
+        static int SOLID = 2;
+
 
         // Markers
         void markEdgeCells();
