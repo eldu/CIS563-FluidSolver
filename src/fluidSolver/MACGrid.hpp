@@ -46,11 +46,11 @@ class MACGrid : Geometry {
         // Markers
         void markEdgeCells();
         void enforceBoundaryConditions();
-
         void velocityExtrapolation();
 
         // Forces
         void addGravity(float deltaTime);
+        void pressureSolve(float deltaTime);
 
         // Get Local Positions
         glm::vec3 getLocalP(glm::vec3 world);

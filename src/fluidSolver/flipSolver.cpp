@@ -69,10 +69,8 @@ void FLIPSolver::update(float deltaTime) {
     // RESOLVE FORCES ON GRID
     // GRAVITY (This is not right. What have I done. lol...)
     newGrid.addGravity(deltaTime);
-
     // PRESSURE
-
-
+    newGrid.pressureSolve(deltaTime);
 
     // EXTRAPOLATE VELOCITY
     newGrid.velocityExtrapolation();

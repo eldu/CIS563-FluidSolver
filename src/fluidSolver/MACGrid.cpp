@@ -75,21 +75,18 @@ glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
 
 
 // Setting up matrix entries for the pressure equations
-void MACGrid::pressureSolve(float dt, float dx) {
+void MACGrid::pressureSolve(float dt) {
    int n = gridM->data.size();
-   Eigen::VectorXd x(n), b(n);
+   Eigen::VectorXd p(n), b(n);
    Eigen::SparseMatrix<float> A(n,n);
 
    // Set everything to zero otherwise we'll get weird NaNs
    A.setZero();
-   x.setZero;
+   p.setZero;
    b.setZero;
 
-   // fill A and b
-   float rho = 1.0f;
-   float dx = 1.0f; // TODO: Actually cell size?
-   float Ascale = dt / (rho * dx * dx);
-   float Bscale = 1.0f / dx;
+   float Ascale = dt / (cellWidth * cellWidth);
+   float Bscale = 1.0f / cellWidth;
 
    // Fill A
    typedef Triplet<float> T;
@@ -110,36 +107,47 @@ void MACGrid::pressureSolve(float dt, float dx) {
                int typeplusk = (int) gridM->get(idxplusk);
                int typeminusi = (int) gridM->get(idxminusi);
 
+               float Adiag = 0.0f;
+
                // A
                if (type == FLUID) {
                    if (typeplusi == FLUID) {
-                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-                       tripleList.push_back(Eigen::Triple<float>(idxplusi, idx, Ascale));
+                       Adiag += scale;
+//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+//                       tripleList.push_back(Eigen::Triple<float>(idxplusi, idx, Ascale));
                        tripleList.push_back(Eigen::Triple<float>(idx, idxplusi, -Ascale)); // TODO: CHECK
                    } else if (typeplusi == EMPTY) {
-                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                       Adiag += scale;
                    }
 
                    if (typeplusj == FLUID) {
-                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-                       tripleList.push_back(Eigen::Triple<float>(idxplusj, idx, Ascale));
+                       Adiag += scale;
+//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+//                       tripleList.push_back(Eigen::Triple<float>(idxplusj, idx, Ascale));
                        tripleList.push_back(Eigen::Triple<float>(idx, idxplusj, -Ascale)); // TODO: CHECK
                    } else if (typeplusi == EMPTY) {
-                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                       Adiag += scale;
                    }
 
                    if (typeplusk == FLUID) {
-                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-                       tripleList.push_back(Eigen::Triple<float>(idxplusk, idx, Ascale));
+                       Adiag += scale;
+//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+//                       tripleList.push_back(Eigen::Triple<float>(idxplusk, idx, Ascale));
                        tripleList.push_back(Eigen::Triple<float>(idx, idxplusk, -Ascale)); // TODO: CHECK
                    } else if (typeplusi == EMPTY) {
-                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
+                       Adiag += scale;
                    }
-               }
+                   tripleList.push_back(Eigen::Triple<float>(idx, idx, Adiag));
 
-               // B
-               if (typeminusi == solid) {
-//                   b[idx] -= Bscale * grid
+
+                   // B
+                   b[idx] = -Bscale * (gridU->get(idxplusi) - gridU->get(idx)
+                                     + gridV->get(idxplusj) - gridV->get(idx)
+                                     + gridW->get(idxplusk) - gridW->get(idx));
+
                }
            }
        }
@@ -150,55 +158,37 @@ void MACGrid::pressureSolve(float dt, float dx) {
 
    Eigen::ConjugateGradient<SparseMatrix<double> > cg;
    cg.compute(A);
-   x = cg.solve(b);
-   std::cout << "#iterations:     " << cg.iterations() << std::endl;
-   std::cout << "estimated error: " << cg.error()      << std::endl;
+   p = cg.solve(b);
+//   std::cout << "#iterations:     " << cg.iterations() << std::endl;
+//   std::cout << "estimated error: " << cg.error()      << std::endl;
    // update b, and solve again
-   x = cg.solve(b);
+//   p = cg.solve(b);
 
-//    float rho = 1.0f;
-    float scale = dt / (dx * dx);
+   float Pscale = dt / cellWidth;
+   for (int i = 0; i < resx; i++) {
+       for (int j = 0; j < resy; j++) {
+           for (int k = 0; k < resz; k++) {
+               int idx = gridM->convertIdx(i, j, k);
+               int type = (int) gridM->get(idx);
 
-
-    Grid Adiag, Aplusi, Aplusj, Aplusk;
-
-    for (int i = 0; i < resx; i++) {
-        for (int j = 0; j < resy; j++) {
-            for (int k = 0; k < resz; k++) {
-                int m_ijk = (int) gridM->get(i, j, k);
-
-                if (m_ijk == 1) {
-                    int other = (int) gridM->get(i+1, j, k);
-                    if (other == 1) { // Fluid
-                        Adiag.add(m_ijk, scale);
-                        Adiag.add(i+1, j, k, scale);
-                        Aplusi.set(i, j , k, -scale);
-                    } else if (other == 0) { // Empty
-                        Adiag.add(i, j, k, scale);
-                    }
-
-                    other = (int) gridM->get(i, j+1, k);
-                    if (other == 1) { // Fluid
-                        Adiag.add(m_ijk, scale);
-                        Adiag.add(i, j+1, k, scale);
-                        Aplusi.set(i, j , k, -scale);
-                    } else if (other == 0) { // Empty
-                        Adiag.add(m_ijk, scale);
-                    }
-
-                    other = (int) gridM->get(i+1, j, k);
-                    if (other == 1) { // Fluid
-                        Adiag.add(i, j, k, scale);
-                        Adiag.add(i, j, k+1, scale);
-                        Aplusi.set(i, j , k, -scale);
-                    } else if (other == 0) { // Empty
-                        Adiag.add(m_ijk, scale);
-                    }
-                }
-
-            }
-        }
-    }
+               if (type == FLUID) {
+                   gridU->add(idx, -Pscale * p[idx]);
+                   gridU->add(i+1, j, k, Pscale * p[idx]);
+                   gridV->add(idx, -scale * p[idx]);
+                   gridV->add(i, j+1, k, scale * p[idx]);
+                   gridW->add(idx, -Pscale * p[idx]);
+                   gridW->add(i, j, k+1, p[idx]);
+               } else if (type == SOLID) {
+                   gridU->set(idx, 0.f);
+                   gridU->set(i+1, j, k, 0.f);
+                   gridV->set(idx, 0.f);
+                   gridV->set(i, j+1, k, 0.f);
+                   gridW->set(idx, 0.f);
+                   gridW->set(i, j, k+1, 0.f);
+               }
+           }
+       }
+   }
 
 }
 
@@ -304,20 +294,45 @@ void MACGrid::markEdgeCells() {
 // has a solid neighboring cell, set the velocity component that
 // points into a neighboring solid cell to zero
 void MACGrid::enforceBoundaryConditions() {
-    for (int i = 0; i < resx; i++) {
-        for (int j = 0; j < resy; j++) {
-            for (int k = 0; k < resz; k++) {
-                int idx = gridM->getIdx(i, j, k);
-                // If I'm a solid cell, then the velocities at ijk of my cell,
-                // actually correspond to the cells going into me.
-                if (fequal(gridM->get(idx), 2.f)) {
-                    gridU->set(idx, 0.f);
-                    gridV->set(idx, 0.f);
-                    gridW->set(idx, 0.f);
-                }
-            }
+//    for (int i = 0; i < resx; i++) {
+//        for (int j = 0; j < resy; j++) {
+//            for (int k = 0; k < resz; k++) {
+//                int idx = gridM->getIdx(i, j, k);
+//                // If I'm a solid cell, then the velocities at ijk of my cell,
+//                // actually correspond to the cells going into me.
+//                if (fequal(gridM->get(idx), 2.f)) {
+//                    gridU->set(idx, 0.f);
+//                    gridV->set(idx, 0.f);
+//                    gridW->set(idx, 0.f);
+//                }
+//            }
 
+//        }
+//    }
+
+    for(int j = 0; j < resy; j++) {
+        for (int k = 0; k < resz; k++) {
+            gridU->set(0,        j, k, 0.f);
+            gridU->set(1,        j, k, 0.f);
+            gridU->set(resx,     j, k, 0.f);
+            gridU->set(resx - 1, j, k, 0.f);
         }
+
+        for (int i = 0; i < resx; i++) {
+            gridW->set(i, j, 0,        0.f);
+            gridW->set(i, j, 1,        0.f);
+            gridW->set(i, j, resz,     0.f);
+            gridW->set(i, j, resz - 1, 0.f);
+        }
+    }
+
+    for (int i = 0; i < resx; i++) {
+       for (int k = 0; k < resz; k++) {
+           gridV->set(i, 0,        k, 0.f);
+           gridV->set(i, 1,        k, 0.f);
+           gridV->set(i, resy,     k, 0.f);
+           gridV->set(i, resy - 1, k, 0.f);
+       }
     }
 }
 
