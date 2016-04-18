@@ -47,7 +47,7 @@ void FLIPSolver::update(float deltaTime) {
 
 #define WAIT
 #ifdef WAIT
-    oldGrid = newGrid;
+//    oldGrid = newGrid;
 
     newGrid.gridM->clearMarkers();
 
@@ -174,8 +174,8 @@ void FLIPSolver::storeParticleVelocityToGrid() {
 // This is a lie. I'm sorry.
 void FLIPSolver::transferVelocityToParticle() {
     for (Particle *p : particles) {
-        float newVel = interpolateVelocity(newGrid, p->pos);
-        float oldVel = interpolateVelocity(oldGrid, p->pos);
+        glm::vec3 newVel = interpolateVelocity(newGrid, p->pos);
+//        float oldVel = interpolateVelocity(oldGrid, p->pos);
 
 #ifdef PIC
         p->vel = newVel;
@@ -198,9 +198,9 @@ glm::vec3 FLIPSolver::interpolateVelocity(MACGrid &g, const glm::vec3& pos) {
     glm::vec3 lv = g.getLocalV(pos);
     glm::vec3 lw = g.getLocalW(pos);
 
-    float U = g.gridU->TriLERP(pos);
-    float V = g.gridV->TriLERP(pos);
-    float W = g.gridW->TriLERP(pos);
+    float U = g.gridU->TriLERP(lu);
+    float V = g.gridV->TriLERP(lv);
+    float W = g.gridW->TriLERP(lw);
 
     return glm::vec3(U, V, W);
 }

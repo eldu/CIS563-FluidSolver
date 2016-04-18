@@ -114,6 +114,7 @@ void Grid::clearMarkers() {
     }
 }
 
+// Input: local position
 float Grid::TriLERP(glm::vec3 pos) {
     glm::ivec3 ijk = getIJK(pos);
     glm::vec3 dist = glm::abs(pos - glm::vec3(ijk));

@@ -78,19 +78,19 @@ glm::vec3 MACGrid::getLocalW(glm::vec3 world) {
 void MACGrid::pressureSolve(float dt) {
    int n = gridM->data.size();
    Eigen::VectorXd p(n), b(n);
-   Eigen::SparseMatrix<float> A(n,n);
+   Eigen::SparseMatrix<double> A(n,n);
 
    // Set everything to zero otherwise we'll get weird NaNs
    A.setZero();
-   p.setZero;
-   b.setZero;
+   p.setZero(n);
+   b.setZero(n);
 
    float Ascale = dt / (cellWidth * cellWidth);
    float Bscale = 1.0f / cellWidth;
 
    // Fill A
-   typedef Triplet<float> T;
-   std::vector<T> tripleList;
+   typedef Eigen::Triplet<double> T;
+   std::vector<T> tripletList;
 
    for (int i = 0; i < resx; i++) {
        for (int j = 0; j < resy; j++) {
@@ -100,47 +100,65 @@ void MACGrid::pressureSolve(float dt) {
                int idxplusj = gridM->convertIdx(i, j + 1, k);
                int idxplusk = gridM->convertIdx(i, j, k + 1);
                int idxminusi = gridM->convertIdx(i - 1, j, k);
+               int idxminusj = gridM->convertIdx(i, j - 1, k);
+               int idxminusk = gridM->convertIdx(i, j, k - 1);
 
                int type = (int) gridM->get(idx);
                int typeplusi = (int) gridM->get(idxplusi);
                int typeplusj = (int) gridM->get(idxplusj);
                int typeplusk = (int) gridM->get(idxplusk);
                int typeminusi = (int) gridM->get(idxminusi);
+               int typeminusj = (int) gridM->get(idxminusj);
+               int typeminusk = (int) gridM->get(idxminusk);
 
                float Adiag = 0.0f;
 
                // A
                if (type == FLUID) {
                    if (typeplusi == FLUID) {
-                       Adiag += scale;
-//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-//                       tripleList.push_back(Eigen::Triple<float>(idxplusi, idx, Ascale));
-                       tripleList.push_back(Eigen::Triple<float>(idx, idxplusi, -Ascale)); // TODO: CHECK
+                       Adiag += Ascale;
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusi, -Ascale)); // TODO: CHECK
                    } else if (typeplusi == EMPTY) {
-//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-                       Adiag += scale;
+                       Adiag += Ascale;
                    }
 
                    if (typeplusj == FLUID) {
-                       Adiag += scale;
-//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-//                       tripleList.push_back(Eigen::Triple<float>(idxplusj, idx, Ascale));
-                       tripleList.push_back(Eigen::Triple<float>(idx, idxplusj, -Ascale)); // TODO: CHECK
-                   } else if (typeplusi == EMPTY) {
-//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-                       Adiag += scale;
+                       Adiag += Ascale;
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusj, -Ascale)); // TODO: CHECK
+                   } else if (typeplusj == EMPTY) {
+                       Adiag += Ascale;
                    }
 
                    if (typeplusk == FLUID) {
-                       Adiag += scale;
-//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-//                       tripleList.push_back(Eigen::Triple<float>(idxplusk, idx, Ascale));
-                       tripleList.push_back(Eigen::Triple<float>(idx, idxplusk, -Ascale)); // TODO: CHECK
-                   } else if (typeplusi == EMPTY) {
-//                       tripleList.push_back(Eigen::Triple<float>(idx, idx, Ascale));
-                       Adiag += scale;
+                       Adiag += Ascale;
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusk, -Ascale)); // TODO: CHECK
+                   } else if (typeplusk == EMPTY) {
+                       Adiag += Ascale;
                    }
-                   tripleList.push_back(Eigen::Triple<float>(idx, idx, Adiag));
+
+                   // Symmetry
+                   if (typeminusi == FLUID) {
+                       Adiag += Ascale;
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusi, -Ascale)); // TODO: CHECK
+                   } else if (typeminusi == EMPTY) {
+                       Adiag += Ascale;
+                   }
+
+                   if (typeminusj == FLUID) {
+                       Adiag += Ascale;
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusj, -Ascale)); // TODO: CHECK
+                   } else if (typeminusj == EMPTY) {
+                       Adiag += Ascale;
+                   }
+
+                   if (typeminusk == FLUID) {
+                       Adiag += Ascale;
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusk, -Ascale)); // TODO: CHECK
+                   } else if (typeminusk == EMPTY) {
+                       Adiag += Ascale;
+                   }
+
+                   tripletList.push_back(Eigen::Triplet<double>(idx, idx, Adiag));
 
 
                    // B
@@ -156,8 +174,8 @@ void MACGrid::pressureSolve(float dt) {
    A.setFromTriplets(tripletList.begin(), tripletList.end());
 
 
-   Eigen::ConjugateGradient<SparseMatrix<double> > cg;
-   cg.compute(A);
+   Eigen::ConjugateGradient<Eigen::SparseMatrix<double> > cg;
+   cg.compute(A); // A isn't SPD matrix
    p = cg.solve(b);
 //   std::cout << "#iterations:     " << cg.iterations() << std::endl;
 //   std::cout << "estimated error: " << cg.error()      << std::endl;
@@ -174,8 +192,8 @@ void MACGrid::pressureSolve(float dt) {
                if (type == FLUID) {
                    gridU->add(idx, -Pscale * p[idx]);
                    gridU->add(i+1, j, k, Pscale * p[idx]);
-                   gridV->add(idx, -scale * p[idx]);
-                   gridV->add(i, j+1, k, scale * p[idx]);
+                   gridV->add(idx, -Pscale * p[idx]);
+                   gridV->add(i, j+1, k, Pscale * p[idx]);
                    gridW->add(idx, -Pscale * p[idx]);
                    gridW->add(i, j, k+1, p[idx]);
                } else if (type == SOLID) {

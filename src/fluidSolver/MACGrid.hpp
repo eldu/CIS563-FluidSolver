@@ -38,9 +38,9 @@ class MACGrid : Geometry {
         float cellWidth;
         int resx, resy, resz;
         glm::vec3 min, max;
-        static int EMPTY = 0;
-        static int FLUID = 1;
-        static int SOLID = 2;
+        const static int EMPTY = 0;
+        const static int FLUID = 1;
+        const static int SOLID = 2;
 
 
         // Markers

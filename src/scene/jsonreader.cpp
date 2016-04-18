@@ -30,7 +30,7 @@ Json::Value JSONReader::loadJSON(const std::string &document) {
     Json::Reader reader;
     Json::Value root;
 
-    bool result = reader.parse(document, root, false);
+    bool result = reader.parse(document.c_str(), root, false);
     if (result) {
         return root;
     } else {

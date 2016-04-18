@@ -7,7 +7,7 @@
 	"particleDim" : {
 		"boundX" : 1,
 		"boundY" : 1,
-		"boundZ" : 1,
+		"boundZ" : 1
 	},
 	"particleSeparation" : 0.3
 }
