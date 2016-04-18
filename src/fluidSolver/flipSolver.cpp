@@ -1,4 +1,5 @@
 #include "flipSolver.hpp"
+#define PIC;
 
 FLIPSolver::FLIPSolver() {
 
@@ -46,6 +47,8 @@ void FLIPSolver::update(float deltaTime) {
 
 #define WAIT
 #ifdef WAIT
+    oldGrid = newGrid;
+
     newGrid.gridM->clearMarkers();
 
     // MARK FLUID
@@ -171,22 +174,35 @@ void FLIPSolver::storeParticleVelocityToGrid() {
 // This is a lie. I'm sorry.
 void FLIPSolver::transferVelocityToParticle() {
     for (Particle *p : particles) {
-        p->vel = interpolateVelocity(p->pos);
+        float newVel = interpolateVelocity(newGrid, p->pos);
+        float oldVel = interpolateVelocity(oldGrid, p->pos);
+
+#ifdef PIC
+        p->vel = newVel;
+#endif
+
+#ifdef FLIP
+        p->vel = newVel - oldVel;
+#endif
+
+#ifdef PICFLIP
+        p->vel = 0.05f * newVel + 0.95f * (newVel - oldVel);
+#endif
     }
 }
 
 // I messed up my overloaded functions so it has to be like this for now
 // TODO: CLEAN UP
-glm::vec3 FLIPSolver::interpolateVelocity(const glm::vec3& pos) {
-    glm::vec3 lu = newGrid.getLocalU(pos);
-    glm::vec3 lv = newGrid.getLocalV(pos);
-    glm::vec3 lw = newGrid.getLocalW(pos);
+glm::vec3 FLIPSolver::interpolateVelocity(MACGrid &g, const glm::vec3& pos) {
+    glm::vec3 lu = g.getLocalU(pos);
+    glm::vec3 lv = g.getLocalV(pos);
+    glm::vec3 lw = g.getLocalW(pos);
 
-    float newU = newGrid.gridU->TriLERP(pos);
-    float newV = newGrid.gridV->TriLERP(pos);
-    float newW = newGrid.gridW->TriLERP(pos);
+    float U = g.gridU->TriLERP(pos);
+    float V = g.gridV->TriLERP(pos);
+    float W = g.gridW->TriLERP(pos);
 
-    return glm::vec3(newU, newV, newW);
+    return glm::vec3(U, V, W);
 }
 
 void FLIPSolver::create() {
