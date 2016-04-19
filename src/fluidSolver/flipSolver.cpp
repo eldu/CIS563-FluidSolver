@@ -49,14 +49,15 @@ void FLIPSolver::update(float deltaTime) {
 #ifdef WAIT
 //    oldGrid = newGrid;
 
-    newGrid.gridM->clearMarkers();
+    newGrid->gridM->clearMarkers();
 
     // MARK FLUID
     for (Particle* p : particles) {
-        glm::vec3 local = newGrid.getLocalP(p->pos);
+        glm::vec3 local = newGrid->getLocalP(p->pos);
 //        std::cout << "(" << local[0] << " " << local[1] << " " << local[2] << ") ";
-        newGrid.gridM->set(newGrid.gridM->getIdx(local), 1.f); // MARK FLUID
+        newGrid->gridM->set(newGrid->gridM->getIdx(local), 1.f); // MARK FLUID
     }
+    
 
     // TRANSFER PARTICLE TO GRID
     storeParticleVelocityToGrid(); // Splatting
@@ -67,16 +68,16 @@ void FLIPSolver::update(float deltaTime) {
     // to the neighboring stationary solid, u·n=0. So, if a fluid cell
     // has a solid neighboring cell, set the velocity component that
     // points into a neighboring solid cell to zero
-    newGrid.enforceBoundaryConditions();
+    newGrid->enforceBoundaryConditions();
 
     // RESOLVE FORCES ON GRID
     // GRAVITY (This is not right. What have I done. lol...)
-    newGrid.addGravity(deltaTime);
+    newGrid->addGravity(deltaTime);
     // PRESSURE
-    newGrid.pressureSolve(deltaTime);
+    newGrid->pressureSolve(deltaTime);
 
     // EXTRAPOLATE VELOCITY
-    newGrid.velocityExtrapolation();
+    newGrid->velocityExtrapolation();
 
     // TRANSFER MACGRID TO PARTICLE
     transferVelocityToParticle();
@@ -112,10 +113,15 @@ void FLIPSolver::constructMACGrid() {
     glm::vec3 max = container->max;
 
     // glm::vec3 resolution = max - min;
-    // TODO: Not hardcode this.... LOL....
+    // TODO: Don't hardcode the resolution
     glm::vec3 resolution = glm::vec3(10, 10, 10);
 
-    MACGrid(resolution, min, max);
+//    oldGrid = MACGrid(resolution, min, max);
+//    oldGrid.markEdgeCells();
+    
+    newGrid = new MACGrid(resolution, min, max);
+    newGrid->markEdgeCells();
+    
 }
 
 void FLIPSolver::extrapolateVelocity() {
@@ -123,58 +129,35 @@ void FLIPSolver::extrapolateVelocity() {
 }
 
 void FLIPSolver::storeParticleVelocityToGrid() {
-    newGrid.gridU->clearGrid();
-    newGrid.gridV->clearGrid();
-    newGrid.gridW->clearGrid();
+    newGrid->gridU->clearGrid();
+    newGrid->gridV->clearGrid();
+    newGrid->gridW->clearGrid();
 
     for(Particle *p : particles) {
-        p->gridCell = newGrid.gridP->getIdx(newGrid.getLocalP(p->pos));
+        p->gridCell = newGrid->gridP->getIdx(newGrid->getLocalP(p->pos));
 
         // Get Local Positions wrt grids
-        glm::vec3 lu = newGrid.getLocalU(p->pos);
-        glm::vec3 lv = newGrid.getLocalV(p->pos);
-        glm::vec3 lw = newGrid.getLocalW(p->pos);
+        glm::vec3 lu = newGrid->getLocalU(p->pos);
+        glm::vec3 lv = newGrid->getLocalV(p->pos);
+        glm::vec3 lw = newGrid->getLocalW(p->pos);
 
         // Splat
-        newGrid.gridU->splatVelocity(lu, p->vel[0], 0);
-        newGrid.gridV->splatVelocity(lv, p->vel[1], 1);
-        newGrid.gridW->splatVelocity(lw, p->vel[2], 2);
-
-
-//        glm::vec3 local = newGrid.grid(p->pos);
-
-//        std::vector<glm::vec3> neighborhoodU = newGrid.gridU.getNeighborhood(local);
-//        std::vector<glm::vec3> neighborhoodV = newGrid.gridV.getNeighborhood(local);
-//        std::vector<glm::vec3> neighborhoodW = newGrid.gridW.getNeighborhood(local);
-
-//        glm::vec3 deltaX = glm::abs(local - neighborhoodU[0]);
-//        glm::vec3 deltaY = glm::abs(local - neighborhoodV[0]);
-//        glm::vec3 deltaZ = glm::abs(local - neighborhoodW[0]);
-
-//        // TODO Check these indices
-//        for (glm::vec3 idx : neighborhoodU) {
-//            glm::vec3 kernelX = (idx - glm::vec3(0.5, 0, 0)) / deltaX;
-//            glm::vec3 kernelY = (idx - glm::vec3(0, 0.5, 0)) / deltaY;
-//            glm::vec3 kernelZ = (idx - glm::vec3(0, 0, 0.5)) / deltaZ;
-//            // TODO: CLEAN THIS UP SERIOUSLY
-//            // FIX OVERRIDED [] OPERATOR
-//            newGrid.gridU.data[newGrid.gridU.getIdx(idx)] += kernelX[0] / weight; // TODO: Change hard coded average
-//            newGrid.gridV.data[newGrid.gridV.getIdx(idx)] += kernelY[1] / weight;
-//            newGrid.gridW.data[newGrid.gridW.getIdx(idx)] += kernelZ[2] / weight;
-//        }
+        newGrid->gridU->splatVelocity(lu, p->vel[0], 0);
+        newGrid->gridV->splatVelocity(lv, p->vel[1], 1);
+        newGrid->gridW->splatVelocity(lw, p->vel[2], 2);
     }
 
     // Average the velocities
-    newGrid.gridU->averageGrid();
-    newGrid.gridU->averageGrid();
-    newGrid.gridU->averageGrid();
+    newGrid->gridU->averageGrid();
+    newGrid->gridU->averageGrid();
+    newGrid->gridU->averageGrid();
 }
 
 
 // This is a lie. I'm sorry.
 void FLIPSolver::transferVelocityToParticle() {
     for (Particle *p : particles) {
-        glm::vec3 newVel = interpolateVelocity(newGrid, p->pos);
+        glm::vec3 newVel = interpolateVelocity(*newGrid, p->pos);
 //        float oldVel = interpolateVelocity(oldGrid, p->pos);
 
 #ifdef PIC
@@ -193,7 +176,7 @@ void FLIPSolver::transferVelocityToParticle() {
 
 // I messed up my overloaded functions so it has to be like this for now
 // TODO: CLEAN UP
-glm::vec3 FLIPSolver::interpolateVelocity(MACGrid &g, const glm::vec3& pos) {
+glm::vec3 FLIPSolver::interpolateVelocity(MACGrid &g, glm::vec3& pos) {
     glm::vec3 lu = g.getLocalU(pos);
     glm::vec3 lv = g.getLocalV(pos);
     glm::vec3 lw = g.getLocalW(pos);

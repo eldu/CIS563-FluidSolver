@@ -63,6 +63,9 @@ public:
     // Add functions
     void add(int idx, float val);
     void add(int i, int j, int k, float val);
+    
+    // Debugging functions
+    void toString();
 
 private:
 };

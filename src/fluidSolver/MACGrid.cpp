@@ -117,21 +117,21 @@ void MACGrid::pressureSolve(float dt) {
                if (type == FLUID) {
                    if (typeplusi == FLUID) {
                        Adiag += Ascale;
-                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusi, -Ascale)); // TODO: CHECK
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusi, -Ascale));
                    } else if (typeplusi == EMPTY) {
                        Adiag += Ascale;
                    }
 
                    if (typeplusj == FLUID) {
                        Adiag += Ascale;
-                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusj, -Ascale)); // TODO: CHECK
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusj, -Ascale));
                    } else if (typeplusj == EMPTY) {
                        Adiag += Ascale;
                    }
 
                    if (typeplusk == FLUID) {
                        Adiag += Ascale;
-                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusk, -Ascale)); // TODO: CHECK
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxplusk, -Ascale));
                    } else if (typeplusk == EMPTY) {
                        Adiag += Ascale;
                    }
@@ -139,21 +139,21 @@ void MACGrid::pressureSolve(float dt) {
                    // Symmetry
                    if (typeminusi == FLUID) {
                        Adiag += Ascale;
-                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusi, -Ascale)); // TODO: CHECK
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusi, -Ascale));
                    } else if (typeminusi == EMPTY) {
                        Adiag += Ascale;
                    }
 
                    if (typeminusj == FLUID) {
                        Adiag += Ascale;
-                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusj, -Ascale)); // TODO: CHECK
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusj, -Ascale));
                    } else if (typeminusj == EMPTY) {
                        Adiag += Ascale;
                    }
 
                    if (typeminusk == FLUID) {
                        Adiag += Ascale;
-                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusk, -Ascale)); // TODO: CHECK
+                       tripletList.push_back(Eigen::Triplet<double>(idx, idxminusk, -Ascale));
                    } else if (typeminusk == EMPTY) {
                        Adiag += Ascale;
                    }
@@ -270,10 +270,7 @@ void MACGrid::velocityExtrapolation() {
 
 void MACGrid::addGravity(float deltaTime) {
     for (int n = 0; n < resx * resy * resz; n++) {
-//        if (!fqual(gridM->get(idx), 2.f)) {
-
-//        }
-        gridV->add(n, 0.5 * -GRAVITY * deltaTime);
+        gridV->add(n, 0.5 * -GRAVITY / cellWidth * deltaTime);
     }
 }
 

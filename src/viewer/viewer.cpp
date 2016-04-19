@@ -74,10 +74,6 @@ int Viewer::initialize() {
     programID = LoadShaders( "src/shaders/TransformVertexShader.glsl",
                              "src/shaders/ColorFragmentShader.glsl");
 
-//        // Create and compile our GLSL program from the shaders
-//        GLuint programID = LoadShaders( "../src/shaders/SimpleVertexShader.glsl",
-//                                        "../src/shaders/SimpleFragmentShader.glsl" );
-
     // Get a handle for our "cameraMat" uniform
     matrixID = glGetUniformLocation(programID, "cameraMat");
 
@@ -88,9 +84,8 @@ int Viewer::initialize() {
     fs = reader->parse("src/scene/scene.json");
 
     fs->container->create();
-//    fs->fluid->create();
-//    fs->mGrid.create();
     fs->create();
+//    fs->newGrid->create();
 
     // Initalize Camera
     camera = new Camera(x, y);
@@ -98,7 +93,7 @@ int Viewer::initialize() {
 }
 
 int Viewer::run() {
-    double fps = 24.0f;
+    double fps = 10.0f;
     double lastTime = glfwGetTime();
 
     do{
@@ -122,8 +117,6 @@ int Viewer::run() {
 
             // Draw Objects
             fs->container->draw();
-//            fs->fluid->draw();
-//            fs->mGrid.draw();
             fs->draw();
 
             // Adjust Camera
@@ -145,8 +138,6 @@ int Viewer::run() {
 
 //    // Cleanup VBO
     fs->container->destroy();
-//    fs->fluid->destroy();
-//    fs->mGrid.destroy();
     fs->destroy();
 
     glDeleteVertexArrays(1, &VertexArrayID);

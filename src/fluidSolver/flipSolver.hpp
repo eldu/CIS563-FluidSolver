@@ -25,8 +25,8 @@ public:
     Cube* container;
     Cube* fluid;
 
-    MACGrid oldGrid;
-    MACGrid newGrid;
+    MACGrid* oldGrid;
+    MACGrid* newGrid;
 
     // Create the MACGrid
     void constructMACGrid();
@@ -48,7 +48,7 @@ public:
     // gridPos to get the correct index (i,j,k). Using this index, we interpolate
     // separately for each component. Think of how you want to design your function
     // calls for good modularity and code reuse
-    glm::vec3 interpolateVelocity(MACGrid &g, const glm::vec3& pos);
+    glm::vec3 interpolateVelocity(MACGrid &g, glm::vec3& pos);
 
     void extrapolateVelocity();
 

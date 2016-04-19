@@ -38,7 +38,7 @@ public:
 //    float phi = 45 * M_PI / 180.0;
     float theta = 0.f;
     float phi = 0.f;
-    float zoom = 10;
+    float zoom = 20;
     float fovy = 45 * M_PI / 180.0;
     float near_clip = 0.1f;
     float far_clip = 100.0f;

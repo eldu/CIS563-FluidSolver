@@ -163,13 +163,13 @@ glm::ivec3 Grid::getIdxFromIdx(int idx) {
 // template <typename T>
 int Grid::convertIdx(glm::ivec3 idx) {
     int result = idx[0] + idx[1] * resx + idx[2] * resx * resy;
-    return result;
-//    if (result >= data.size() || result < 0) {
-//        std::cout << "Index is too large";
-//        return -1;
-//    } else {
-//        result;
-//    }
+//    return result;
+    if (result >= data.size() || result < 0) {
+        std::cout << "Index is too large";
+        return -1;
+    } else {
+        result;
+    }
 }
 
 // template <typename T>
@@ -282,4 +282,19 @@ void Grid::add(int idx, float val) {
 void Grid::add(int i, int j, int k, float val) {
     int idx = convertIdx(i, j, k);
     add(idx, val);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * *
+ * Debugging Code                          *
+ * * * * * * * * * * * * * * * * * * * * * */
+void Grid::toString() {
+    for (int i = 0; i < resx; i++) {
+        std::cout << "JK Plane: (" << i << "/n";
+        for (int j = 0; j < resy; j++) {
+            for (int k = 0; k < resz; k++) {
+                std::cout << "[" << get(i, j, k) << "]";
+            }
+            std::cout << "/n /n";
+        }
+    }
 }
