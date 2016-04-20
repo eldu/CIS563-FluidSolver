@@ -38,14 +38,14 @@ Grid::Grid(const int width, const int height, const int depth) {
  * * * * * * * * * * * * * * * * * * * * * * * */
 // template <typename T>
 int Grid::getIdx(float x, float y, float z) {
-    int i = (int) x / resx;
-    int j = (int) y / resy;
-    int k = (int) z / resz;
+    int i = (int) x;
+    int j = (int) y;
+    int k = (int) z;
 
     // invalid index
-//    if (i < 0 || j < 0 || k < 0) {
-//        return -1;
-//    }
+    if (i < 0 || j < 0 || k < 0 || i > resx || j > resy || k > resz) {
+        return -1;
+    }
 
     return i + j * resx + k * resx * resy;
 }
@@ -62,9 +62,9 @@ glm::ivec3 Grid::getIJK(glm::vec3 pos) {
 
 // template <typename T>
 glm::ivec3 Grid::getIJK(float x, float y, float z) {
-    int i = (int) x / resx;
-    int j = (int) y / resy;
-    int k = (int) z / resz;
+    int i = (int) x;
+    int j = (int) y;
+    int k = (int) z;
 
 //    // invalid index
 //    if (i < 0 || j < 0 || k < 0) {

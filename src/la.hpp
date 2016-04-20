@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string>
 #include <istream>
+#include <iostream>
 
 static const float PI = 3.14159265358979323846f;
 static const float TWO_PI = 2 * PI;
@@ -42,6 +43,11 @@ inline bool fequal(T a, T b, T epsilon = 0.0001){
     }
 
     return diff / (std::abs(a) + std::abs(b)) < epsilon;
+}
+
+
+inline void print(glm::vec3 v) {
+    std::cout << "(" << v.x << ", " << v.y << ", " << v.z << ")";
 }
 
 #endif

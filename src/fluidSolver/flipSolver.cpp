@@ -1,5 +1,6 @@
 #include "flipSolver.hpp"
 #define PIC;
+//#define MARKER;
 
 FLIPSolver::FLIPSolver() {
 
@@ -9,6 +10,20 @@ FLIPSolver::FLIPSolver(Cube *container, Cube *fluid) {
     this->container = container;
     this->fluid = fluid;
     this->particleSeparation = 0.3f;
+    
+    std::cout << "CONTAINER MIN (" << this->container->min.x << ", " <<
+                                      this->container->min.y << ", " <<
+                                      this->container->min.z << ")" << "\n";
+    std::cout << "CONTAINER MAX (" << this->container->max.x << ", " <<
+                                      this->container->max.y << ", " <<
+                                      this->container->max.z << ")" << "\n";
+    
+    std::cout << "FLUID     MIN (" << this->fluid->min.x << ", " <<
+                                      this->fluid->min.y << ", " <<
+                                      this->fluid->min.z << ")" << "\n";
+    std::cout << "FLUID     MAX (" << this->fluid->max.x << ", " <<
+                                      this->fluid->max.y << ", " <<
+                                      this->fluid->max.z << ")" << "\n";
 
     init();
 }
@@ -18,7 +33,7 @@ FLIPSolver::FLIPSolver(Cube *container, Cube *fluid, float particleSeparation) {
 }
 
 FLIPSolver::~FLIPSolver() {
-
+    
 }
 
 
@@ -44,6 +59,8 @@ void FLIPSolver::fillFluid() {
 }
 
 void FLIPSolver::update(float deltaTime) {
+    
+//    std::cout<< "deltaTime: " << deltaTime << "\n";
 
 #define WAIT
 #ifdef WAIT
@@ -54,10 +71,26 @@ void FLIPSolver::update(float deltaTime) {
     // MARK FLUID
     for (Particle* p : particles) {
         glm::vec3 local = newGrid->getLocalP(p->pos);
-//        std::cout << "(" << local[0] << " " << local[1] << " " << local[2] << ") ";
-        newGrid->gridM->set(newGrid->gridM->getIdx(local), 1.f); // MARK FLUID
+        int idx = newGrid->gridM->getIdx(local);
+        newGrid->gridM->set(idx, 1.f); // MARK FLUID
     }
     
+    
+#ifdef MARKER
+    // Print out grid markers
+    for (int i = 0; i < 10; i++) {
+        std::cout << "\n\n LAYER " << i << " ******* \n";
+        
+        for (int j = 0; j < 10; j++) {
+            for (int k = 0; k < 10; k++) {
+                std::cout << newGrid->gridM->get(i, j, k) << " ";
+            }
+            std::cout << "\n";
+        }
+
+
+    }
+#endif
 
     // TRANSFER PARTICLE TO GRID
     storeParticleVelocityToGrid(); // Splatting
@@ -73,11 +106,11 @@ void FLIPSolver::update(float deltaTime) {
     // RESOLVE FORCES ON GRID
     // GRAVITY (This is not right. What have I done. lol...)
     newGrid->addGravity(deltaTime);
-    // PRESSURE
-    newGrid->pressureSolve(deltaTime);
-
-    // EXTRAPOLATE VELOCITY
-    newGrid->velocityExtrapolation();
+//    // PRESSURE
+//    newGrid->pressureSolve(deltaTime);
+//
+//    // EXTRAPOLATE VELOCITY
+//    newGrid->velocityExtrapolation();
 
     // TRANSFER MACGRID TO PARTICLE
     transferVelocityToParticle();
@@ -87,13 +120,22 @@ void FLIPSolver::update(float deltaTime) {
 
     // ADVECT, COLLISION DETECTION AND RESPONCE
     for (Particle* p : particles) {
+        
+//        std::cout << "PV: (" << particles.at(0)->vel.x << ", " << particles.at(0)->vel.y << ", " << particles.at(0)->vel.z << ")\n";
+        
         glm::vec3 newPos = p->pos + p->vel * deltaTime;
+        
+        
+        
         if (glm::any(glm::lessThan(newPos, container->min)) || glm::any(glm::greaterThan(newPos, container->max))) {
             p->vel = glm::vec3();
+            
         } else {
             p->pos = newPos;
         }
     }
+    
+//    std::cout << "PV: (" << particles.at(0)->vel.x << ", " << particles.at(0)->vel.y << ", " << particles.at(0)->vel.z << ")\n";
 
 
 #else
@@ -121,6 +163,14 @@ void FLIPSolver::constructMACGrid() {
     
     newGrid = new MACGrid(resolution, min, max);
     newGrid->markEdgeCells();
+    
+    
+    std::cout << "MACGRID     MIN (" << this->newGrid->min.x << ", " <<
+                                        this->newGrid->min.y << ", " <<
+                                        this->newGrid->min.z << ")" << "\n";
+    std::cout << "MACGRID     MAX (" << this->newGrid->max.x << ", " <<
+                                        this->newGrid->max.y << ", " <<
+                                        this->newGrid->max.z << ")" << "\n";
     
 }
 
@@ -158,6 +208,8 @@ void FLIPSolver::storeParticleVelocityToGrid() {
 void FLIPSolver::transferVelocityToParticle() {
     for (Particle *p : particles) {
         glm::vec3 newVel = interpolateVelocity(*newGrid, p->pos);
+//        
+//    std::cout << "PV: (" << newVel.x << ", " << newVel.y << ", " << newVel.z << ")\n";
 //        float oldVel = interpolateVelocity(oldGrid, p->pos);
 
 #ifdef PIC
@@ -205,5 +257,7 @@ void FLIPSolver::destroy() {
         p->destroy();
     }
 }
+
+
 
 

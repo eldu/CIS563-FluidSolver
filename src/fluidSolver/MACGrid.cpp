@@ -270,7 +270,7 @@ void MACGrid::velocityExtrapolation() {
 
 void MACGrid::addGravity(float deltaTime) {
     for (int n = 0; n < resx * resy * resz; n++) {
-        gridV->add(n, 0.5 * -GRAVITY / cellWidth * deltaTime);
+        gridV->add(n, -GRAVITY / cellWidth * deltaTime);
     }
 }
 
