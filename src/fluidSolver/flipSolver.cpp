@@ -156,7 +156,7 @@ void FLIPSolver::constructMACGrid() {
 
     // glm::vec3 resolution = max - min;
     // TODO: Don't hardcode the resolution
-    glm::vec3 resolution = glm::vec3(10, 10, 10);
+    glm::vec3 resolution = glm::vec3(16, 40, 16);
 
 //    oldGrid = MACGrid(resolution, min, max);
 //    oldGrid.markEdgeCells();

@@ -32,13 +32,12 @@ public:
     float speed = 3.0f; // 3 units / second
     float mouseSpeed = 0.005f;
 
-
     int width, height;
 //    float theta = -45 * M_PI / 180.0;
 //    float phi = 45 * M_PI / 180.0;
     float theta = 0.f;
     float phi = 0.f;
-    float zoom = 20;
+    float zoom = 30;
     float fovy = 45 * M_PI / 180.0;
     float near_clip = 0.1f;
     float far_clip = 100.0f;
