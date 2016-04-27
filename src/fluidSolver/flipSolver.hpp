@@ -17,7 +17,7 @@ using namespace tbb;
 class FLIPSolver : FluidSolver {
 public:
     FLIPSolver();
-    FLIPSolver(Cube* container, Cube* fluid);
+    FLIPSolver(Cube* container, Cube* fluid, int rx, int ry, int rz);
     FLIPSolver(Cube* container, Cube* fluid, float particleSeparation);
 
     ~FLIPSolver();
@@ -27,6 +27,8 @@ public:
 
     MACGrid* oldGrid;
     MACGrid* newGrid;
+    
+    glm::vec3 resolution;
 
     // Create the MACGrid
     void constructMACGrid();

@@ -83,12 +83,14 @@ int Viewer::initialize() {
     JSONReader* reader;
     
     
-    // TODO: MOVE THIS
-    Cube* c = new Cube(8, 20, 8);
-    Cube* f = new Cube(4, 4, 4);
-    f->min += glm::vec3(0.f, 6.f, 0.f);
-    f->max += glm::vec3(0.f, 6.f, 0.f);
-    fs = new FLIPSolver(c, f);
+//    // TODO: MOVE THIS
+//    Cube* c = new Cube(8, 20, 8);
+//    Cube* f = new Cube(4, 4, 4);
+//    f->min += glm::vec3(0.f, 6.f, 0.f);
+//    f->max += glm::vec3(0.f, 6.f, 0.f);
+//    fs = new FLIPSolver(c, f);
+    
+    fs = reader->parse("src/scene/scene.json");
     
 
     fs->container->create();

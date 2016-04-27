@@ -15,6 +15,7 @@ public:
     Cube();
     Cube(glm::vec3 &min, glm::vec3 &max);
     Cube(float scaleX, float scaleY, float scaleZ);
+    Cube(float scaleX, float scaleY, float scaleZ, float mX, float mY, float mZ);
     ~Cube();
 
     glm::vec3 min;

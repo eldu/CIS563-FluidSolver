@@ -6,24 +6,25 @@ FLIPSolver::FLIPSolver() {
 
 }
 
-FLIPSolver::FLIPSolver(Cube *container, Cube *fluid) {
+FLIPSolver::FLIPSolver(Cube *container, Cube *fluid, int rx, int ry, int rz) {
     this->container = container;
     this->fluid = fluid;
     this->particleSeparation = 0.3f;
+    this->resolution = glm::vec3(rx, ry, rz);
     
-    std::cout << "CONTAINER MIN (" << this->container->min.x << ", " <<
-                                      this->container->min.y << ", " <<
-                                      this->container->min.z << ")" << "\n";
-    std::cout << "CONTAINER MAX (" << this->container->max.x << ", " <<
-                                      this->container->max.y << ", " <<
-                                      this->container->max.z << ")" << "\n";
-    
-    std::cout << "FLUID     MIN (" << this->fluid->min.x << ", " <<
-                                      this->fluid->min.y << ", " <<
-                                      this->fluid->min.z << ")" << "\n";
-    std::cout << "FLUID     MAX (" << this->fluid->max.x << ", " <<
-                                      this->fluid->max.y << ", " <<
-                                      this->fluid->max.z << ")" << "\n";
+//    std::cout << "CONTAINER MIN (" << this->container->min.x << ", " <<
+//                                      this->container->min.y << ", " <<
+//                                      this->container->min.z << ")" << "\n";
+//    std::cout << "CONTAINER MAX (" << this->container->max.x << ", " <<
+//                                      this->container->max.y << ", " <<
+//                                      this->container->max.z << ")" << "\n";
+//    
+//    std::cout << "FLUID     MIN (" << this->fluid->min.x << ", " <<
+//                                      this->fluid->min.y << ", " <<
+//                                      this->fluid->min.z << ")" << "\n";
+//    std::cout << "FLUID     MAX (" << this->fluid->max.x << ", " <<
+//                                      this->fluid->max.y << ", " <<
+//                                      this->fluid->max.z << ")" << "\n";
 
     init();
 }
@@ -156,7 +157,7 @@ void FLIPSolver::constructMACGrid() {
 
     // glm::vec3 resolution = max - min;
     // TODO: Don't hardcode the resolution
-    glm::vec3 resolution = glm::vec3(16, 40, 16);
+//    glm::vec3 resolution = glm::vec3(16, 40, 16);
 
 //    oldGrid = MACGrid(resolution, min, max);
 //    oldGrid.markEdgeCells();

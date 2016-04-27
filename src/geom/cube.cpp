@@ -22,6 +22,11 @@ Cube::Cube(float scaleX, float scaleY, float scaleZ) {
     this->max = glm::vec3(scaleX/2, scaleY/2, scaleZ/2);
 }
 
+Cube::Cube(float scaleX, float scaleY, float scaleZ, float mX, float mY, float mZ) {
+    this->min = glm::vec3(-scaleX/2 + mX, -scaleY/2 + mY, -scaleZ/2 + mZ);
+    this->max = glm::vec3( scaleX/2 + mX,  scaleY/2 + mY,  scaleZ/2 + mZ);
+}
+
 Cube::~Cube() {
 
 }

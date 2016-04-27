@@ -50,13 +50,21 @@ FLIPSolver* JSONReader::parseJSON(const Json::Value &root) {
     float boundX = particleDim["boundX"].asFloat();
     float boundY = particleDim["boundY"].asFloat();
     float boundZ = particleDim["boundZ"].asFloat();
+    
+    Json::Value particleMin = root["particleMin"];
+    float minX = particleMin["minX"].asFloat();
+    float minY = particleMin["minY"].asFloat();
+    float minZ = particleMin["minZ"].asFloat();
+    
+    Json::Value resolution = root["resolution"];
+    int resx = resolution["resx"].asInt();
+    int resy = resolution["resy"].asInt();
+    int resz = resolution["resz"].asInt();
 
     float particleSeparation = root["particleSeparation"].asFloat();
 
     Cube* container = new Cube(scaleX, scaleY, scaleZ);
-    Cube* fluid = new Cube(boundX, boundY, boundZ);
-//    fluid->min += glm::vec3(0.f, 1.f, 0.f);
-//    fluid->max += glm::vec3(0.f, 1.f, 0.f);
+    Cube* fluid = new Cube(boundX, boundY, boundZ, minX, minY, minZ);
 
-    return new FLIPSolver(container, fluid);
+    return new FLIPSolver(container, fluid, resx, resy, resz);
 }
